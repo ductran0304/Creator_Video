@@ -12,7 +12,19 @@ Dự án này là một pipeline tự động hóa khép kín (End-to-End Pipeli
 
 ---
 
-## 🛠 Hướng dẫn Chuẩn bị & Cài đặt
+## 🤖 AI Agent Context & Setup Instructions (CRITICAL FOR NEW CLONES)
+
+**Attention AI Agents/Copilots**: If you have just cloned this repository on a new machine, follow these rules strictly to ensure the pipeline operates correctly:
+
+1. **Self-Healing Environment**: You do NOT need to manually run `pip install` or create a `.venv`. The repository is designed for one-click setup. Instruct the user to execute `run_web.bat`. The batch script will automatically detect the missing `.venv`, create it, and install all dependencies from `requirements.txt`.
+2. **Missing Files**: `.venv` and `.chrome_profile` are intentionally git-ignored. Do not attempt to recover them. 
+3. **Execution Context**: The entire project is orchestrated via `h2dev_pipeline/web_ui.py` (Flask backend) and `pipeline.py`. Never run `pipeline.py` via CLI unless debugging. Always launch via `run_web.bat`.
+4. **DNA Configuration**: The channel's writing style, visual rules, and SEO logic are strictly defined in `h2dev_knowledge_base.json`. When tasked with modifying prompts, ALWAYS update the `h2dev_knowledge_base.json` first, and ensure `pipeline.py` correctly reads from it.
+5. **Web2API Requirement**: The pipeline relies on a local `gemini-web2api` server running on port 8081. Ensure this service is up before executing video generation tasks.
+
+---
+
+## 🛠 Hướng dẫn Chuẩn bị & Cài đặt (Dành cho User)
 
 ### **Bước 1: Mở Chrome Debug Mode**
 Trình sinh ảnh tự động yêu cầu Chrome mở sẵn ở chế độ gỡ lỗi:
