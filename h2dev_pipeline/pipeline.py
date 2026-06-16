@@ -351,6 +351,7 @@ def run_script_generator(topic):
         
         "=== SCRIPT RULES ===\n"
         f"- Length: {SCRIPT_WORD_COUNT_MIN}–{SCRIPT_WORD_COUNT_MAX} words (roughly a 7–12 minute video).\n"
+        "- Scene split rule: Split the entire script into small, atomic visual scenes. The text for each segment/scene MUST be VERY SHORT (1-3 sentences max). A 1500-word script should have around 100-150 segments.\n"
         "- Pure narration only — no headers, no bullet points, no visual cues, no stage directions, no parenthetical notes.\n"
         f"- Rhythm: {script_rhythm}\n"
         f"- Hook formula: {hook_formula}\n"
