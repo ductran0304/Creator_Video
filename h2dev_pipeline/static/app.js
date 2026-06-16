@@ -64,6 +64,17 @@ document.addEventListener('DOMContentLoaded', () => {
             statusBanner.textContent = `Error: Pipeline stopped`;
         }
 
+        // Update Queue UI
+        const qCount = document.getElementById('queue-count');
+        const qList = document.getElementById('queue-list');
+        if (state.pending_jobs) {
+            qCount.textContent = state.pending_jobs.length;
+            qList.innerHTML = state.pending_jobs.map(j => `<li style="padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ccc;">⏳ ${j.topic}</li>`).join('');
+        } else {
+            qCount.textContent = '0';
+            qList.innerHTML = '';
+        }
+
         // Update stage items
         const currentStageId = state.stage;
         stagesData.forEach(s => {
@@ -142,19 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     function setUIState(running) {
-        isRunning = running;
-        startBtn.disabled = running;
-        if (running) {
-            btnText.textContent = 'Pipeline Running...';
-            spinner.classList.remove('hidden');
-        } else {
-            btnText.textContent = 'Start Pipeline';
-            spinner.classList.add('hidden');
-        }
+        // UI is never blocked now, you can always add to queue.
+        // We only show spinner briefly during submission.
     }
 
     function connectSSE() {
-        if (eventSource) eventSource.close();
+        if (eventSource && eventSource.readyState !== EventSource.CLOSED) return; // Đã kết nối thì thôi
         
         eventSource = new EventSource('/api/pipeline/stream');
         
@@ -169,32 +173,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Ignore
             } else if (data.type === 'done') {
                 eventSource.close();
-                setUIState(false);
-                fetch('/api/pipeline/status').then(r=>r.json()).then(updateTracker);
                 
                 if (data.status === 'completed') {
                     appendLog("✨ Pipeline finished successfully!", true);
                 } else if (data.status === 'error') {
                     appendLog("❌ Pipeline encountered an error.", true);
                 }
+
+                // Nếu server báo done, chờ xíu rồi kiểm tra lại status để xem có job mới đang chạy từ queue không
+                setTimeout(() => {
+                    fetch('/api/pipeline/status').then(r=>r.json()).then(statusData => {
+                        updateTracker(statusData);
+                        if (statusData.status === 'running') connectSSE();
+                    });
+                }, 2000);
             }
         };
         
         eventSource.onerror = () => {
             eventSource.close();
-            setUIState(false);
         };
     }
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (isRunning) return;
 
         const topic = document.getElementById('topic').value;
         const language = document.getElementById('language').value;
         
-        consoleOutput.innerHTML = '';
-        appendLog(`Starting pipeline for: "${topic}"...`, true);
+        // Show spinner briefly
+        btnText.textContent = 'Adding...';
+        spinner.classList.remove('hidden');
+        startBtn.disabled = true;
         
         try {
             const res = await fetch('/api/pipeline/start', {
@@ -205,17 +215,25 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const data = await res.json();
             if (res.ok) {
-                setUIState(true);
-                connectSSE();
+                document.getElementById('topic').value = ''; // clear input
+                appendLog(`[Queue] Added to queue: "${topic}"`, true);
+                
                 // Immediately fetch status to update tracker
                 setTimeout(() => {
-                    fetch('/api/pipeline/status').then(r=>r.json()).then(updateTracker);
+                    fetch('/api/pipeline/status').then(r=>r.json()).then(statusData => {
+                        updateTracker(statusData);
+                        if (statusData.status === 'running') connectSSE();
+                    });
                 }, 500);
             } else {
                 appendLog(`Error: ${data.error}`, true);
             }
         } catch (err) {
-            appendLog(`Failed to start: ${err.message}`, true);
+            appendLog(`Failed to add: ${err.message}`, true);
+        } finally {
+            btnText.textContent = 'Add to Queue';
+            spinner.classList.add('hidden');
+            startBtn.disabled = false;
         }
     });
 

@@ -37,7 +37,8 @@ pipeline_state = {
     "completed_at": None,
     "error": ""
 }
-pipeline_thread = None
+pending_jobs = []  # List of dicts: {"id": str, "topic": str, "language": str, "added_at": float}
+job_counter = 0
 
 STAGES = [
     {"id": 1, "name": "Script Generation",       "icon": "✍️",  "key": "script"},
@@ -148,6 +149,25 @@ def run_pipeline_thread(topic):
         pipeline_state["error"] = str(e)
         log_queue.put(f"[FATAL ERROR] {e}")
 
+def worker_loop():
+    """Background worker that processes the job queue sequentially."""
+    global pipeline_state, pending_jobs
+    while True:
+        if pending_jobs and pipeline_state["status"] in ("idle", "completed", "error"):
+            # Lấy job tiếp theo
+            next_job = pending_jobs.pop(0)
+            # Cập nhật config language nếu có
+            if next_job.get("language"):
+                cfg = load_config()
+                cfg["language"] = next_job["language"]
+                save_config(cfg)
+            # Bắt đầu chạy
+            run_pipeline_thread(next_job["topic"])
+        time.sleep(1)
+
+# Khởi chạy worker thread ngay khi server boot
+threading.Thread(target=worker_loop, daemon=True).start()
+
 
 # --- Helpers ---
 def load_config():
@@ -231,30 +251,25 @@ def index():
 
 @app.route("/api/pipeline/start", methods=["POST"])
 def start_pipeline():
-    global pipeline_thread
-    if pipeline_state["status"] == "running":
-        return jsonify({"error": "Pipeline đang chạy. Vui lòng đợi hoàn thành."}), 409
-
+    global job_counter
     data = request.json or {}
     topic = data.get("topic", "").strip()
     if not topic:
         return jsonify({"error": "Vui lòng nhập chủ đề video."}), 400
 
-    # Cập nhật language nếu có
     lang = data.get("language")
-    if lang:
-        cfg = load_config()
-        cfg["language"] = lang
-        save_config(cfg)
-
-    # Reset state
-    pipeline_state["project_name"] = ""
-
-    # Chạy pipeline trong thread riêng
-    pipeline_thread = threading.Thread(target=run_pipeline_thread, args=(topic,), daemon=True)
-    pipeline_thread.start()
-
-    return jsonify({"status": "started", "topic": topic})
+    
+    # Tạo job mới
+    job_counter += 1
+    job = {
+        "id": f"job_{job_counter}",
+        "topic": topic,
+        "language": lang,
+        "added_at": time.time()
+    }
+    
+    pending_jobs.append(job)
+    return jsonify({"status": "queued", "job": job, "queue_length": len(pending_jobs)})
 
 
 @app.route("/api/pipeline/status")
@@ -267,7 +282,8 @@ def get_status():
     return jsonify({
         **pipeline_state,
         "stages": STAGES,
-        "elapsed_seconds": elapsed
+        "elapsed_seconds": elapsed,
+        "pending_jobs": pending_jobs
     })
 
 
@@ -295,10 +311,16 @@ def stream():
                         yield f"data: {data}\n\n"
                     except queue.Empty:
                         break
-                # Gửi event kết thúc
+                # Gửi event kết thúc job hiện tại
                 data = json.dumps({"type": "done", "status": pipeline_state["status"], "stage": pipeline_state["stage"]})
                 yield f"data: {data}\n\n"
-                break
+                
+                # Nếu còn job trong queue, báo hiệu để frontend biết sắp chạy tiếp
+                if pending_jobs:
+                    time.sleep(1) # Chờ xíu trước khi bắt đầu stream mới
+                    continue
+                else:
+                    break
 
     return Response(generate(), mimetype="text/event-stream",
                     headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})

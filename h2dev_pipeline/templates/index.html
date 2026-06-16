@@ -57,7 +57,7 @@
                                     </select>
                                 </div>
                                 <button type="submit" id="start-btn" class="btn-primary">
-                                    <span class="btn-text">Start Pipeline</span>
+                                    <span class="btn-text">Add to Queue</span>
                                     <div class="spinner hidden"></div>
                                 </button>
                             </form>
@@ -66,6 +66,17 @@
                         <div class="card tracker-card">
                             <h3>Pipeline Progress</h3>
                             <div class="status-banner" id="status-banner">Idle</div>
+                            
+                            <div class="queue-section" style="margin: 15px 0; background: var(--bg-app); border-radius: 8px; padding: 10px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">
+                                    <span>Pending Queue</span>
+                                    <span id="queue-count" style="font-weight: bold; color: var(--text-main);">0</span>
+                                </div>
+                                <ul class="queue-list" id="queue-list" style="list-style: none; padding: 0; margin: 0; font-size: 0.85rem; max-height: 100px; overflow-y: auto;">
+                                    <!-- Populated by JS -->
+                                </ul>
+                            </div>
+
                             <ul class="stage-list" id="stage-list">
                                 <!-- Stages populated by JS -->
                             </ul>
