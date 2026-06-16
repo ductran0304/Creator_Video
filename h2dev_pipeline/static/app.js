@@ -101,6 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function appendLog(message, isSystem = false) {
         // HIDE MINOR LOGS: Skip sub-tasks (indented with '  [') to keep console clean
         if (!isSystem && message.startsWith('  [')) return;
+        
+        // HIDE FLASK/WERKZEUG HTTP LOGS:
+        if (message.includes('127.0.0.1') || message.includes('HTTP/1.1')) return;
+        if (message.includes('Running on http')) return;
+        if (message.includes('* Serving Flask app')) return;
 
         const div = document.createElement('div');
         div.className = 'log-line';
