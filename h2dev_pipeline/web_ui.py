@@ -9,7 +9,12 @@ import time
 import queue
 import threading
 import glob
+import logging
 from flask import Flask, render_template, request, jsonify, Response, send_from_directory
+
+# Disable Werkzeug logging to prevent HTTP requests from flooding the console
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 # --- Đường dẫn tuyệt đối tới thư mục pipeline ---
 PIPELINE_DIR = os.path.dirname(os.path.abspath(__file__))

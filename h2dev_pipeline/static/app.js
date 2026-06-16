@@ -99,6 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function appendLog(message, isSystem = false) {
+        // HIDE MINOR LOGS: Skip sub-tasks (indented with '  [') to keep console clean
+        if (!isSystem && message.startsWith('  [')) return;
+
         const div = document.createElement('div');
         div.className = 'log-line';
         if (isSystem) div.classList.add('system');
