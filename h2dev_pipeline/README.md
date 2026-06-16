@@ -93,12 +93,28 @@ Mở file `config.json` và thiết lập theo nhu cầu. Dưới đây là bả
 }
 ```
 
-### **Bước 3: Khởi chạy Pipeline**
-1.  Nhấp đúp chuột vào file **`run_pipeline.bat`**.
-2.  Trong lần chạy đầu tiên, script sẽ tự khởi động môi trường ảo `.venv`, cài đặt các thư viện cần thiết từ `requirements.txt`.
-3.  Nhập chủ đề video của bạn khi màn hình CMD yêu cầu (ví dụ: *"The shocking truth about woolly mammoths"*).
-4.  Ngồi xem hệ thống tự động chạy toàn bộ quy trình:
-    - ✍️ Viết kịch bản → 🎙️ Tạo thuyết minh → 📊 Sinh SEO metadata → 🎨 Sinh ảnh doodle & thumbnail → 🎵 Lồng nhạc nền + hiệu ứng → 🎬 Render video hoàn chỉnh
+### **Bước 3: Khởi chạy Pipeline (Windows)**
+1. Nhấp đúp chuột vào file **`run_web.bat`**.
+2. Trong lần chạy đầu tiên, script sẽ tự khởi động môi trường ảo `.venv`, cài đặt các thư viện cần thiết từ `requirements.txt`.
+3. Trình duyệt sẽ tự động mở trang `http://localhost:5000`.
+4. Nhập chủ đề video của bạn vào ô giao diện Web (ví dụ: *"The shocking truth about woolly mammoths"*).
+5. Bấm **Add to Queue** và ngồi xem hệ thống tự động chạy toàn bộ quy trình:
+   - ✍️ Viết kịch bản → 🎙️ Tạo thuyết minh → 📊 Sinh SEO metadata → 🎨 Sinh ảnh doodle & thumbnail → 🎵 Lồng nhạc nền + hiệu ứng → 🎬 Render video hoàn chỉnh
+
+### **🍎 Khởi chạy Pipeline (MacOS / Linux)**
+1. Mở Terminal và clone source code về máy:
+   ```bash
+   git clone https://github.com/ductran0304/Creator_Video.git
+   cd "Creator_Video/h2dev_pipeline"
+   ```
+2. Cấp quyền thực thi cho file khởi động:
+   ```bash
+   chmod +x run_web.sh
+   ```
+3. Chạy lệnh sau để hệ thống tự động cài đặt môi trường và bật giao diện Web UI:
+   ```bash
+   ./run_web.sh
+   ```
 
 ---
 

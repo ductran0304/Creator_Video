@@ -17,6 +17,9 @@ h2dev_flow_local/outputs/
 *.mp3
 *.srt
 
+# MacOS
+.DS_Store
+
 # IDEs
 .vscode/
 .idea/

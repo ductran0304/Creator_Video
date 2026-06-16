@@ -225,7 +225,7 @@ def run_script_generator(topic):
     # Kiểm tra xem topic có phải là file không
     is_file_input = False
     file_content = ""
-    paths_to_try = [topic, os.path.join("..", topic), os.path.join("d:\\Creator video", topic)]
+    paths_to_try = [topic, os.path.join(PIPELINE_DIR, "..", topic)]
     for p in paths_to_try:
         if os.path.exists(p) and os.path.isfile(p):
             try:
@@ -260,7 +260,7 @@ def run_script_generator(topic):
         import shutil
         outputs_dir = os.path.join("..", "h2dev_flow_local", "outputs")
         if not os.path.exists(outputs_dir):
-            outputs_dir = os.path.join("d:\\Creator video", "h2dev_flow_local", "outputs")
+            outputs_dir = os.path.join(PIPELINE_DIR, "..", "h2dev_flow_local", "outputs")
             
         print(f"[+] Đang tìm kiếm ảnh đã có sẵn tại: {outputs_dir}...")
         
