@@ -1,0 +1,25 @@
+# Python / Environments
+.venv/
+.chrome_profile/
+__pycache__/
+*.pyc
+.env
+
+# Pipeline outputs and temporary files
+h2dev_pipeline/projects/
+h2dev_pipeline/temp/
+h2dev_pipeline/outputs/
+h2dev_flow_local/outputs/
+
+# Large media files (if any outside projects)
+*.mp4
+*.wav
+*.mp3
+*.srt
+
+# IDEs
+.vscode/
+.idea/
+
+# Agent/IDE directories
+.gemini/

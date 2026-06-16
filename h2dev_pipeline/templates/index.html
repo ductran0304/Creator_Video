@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H2Dev Pipeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">H2</div>
+                <h2>H2Dev</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-view="new-video">
+                    <span class="icon">🎬</span> New Video
+                </li>
+                <li data-view="projects">
+                    <span class="icon">📂</span> Projects
+                </li>
+                <li data-view="settings">
+                    <span class="icon">⚙️</span> Settings
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            
+            <!-- VIEW: NEW VIDEO -->
+            <section id="view-new-video" class="view active">
+                <header>
+                    <h1>Generate Video</h1>
+                    <p>Start a new automated doodle animation pipeline.</p>
+                </header>
+
+                <div class="panel-layout">
+                    <!-- Left Column: Form & Tracker -->
+                    <div class="col-left">
+                        <div class="card form-card">
+                            <form id="pipeline-form">
+                                <div class="form-group">
+                                    <label for="topic">Topic or Script File</label>
+                                    <input type="text" id="topic" name="topic" placeholder="e.g., The shocking truth about how ancient humans slept" required autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="language">Language</label>
+                                    <select id="language" name="language">
+                                        <option value="en">English (US)</option>
+                                        <option value="vi">Vietnamese (VN)</option>
+                                    </select>
+                                </div>
+                                <button type="submit" id="start-btn" class="btn-primary">
+                                    <span class="btn-text">Start Pipeline</span>
+                                    <div class="spinner hidden"></div>
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="card tracker-card">
+                            <h3>Pipeline Progress</h3>
+                            <div class="status-banner" id="status-banner">Idle</div>
+                            <ul class="stage-list" id="stage-list">
+                                <!-- Stages populated by JS -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Console -->
+                    <div class="col-right">
+                        <div class="card console-card">
+                            <div class="console-header">
+                                <h3>Live Console</h3>
+                                <button id="clear-log" class="btn-icon" title="Clear log">🗑️</button>
+                            </div>
+                            <div class="console-body" id="console-output">
+                                <div class="log-line system">Ready. Enter a topic and start the pipeline.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: PROJECTS -->
+            <section id="view-projects" class="view">
+                <header>
+                    <h1>Projects</h1>
+                    <p>Gallery of your generated doodle videos.</p>
+                </header>
+                <div class="gallery" id="projects-gallery">
+                    <!-- Projects populated by JS -->
+                    <div class="loading-text">Loading projects...</div>
+                </div>
+            </section>
+
+            <!-- VIEW: SETTINGS -->
+            <section id="view-settings" class="view">
+                <header>
+                    <h1>Settings</h1>
+                    <p>Configure pipeline parameters (saved to config.json).</p>
+                </header>
+                <div class="card config-card">
+                    <form id="config-form">
+                        <!-- Populated by JS -->
+                        <div class="loading-text">Loading configuration...</div>
+                    </form>
+                    <div class="config-actions">
+                        <button id="save-config-btn" class="btn-secondary">Save Configuration</button>
+                        <span id="config-msg" class="msg"></span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+{
+  "_description": "H2Dev Channel Knowledge Base — Extracted from ancient_humans_master_prompt.md. Injected into all AI prompts for consistent quality.",
+
+  "content_dna": {
+    "niche": "Ancient humans, human prehistory, evolution, anthropology, and survival — how early humans actually lived, hunted, slept, raised children, and handled everyday life. Occasional crossovers into medieval life, weird history, and human psychology.",
+    "format": "7–12 minute educational explainer narrated in calm, intelligent 2nd-person ('you', 'your ancestors', 'your body', 'your brain') — never 'we' or 'I'. Tone is smart but playful — weave in dry humor and witty observations to keep the viewer entertained.",
+    "hook_formula": "Open by dropping the viewer *inside* an ancestral or everyday sensory moment in 2nd person ('You wake up when your body is ready. No alarm, no schedule.') → immediately pivot with a reframe ('For 99% of human history, this wasn't a hypothetical.' / 'For roughly 300,000 years...') → contrast it against a striking modern statistic that reframes everything.",
+    "script_rhythm": "Short sentence. Short sentence. One longer sentence that builds depth. Short sentence. Question? — repeat this pattern throughout.",
+    "narrative_arc": [
+      "Hook — sensory immersion in 2nd-person",
+      "Reframe — a stark contrast or modern statistic that pivots the topic",
+      "Evidence stack — a named study → cross-cultural / skeletal / archaeological confirmation",
+      "Reconstruct — a concrete scene the viewer can picture ('So let's reconstruct a day...')",
+      "Counterintuitive twist — e.g., 'agriculture was a trap'",
+      "Modern mirror — reflecting the truth onto the viewer's current life",
+      "Echo closing — ending line that directly echoes the very first line, completely reframed"
+    ],
+    "evidence_rule": "Weave at least 3 real named researchers, studies, or archaeological sites naturally into the narration (e.g., Richard Lee's 1963 study, James Suzman, Polly Wiessner, Chauvet Cave, Blombos Cave). Never invent names — only use real ones.",
+    "jargon_rule": "No jargon without plain-English explanation — every scientific or anthropological term gets decoded immediately.",
+    "humor_rule": "Weave in dry, deadpan humor throughout — the kind that makes viewers smile mid-sentence without breaking the educational tone. Techniques: (1) Absurd modern comparisons ('Your ancestors didn't have alarm clocks. They also didn't have existential dread about Monday mornings. Coincidence?'), (2) Understated sarcasm about modern life ('You spend 8 hours a day under fluorescent lights staring at spreadsheets. Your ancestors would call that a hostage situation.'), (3) Unexpected punchlines after a serious buildup ('They survived ice ages, predator attacks, and starvation. You get stressed when the Wi-Fi drops.'), (4) Anthropomorphizing ancient problems with modern slang ('Neanderthals were basically the quiet kid in class who turned out to be a genius.'). Never force a joke — humor must flow naturally from the facts. Never use corny puns or exclamation marks for jokes. The funniest lines are the ones delivered completely straight.",
+    "ending_rule": "Always ends by reflecting the ancient or scientific truth back onto something the viewer feels or does today.",
+    "script_length": {
+      "min_words": 1500,
+      "max_words": 2400,
+      "estimated_minutes": "7–12"
+    }
+  },
+
+  "viral_topic_angles": [
+    {
+      "template": "What / How Did Ancient Humans ___?",
+      "description": "Bridges a universal modern concern (jobs, privacy, sleep, raising children, hygiene) to prehistoric life."
+    },
+    {
+      "template": "How Did Ancient Humans Survive ___?",
+      "description": "Survival against a vivid threat (deadliest predators, deadly winters, the Ice Age, starvation)."
+    },
+    {
+      "template": "The CRAZIEST / WEIRDEST ___ Used by Ancient Humans",
+      "description": "A superlative, curiosity-gap reveal of strange real methods."
+    },
+    {
+      "template": "What ___ Was Like in Ancient / Medieval Times",
+      "description": "An everyday or taboo bodily/social topic (the bathroom, periods, dating, hygiene, unwanted pregnancy) treated honestly."
+    },
+    {
+      "template": "Why You Wouldn't Last a Day in ___ / POV: Your Life as ___",
+      "description": "An immersive 2nd-person scenario that puts the viewer in the past."
+    },
+    {
+      "template": "What If ___?",
+      "description": "A provocative existential or counterfactual question grounded in real data (e.g., 'What If Neanderthals Had Not Gone Extinct?')."
+    }
+  ],
+
+  "visual_style_dna": {
+    "art_style": "Hand-drawn 2D doodle cartoon animation — flat solid colors, bold black hand-drawn outlines, slightly wobbly/imperfect lines as if sketched fast with a marker. Childlike and simple. Minimal interior line detail allowed (wood grain, rock cracks) but always flat — ZERO gradients, ZERO drop shadows, ZERO photographic textures.",
+    "style_anchor": "Hand-drawn 2D doodle cartoon animation, flat solid colors, bold black hand-drawn outlines, slightly wobbly imperfect marker lines,",
+    "style_lock": "no gradients, no drop shadows, no photographic textures, no photorealism, no 3D render, no realistic faces, no anime, 16:9 widescreen, simple educational YouTube explainer doodle style.",
+    "main_character": {
+      "description": "A stick figure with a large round white head, simple black dot eyes, expressive thin eyebrows, a simple line mouth, and thin black stick limbs. The signature recurring character has spiky bright ORANGE hair. Hands are small black blobs/mittens.",
+      "expressions": {
+        "strain_anger": "gritted teeth + angled brows",
+        "worry_sadness": "curved brows + frown",
+        "calm_content": "small smile",
+        "surprise": "wide eyes"
+      }
+    },
+    "character_variants": {
+      "you_main": "spiky bright ORANGE hair — the main 'you' character",
+      "ancient_human": "shaggy/messy brown hair — ancient/prehistoric human",
+      "modern_neutral": "bald round white head (no hair) — neutral modern everyman",
+      "elder_grandmother": "gray hair in a bun + colored dress — elder/grandmother"
+    },
+    "animals_objects": "Chunky, simplified cartoon shapes — big, bold, flat single-color fills with thick black outlines (wooden crates, gray boulders, lanterns, cribs, campfires, simple trees, shields).",
+    "backgrounds": {
+      "neutral_default": {
+        "colors": "White or cream",
+        "use_for": "default / neutral / on-screen-text frames"
+      },
+      "neutral_modern": {
+        "colors": "White or cream top + gray ground strip",
+        "use_for": "neutral modern or 'limbo' scene"
+      },
+      "outdoor_daytime": {
+        "colors": "Light blue sky + tan/brown ground + green trees",
+        "use_for": "outdoor daytime / nature / wilderness"
+      },
+      "ancient_savanna": {
+        "colors": "Orange sky + tan ground + grass tufts + lone acacia tree",
+        "use_for": "ancient / prehistoric savanna (dawn, dusk, 'deep past' tone)"
+      },
+      "calm_night": {
+        "colors": "Dark navy blue + yellow crescent moon + gray ground",
+        "use_for": "calm night"
+      },
+      "deep_night": {
+        "colors": "Deep indigo/purple + scattered star dots + brown ground",
+        "use_for": "deep night / sleeping"
+      }
+    },
+    "on_screen_text": "Bold hand-lettered marker font, large, usually centered or upper-center. Default color RED; use WHITE when the text sits on a dark object (e.g., a label written across a gray boulder). Numbers and key concepts get their own full text frame.",
+    "proven_frame_types": {
+      "concept_text": "Plain white/cream background + bold red ALL-CAPS hand-lettered text centered (a number, a term, a key phrase).",
+      "label_on_object": "A large object (boulder, hourglass) with the key word hand-lettered across it in white or red caps.",
+      "thought_bubble": "Cloud-shaped bubble above a stick figure's head containing a mini-scene or symbol ('?', 'HMMM').",
+      "red_x_negation": "A confident figure or idea with a big bold red X drawn across the whole frame = 'not this / wrong'.",
+      "tribe_campfire": "Several white-headed stick figures around an orange campfire on tan ground under a light blue sky.",
+      "archaeologist_discovery": "A white-headed stick figure with a brown pith helmet, backpack, and yellow lantern beside a dark cave entrance in brown rock, light blue sky.",
+      "evolution_sequence": "Left-to-right human/creature progression with a black right-pointing arrow.",
+      "sadness_hardship": "A sad orange-haired stick figure with arms hugging knees under a dark gray rain cloud with blue raindrops."
+    },
+    "color_palette_hex": {
+      "orange": "#F58220",
+      "sky_blue": "#7FB5D5",
+      "cave_light_blue": "#ABD3E5",
+      "grass_green": "#4E9A45",
+      "sand_tan": "#D2B488",
+      "dirt_brown": "#8B5A2B",
+      "wood_brown": "#7A4F2A",
+      "rock_gray": "#8A8A8A",
+      "night_navy": "#283A6E",
+      "deep_indigo": "#322B5E",
+      "red_text": "#E0302B",
+      "yellow_moon_fire": "#F4C430",
+      "purple_mauve": "#8B7CB0",
+      "cream": "#F5F1E6",
+      "white": "#FFFFFF"
+    },
+    "aspect_ratio": "16:9"
+  },
+
+  "seo_dna": {
+    "title_rules": "One scroll-stopping, curiosity-driven title under 70 characters. Use the channel's proven angles ('What/How Did Ancient Humans ___?', a survival hook, a superlative reveal, or an immersive POV). No clickbait the script doesn't deliver on.",
+    "description_structure": [
+      "Open with a 2–3 sentence hook that mirrors the tone of the script's opening and teases the core reframe.",
+      "Follow with a short paragraph (3–4 sentences) summarizing what the viewer will discover, written in the calm 2nd-person voice.",
+      "Add a line inviting likes, comments, and subscribes in the channel's voice.",
+      "End with a block of 15–25 relevant hashtags on one line (each starting with #)."
+    ],
+    "tags_rules": "25–40 SEO tags in a single comma-separated line. Mix broad terms (ancient humans, human evolution, prehistory, anthropology, early humans, hunter gatherers) with specific long-tail phrases pulled from the video's topic. No hashtags here — plain comma-separated keywords only."
+  },
+
+  "image_prompt_rules": {
+    "abstract_to_concrete": "Translate abstract narration into concrete visuals — if the script says 'survival was a constant struggle', show a worried orange-haired stick figure straining to push a huge dark gray boulder with bold white ALL-CAPS text 'SURVIVAL' on it; if it says '300,000 years', show a plain white background with bold red hand-lettered text '300,000 YEARS' centered.",
+    "scene_holding": "Hold scenes across consecutive timestamps — if 3 lines describe the same moment, keep the same scene and only adjust the character's expression or add one new element. Do not generate a brand-new scene every 5 seconds.",
+    "character_consistency": "Keep the recurring character consistent: the main 'you' figure is a round white-headed stick figure with spiky orange hair; ancient humans have messy brown hair; neutral modern figures have a bald white head. State the hair/head explicitly in every prompt that includes a person.",
+    "background_tone_matching": {
+      "ancient_prehistoric": "orange sky + tan ground + grass + lone acacia tree",
+      "outdoor_nature": "light blue sky + tan-brown ground + simple green trees",
+      "calm_night": "dark navy background + yellow crescent moon + gray ground",
+      "deep_night_sleeping": "deep indigo background + scattered star dots + brown ground",
+      "neutral_modern_concept": "white or cream background (+ gray ground strip if a floor is needed)",
+      "danger_hardship_sadness": "white or cream background with a dark rain cloud, blue raindrops, or bold red text"
+    }
+  }
+}
