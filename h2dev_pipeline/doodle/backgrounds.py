@@ -1,5 +1,6 @@
 """Nền màu phẳng theo cảm xúc (visual_style_dna.backgrounds). Mỗi hàm vẽ trong khung (x, y, w, h)
 và trả về (svg, ground_y, sky_color)."""
+from . import assets
 from .palette import C
 
 BACKGROUNDS_DESC = {
@@ -97,4 +98,19 @@ def ice_age_winter(pen, x, y, w, h):
     return svg, g + 40, "#9DB4C8"
 
 
-BACKGROUNDS = {name: globals()[name] for name in BACKGROUNDS_DESC}
+def _with_plate(name, fn):
+    """Có tấm nền vẽ sẵn (assets/backgrounds/<name>.svg) thì dùng nó; hàm code vẫn chạy để lấy
+    ground_y/màu trời (tấm nền được vẽ theo đúng các mốc đó). Khung hẹp hơn 16:9 (split) thì
+    phóng theo chiều cao và cắt giữa."""
+    def draw(pen, x, y, w, h):
+        svg, ground_y, sky = fn(pen, x, y, w, h)
+        plate = assets.get("backgrounds", name)
+        if plate is not None:
+            s = h / 1080
+            ox = x + (w - 1920 * s) / 2
+            svg = f'<g transform="translate({ox:.1f},{y:.1f}) scale({s:.4f})">{plate}</g>'
+        return svg, ground_y, sky
+    return draw
+
+
+BACKGROUNDS = {name: _with_plate(name, globals()[name]) for name in BACKGROUNDS_DESC}

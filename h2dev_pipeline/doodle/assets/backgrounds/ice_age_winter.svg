@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- pale gray-blue winter sky -->
+  <rect x="0" y="0" width="1920" height="1080" fill="#9DB4C8"/>
+
+  <!-- snowflake dots, denser toward the edges, sparse in the top-center title band -->
+  <g fill="#FFFFFF">
+    <circle cx="60" cy="90" r="2.6"/>
+    <circle cx="120" cy="160" r="2"/>
+    <circle cx="50" cy="240" r="2.4"/>
+    <circle cx="160" cy="260" r="2"/>
+    <circle cx="90" cy="340" r="2.2"/>
+    <circle cx="200" cy="120" r="2"/>
+    <circle cx="30" cy="420" r="2.4"/>
+    <circle cx="240" cy="380" r="2"/>
+    <circle cx="140" cy="460" r="2.2"/>
+    <circle cx="1860" cy="100" r="2.4"/>
+    <circle cx="1800" cy="170" r="2"/>
+    <circle cx="1870" cy="250" r="2.6"/>
+    <circle cx="1760" cy="280" r="2"/>
+    <circle cx="1830" cy="350" r="2.2"/>
+    <circle cx="1690" cy="130" r="2"/>
+    <circle cx="1890" cy="430" r="2.4"/>
+    <circle cx="1680" cy="390" r="2"/>
+    <circle cx="1780" cy="470" r="2.2"/>
+    <circle cx="420" cy="110" r="2"/>
+    <circle cx="700" cy="140" r="2"/>
+    <circle cx="1220" cy="120" r="2"/>
+    <circle cx="1500" cy="150" r="2"/>
+    <circle cx="960" cy="90" r="2"/>
+    <circle cx="360" cy="300" r="2.2"/>
+    <circle cx="560" cy="380" r="2"/>
+    <circle cx="1360" cy="320" r="2.2"/>
+    <circle cx="1560" cy="400" r="2"/>
+    <circle cx="820" cy="360" r="2"/>
+    <circle cx="1100" cy="400" r="2.2"/>
+    <circle cx="640" cy="500" r="2"/>
+    <circle cx="1280" cy="480" r="2"/>
+    <circle cx="100" cy="560" r="2.2"/>
+    <circle cx="1820" cy="540" r="2.2"/>
+  </g>
+
+  <!-- distant snowy mountains -->
+  <path d="M -10,660 C 60,600 140,560 240,580 C 320,596 360,540 440,548 C 520,556 560,510 650,520 C 740,530 780,570 870,556 C 950,544 1000,500 1090,512 C 1180,524 1220,570 1310,556 C 1390,544 1440,590 1530,578 C 1610,568 1660,610 1750,598 C 1820,588 1880,616 1930,606 L 1930,760 L -10,760 Z"
+        fill="#C3D3DE"/>
+
+  <!-- snow caps on the mountain peaks, flat highlight shapes -->
+  <g fill="#EAF1F5">
+    <path d="M230,584 C 250,568 280,568 296,584 C 280,592 248,592 230,584 Z"/>
+    <path d="M540,522 C 558,506 588,506 604,522 C 588,530 556,530 540,522 Z"/>
+    <path d="M1080,516 C 1098,500 1128,500 1144,516 C 1128,524 1096,524 1080,516 Z"/>
+    <path d="M1520,582 C 1538,566 1568,566 1584,582 C 1568,590 1536,590 1520,582 Z"/>
+  </g>
+
+  <!-- snow-covered pine silhouettes, kept toward the edges -->
+  <g fill="#C3D3DE" stroke="#141414" stroke-width="3">
+    <path d="M70,758 L70,742 M50,742 L70,690 L90,742 Z M56,760 L70,712 L84,760 Z"/>
+    <path d="M120,764 L120,748 M104,748 L120,704 L136,748 Z M110,766 L120,724 L130,766 Z"/>
+    <path d="M1800,754 L1800,738 M1782,738 L1800,688 L1818,738 Z M1788,756 L1800,708 L1812,756 Z"/>
+    <path d="M1850,760 L1850,744 M1834,744 L1850,700 L1866,744 Z M1840,762 L1850,718 L1860,762 Z"/>
+  </g>
+  <g fill="#EAF1F5">
+    <path d="M56,706 C 62,700 78,700 84,706 C 78,710 62,710 56,706 Z"/>
+    <path d="M110,720 C 116,714 130,714 136,720 C 130,724 116,724 110,720 Z"/>
+    <path d="M1788,704 C 1794,698 1808,698 1814,704 C 1808,708 1794,708 1788,704 Z"/>
+    <path d="M1840,716 C 1846,710 1860,710 1866,716 C 1860,720 1846,720 1840,716 Z"/>
+  </g>
+
+  <!-- snow ground: hand-wobbled top edge, horizon sits at ground_top=799 -->
+  <path d="M -10,799 C 120,791 200,807 330,798 C 450,790 550,805 670,798 C 790,790 880,806 1000,799 C 1120,791 1210,806 1330,798 C 1450,790 1550,805 1670,798 C 1790,790 1870,805 1930,798 L 1930,1090 L -10,1090 Z"
+        fill="#F4F7FA"/>
+
+  <!-- soft pale-blue drift curves on the snow -->
+  <g stroke="#B9C9D6" stroke-width="6" fill="none" stroke-linecap="round">
+    <path d="M40,860 C 200,846 340,868 520,852"/>
+    <path d="M1400,900 C 1560,886 1700,906 1880,890"/>
+    <path d="M120,980 C 260,966 380,986 520,972"/>
+    <path d="M1360,1020 C 1500,1006 1620,1024 1780,1010"/>
+  </g>
+  <g fill="#B9C9D6">
+    <path d="M60,900 C 110,890 170,896 200,910 C 150,918 90,916 60,900 Z"/>
+    <path d="M1720,940 C 1780,930 1850,938 1890,952 C 1830,960 1760,958 1720,940 Z"/>
+  </g>
+
+  <!-- snow mounds near the edges and bottom -->
+  <g fill="#EAF1F5" stroke="#141414" stroke-width="4">
+    <ellipse cx="60" cy="1030" rx="60" ry="26"/>
+    <ellipse cx="150" cy="1055" rx="40" ry="18"/>
+    <ellipse cx="1860" cy="1030" rx="58" ry="25"/>
+    <ellipse cx="1770" cy="1060" rx="38" ry="17"/>
+  </g>
+</svg>

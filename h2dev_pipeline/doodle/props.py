@@ -8,6 +8,7 @@ label_box = (cx, cy, rộng) vùng viết chữ lên vật (cho label `on`).
 """
 import math
 
+from . import assets
 from .palette import C
 from .text import FONT_FAMILY
 
@@ -24,10 +25,21 @@ def prop(name, w, h, desc, anchor="bottom", grip=None, hand_scale=1.0, label_box
     return deco
 
 
+def prop_body(pen, name, ctx=None):
+    """SVG cục bộ của đồ vật: asset vẽ sẵn nếu có (assets/props/<name>.svg), không thì vẽ bằng code."""
+    ctx = ctx or {}
+    body = assets.get("props", name)
+    if body is None:
+        return PROPS[name]["fn"](pen, ctx)
+    if ctx.get("cracked"):  # vết nứt lớn vẽ đè lên asset = vật đang vỡ
+        h = PROPS[name]["h"]
+        body += pen.line([(-8, -h * 0.98), (14, -h * 0.7), (-18, -h * 0.5), (18, -h * 0.25), (0, 0)], width=7)
+    return body
+
+
 def draw_prop(pen, name, x, y, scale, ctx=None, flip=False):
-    meta = PROPS[name]
     sx = -scale if flip else scale
-    return f'<g transform="translate({x:.1f},{y:.1f}) scale({sx:.3f},{scale:.3f})">{meta["fn"](pen, ctx or {})}</g>'
+    return f'<g transform="translate({x:.1f},{y:.1f}) scale({sx:.3f},{scale:.3f})">{prop_body(pen, name, ctx)}</g>'
 
 
 def _cloud_pts(rx, ry, bumps=7, depth=0.22):

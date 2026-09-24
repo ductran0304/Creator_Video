@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-22 -420 44 420" width="44" height="420">
+<g>
+  <path d="M -5,0 C -6,-90 -6,-190 -5,-280 C -5,-330 -4,-355 -3,-372 L 3,-372 C 4,-355 5,-330 5,-280 C 6,-190 6,-90 5,0 Z" fill="#7A4F2A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M -2,-40 C -3,-120 -2,-200 -1,-260" stroke="#5A5A5E" stroke-width="2" fill="none" opacity="0.55"/>
+
+  <path d="M -6,-368 L 6,-368 L 5,-358 L -5,-358 Z" fill="#8B5A2B" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M -6,-380 L 6,-380 L 5,-370 L -5,-370 Z" fill="#8B5A2B" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+
+  <path d="M -10,-372 C -12,-395 -8,-410 -2,-420 C 4,-410 10,-393 9,-372 C 9,-365 3,-360 -1,-360 C -5,-360 -10,-364 -10,-372 Z" fill="#8A8A8A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M -3,-368 C -4,-385 -2,-398 -1,-412" stroke="#141414" stroke-width="2.5" fill="none"/>
+  <path d="M 3,-370 C 5,-388 4,-400 2,-410" stroke="#141414" stroke-width="2.5" fill="none"/>
+  <path d="M -6,-378 L 4,-374" stroke="#141414" stroke-width="2" fill="none"/>
+</g>
+</svg>

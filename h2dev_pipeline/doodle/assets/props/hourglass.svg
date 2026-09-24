@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -165 120 165" width="120" height="165">
+<g>
+  <rect x="-46" y="-165" width="92" height="16" rx="4" fill="#7A4F2A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <rect x="-46" y="-16" width="92" height="16" rx="4" fill="#7A4F2A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M -44,-149 C -44,-99 -44,-16 -44,-16" stroke="#7A4F2A" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M -44,-149 C -44,-99 -44,-16 -44,-16" stroke="#141414" stroke-width="12" fill="none" stroke-linecap="round" opacity="0"/>
+  <rect x="-48" y="-149" width="8" height="133" fill="#7A4F2A" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+  <rect x="40" y="-149" width="8" height="133" fill="#7A4F2A" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M -35,-148 C -35,-122 -12,-97 0,-83 C 12,-97 35,-122 35,-148 Z" fill="#ABD3E5" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M 0,-81 C 12,-68 35,-43 35,-17 L -35,-17 C -35,-43 -12,-68 0,-81 Z" fill="#ABD3E5" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="0" cy="-140" rx="16" ry="6" fill="#F4C430" stroke="#141414" stroke-width="3"/>
+  <path d="M -2,-88 C -2,-84 2,-84 2,-88" stroke="#F4C430" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M -28,-25 C -28,-19 28,-19 28,-25 C 20,-30 -20,-30 -28,-25 Z" fill="#F4C430" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+</g>
+</svg>

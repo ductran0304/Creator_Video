@@ -31,7 +31,7 @@ Bỏ `y` → đứng trên mặt đất của nền. Prop trên trời (`sky_pro
 
 | type | trường riêng |
 |---|---|
-| `character` | `variant`, `pose`, `expression`, `extras[]`, `holding` (prop trong `holdable_props`) |
+| `character` | `variant`, `pose`, `expression`, `extras[]`, `holding` (prop trong `holdable_props`), `outfit` (`none`/`fur`/`shirt`/`dress`; mặc định theo variant: ancient_human→fur, archaeologist→shirt, elder→dress) |
 | `prop` | `name`, `cracked` (boulder nứt = sụp đổ/mong manh) |
 | `label` | `text`, `color` (red mặc định; white khi `on` vật tối), `size` (≈110 tiêu đề, 80–90 câu dài), `on` |
 | `thought` | `of` (id nhân vật), `text` HOẶC `prop`, `side` |
@@ -54,6 +54,15 @@ Bỏ `y` → đứng trên mặt đất của nền. Prop trên trời (`sky_pro
 ]
 ```
 `change` có thể đổi mọi trường của element (pose, expression, x, holding, text...) và giữ nguyên cho các câu sau.
+
+## Bố cục đẹp
+
+- Nhân vật chính to, rõ: `scale` 1.1–1.4 khi cảnh chỉ có 1–2 nhân vật; nhỏ hơn (0.8–0.9) chỉ khi đông người.
+- 2–4 thành phần mỗi cảnh: 1 tâm điểm (nhân vật + vật tương tác) + 1–2 vật phụ ở mép (cây, đá, lều) để lấp
+  khoảng trống; tránh để một nửa khung trống trơn.
+- Đặt tâm điểm lệch theo quy tắc 1/3 (x ≈ 0.33 hoặc 0.66), vật phụ ở phía đối diện hoặc sát mép (x 0.08–0.15,
+  0.85–0.92, có thể tràn nhẹ ra ngoài khung).
+- Nền đã có chi tiết ở đường chân trời và tiền cảnh — không cần thêm quá nhiều vật nhỏ.
 
 ## Bẫy hay gặp
 

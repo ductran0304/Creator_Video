@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-25 -90 50 90" width="50" height="90">
+<g>
+  <path d="M -19,-88 C -23,-88 -24,-85 -24,-80 C -25,-52 -24,-24 -24,-8 C -24,-3 -22,0 -18,-0.5 C -6,-1 6,-1 19,-0.5 C 23,0 24,-3 24,-8 C 25,-32 24,-58 24,-80 C 24,-85 22,-88 18,-88 C 6,-89 -7,-89 -19,-88 Z"
+        fill="#5A5A5E" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M -17,-79 C -17,-79 -8,-80 0,-79.5 C 8,-79 17,-79 17,-79 C 18,-58 17,-32 17,-13 C 17,-13 6,-12.5 0,-13 C -6,-12.5 -17,-13 -17,-13 C -17,-32 -18,-58 -17,-79 Z"
+        fill="#ABD3E5" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="-11" y="-70" width="8" height="8" rx="1.5" fill="#F58220"/>
+  <rect x="2" y="-70" width="8" height="8" rx="1.5" fill="#F4C430"/>
+  <line x1="-6" y1="-85" x2="6" y2="-85" stroke="#141414" stroke-width="3" stroke-linecap="round"/>
+</g>
+</svg>

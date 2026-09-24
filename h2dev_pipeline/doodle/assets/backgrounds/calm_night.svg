@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- sky -->
+  <rect x="0" y="0" width="1920" height="1080" fill="#283A6E"/>
+
+  <!-- small pale star dots, kept sparser in the top-center title band and center stage -->
+  <g fill="#F5F1E6">
+    <circle cx="80" cy="110" r="2.2"/>
+    <circle cx="140" cy="240" r="2"/>
+    <circle cx="55" cy="360" r="2.4"/>
+    <circle cx="200" cy="320" r="2"/>
+    <circle cx="120" cy="500" r="2.2"/>
+    <circle cx="60" cy="200" r="2"/>
+    <circle cx="230" cy="150" r="2.3"/>
+    <circle cx="1850" cy="120" r="2.2"/>
+    <circle cx="1790" cy="260" r="2"/>
+    <circle cx="1870" cy="380" r="2.4"/>
+    <circle cx="1720" cy="330" r="2"/>
+    <circle cx="1800" cy="500" r="2.2"/>
+    <circle cx="1860" cy="200" r="2"/>
+    <circle cx="1690" cy="150" r="2.3"/>
+    <circle cx="900" cy="100" r="2"/>
+    <circle cx="1020" cy="140" r="2.2"/>
+    <circle cx="960" cy="440" r="2"/>
+  </g>
+
+  <!-- 4-point sparkle stars, kept toward the edges -->
+  <g fill="#F5F1E6">
+    <path d="M110,300 L113,311 L124,314 L113,317 L110,328 L107,317 L96,314 L107,311 Z"/>
+    <path d="M1800,340 L1803,351 L1814,354 L1803,357 L1800,368 L1797,357 L1786,354 L1797,351 Z"/>
+    <path d="M170,430 L173,441 L184,444 L173,447 L170,458 L167,447 L156,444 L167,441 Z"/>
+  </g>
+
+  <!-- far silhouette hills at the horizon, dark blue-gray -->
+  <path d="M -10,790 L -10,730 C 70,714 140,680 230,688 C 320,696 370,648 460,644 C 550,640 600,676 700,662 C 790,648 840,610 940,618 C 1040,626 1080,666 1180,658 C 1270,652 1320,614 1410,622 C 1500,630 1540,666 1640,658 C 1730,652 1780,686 1860,680 C 1890,678 1910,690 1930,684 L 1930,790 Z"
+        fill="#1F2D57"/>
+
+  <!-- tiny distant silhouette shapes on the far hill, kept toward edges -->
+  <g fill="#1F2D57">
+    <path d="M95,688 L106,656 L117,688 Z"/>
+    <path d="M112,688 L121,662 L130,688 Z"/>
+    <path d="M1800,680 L1811,650 L1822,680 Z"/>
+    <path d="M1818,680 L1827,656 L1836,680 Z"/>
+  </g>
+
+  <!-- nearer hill silhouette, layer 2, closer to horizon -->
+  <path d="M -10,806 C 90,788 160,818 260,802 C 360,786 420,820 520,806 C 620,792 680,822 780,808 C 880,794 940,822 1040,808 C 1140,794 1200,822 1300,808 C 1400,794 1460,820 1560,808 C 1660,796 1720,820 1820,810 C 1870,805 1905,814 1930,810 L 1930,821 L -10,821 Z"
+        fill="#17223F"/>
+
+  <!-- main ground: gray, horizon at ground_top = 821 -->
+  <path d="M -10,821 C 110,814 190,829 310,820 C 430,812 520,827 640,819 C 760,811 860,828 980,821 C 1100,814 1190,829 1310,821 C 1430,813 1520,828 1640,820 C 1760,812 1850,827 1930,821 L 1930,1090 L -10,1090 Z"
+        fill="#6E6E78"/>
+
+  <!-- a few flat darker ground patches, kept off the walkable center strip -->
+  <g fill="#5A5A62">
+    <path d="M40,852 C 80,846 130,850 160,860 C 120,868 60,866 40,852 Z"/>
+    <path d="M1760,870 C 1810,862 1870,868 1900,880 C 1850,888 1790,886 1760,870 Z"/>
+    <path d="M110,930 C 160,922 220,928 250,940 C 200,948 140,944 110,930 Z"/>
+  </g>
+
+  <!-- darker foreground strip near the bottom -->
+  <path d="M -10,976 C 120,968 220,980 350,972 C 480,964 580,978 710,971 C 840,964 940,979 1070,972 C 1200,965 1300,979 1430,972 C 1560,965 1660,978 1790,971 C 1850,967 1900,975 1930,971 L 1930,1090 L -10,1090 Z"
+        fill="#4A4A52"/>
+
+  <!-- a few pebbles at the edges -->
+  <g>
+    <ellipse cx="50" cy="1015" rx="15" ry="9" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="95" cy="1045" rx="12" ry="7" fill="#9B9B9B" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="35" cy="1065" rx="13" ry="8" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+
+    <ellipse cx="1865" cy="1020" rx="14" ry="8" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="1820" cy="1050" rx="12" ry="7" fill="#9B9B9B" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="1885" cy="1065" rx="11" ry="7" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+  </g>
+</svg>

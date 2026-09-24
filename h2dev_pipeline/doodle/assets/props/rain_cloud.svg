@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-150 -130 300 260" width="300" height="260">
+<g>
+  <g transform="translate(0,-38)">
+    <path d="M -140,10 C -150,-15 -130,-35 -100,-38 C -102,-60 -75,-78 -45,-72 C -35,-95 5,-100 25,-78 C 55,-85 90,-68 92,-40 C 118,-38 138,-18 132,5 C 130,20 110,28 85,26 C 40,34 -60,34 -110,28 C -128,26 -138,20 -140,10 Z" fill="#5A5A5E" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+
+  <path d="M -95,20 C -95,32 -103,42 -103,54 C -103,63 -96,70 -87,70 C -78,70 -71,63 -71,54 C -71,42 -79,32 -79,20 Z" fill="#4FA9E0" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M -35,45 C -35,57 -43,67 -43,79 C -43,88 -36,95 -27,95 C -18,95 -11,88 -11,79 C -11,67 -19,57 -19,45 Z" fill="#4FA9E0" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 25,25 C 25,37 17,47 17,59 C 17,68 24,75 33,75 C 42,75 49,68 49,59 C 49,47 41,37 41,25 Z" fill="#4FA9E0" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 78,50 C 78,62 70,72 70,84 C 70,93 77,100 86,100 C 95,100 102,93 102,84 C 102,72 94,62 94,50 Z" fill="#4FA9E0" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M -60,75 C -60,87 -68,97 -68,109 C -68,118 -61,125 -52,125 C -43,125 -36,118 -36,109 C -36,97 -44,87 -44,75 Z" fill="#4FA9E0" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 45,88 C 45,100 37,110 37,122 C 37,131 44,138 53,138 C 62,138 69,131 69,122 C 69,110 61,100 61,88 Z" fill="#4FA9E0" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+</g>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-110 -175 220 175" width="220" height="175">
+<g>
+  <ellipse cx="-88" cy="-5" rx="9" ry="7" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+  <ellipse cx="-63" cy="-7" rx="10" ry="7" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+  <ellipse cx="-37" cy="-4" rx="9" ry="6" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+  <ellipse cx="-10" cy="-6" rx="10" ry="7" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+  <ellipse cx="16" cy="-4" rx="9" ry="6" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+  <ellipse cx="42" cy="-7" rx="10" ry="7" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+  <ellipse cx="67" cy="-4" rx="9" ry="6" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+  <ellipse cx="90" cy="-6" rx="9" ry="7" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+
+  <path d="M -76,-2 C -40,-32 10,-58 63,-89" stroke="#141414" stroke-width="26" stroke-linecap="round" fill="none"/>
+  <path d="M -76,-2 C -40,-32 10,-58 63,-89" stroke="#8B5A2B" stroke-width="17" stroke-linecap="round" fill="none"/>
+  <path d="M 76,-3 C 40,-30 8,-56 -62,-88" stroke="#141414" stroke-width="26" stroke-linecap="round" fill="none"/>
+  <path d="M 76,-3 C 40,-30 8,-56 -62,-88" stroke="#8B5A2B" stroke-width="17" stroke-linecap="round" fill="none"/>
+  <ellipse cx="63" cy="-89" rx="9" ry="7" fill="#C9986B" stroke="#141414" stroke-width="4"/>
+  <ellipse cx="-62" cy="-88" rx="9" ry="7" fill="#C9986B" stroke="#141414" stroke-width="4"/>
+
+  <path d="M -38,-10 C -47,-44 -29,-61 -34,-94 C -37,-124 -13,-139 -8,-166 C -1,-146 19,-141 22,-107 C 27,-79 41,-54 30,-24 C 24,-7 10,-4 0,-11 C -15,-15 -27,-6 -38,-10 Z" fill="#F58220" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M -20,-15 C -27,-39 -16,-54 -18,-79 C -20,-99 -5,-111 -2,-134 C 3,-117 15,-111 17,-89 C 19,-69 27,-49 18,-24 C 14,-11 4,-9 -4,-14 C -12,-17 -16,-12 -20,-15 Z" fill="#F4C430" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+
+  <circle cx="50" cy="-152" r="4" fill="#F58220" stroke="#141414" stroke-width="2.5"/>
+  <circle cx="-44" cy="-161" r="3.3" fill="#F58220" stroke="#141414" stroke-width="2.5"/>
+  <circle cx="9" cy="-173" r="3" fill="#F4C430" stroke="#141414" stroke-width="2.5"/>
+</g>
+</svg>

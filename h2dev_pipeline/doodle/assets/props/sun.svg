@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-110 -110 220 220" width="220" height="220">
+<g>
+  <polygon points="-9,-73 9,-72 6,-107 -6,-106" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <polygon points="-9,-73 9,-72 6,-107 -6,-106" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round" transform="rotate(45)"/>
+  <polygon points="-9,-73 9,-72 6,-107 -6,-106" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round" transform="rotate(90)"/>
+  <polygon points="-9,-73 9,-72 6,-107 -6,-106" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round" transform="rotate(135)"/>
+  <polygon points="-9,-73 9,-72 6,-107 -6,-106" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round" transform="rotate(180)"/>
+  <polygon points="-9,-73 9,-72 6,-107 -6,-106" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round" transform="rotate(225)"/>
+  <polygon points="-9,-73 9,-72 6,-107 -6,-106" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round" transform="rotate(270)"/>
+  <polygon points="-9,-73 9,-72 6,-107 -6,-106" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round" transform="rotate(315)"/>
+
+  <circle cx="0" cy="0" r="70" fill="#F4C430" stroke="#141414" stroke-width="7"/>
+</g>
+</svg>

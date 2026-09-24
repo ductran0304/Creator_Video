@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- wall -->
+  <rect x="0" y="0" width="1920" height="864" fill="#F5F1E6"/>
+
+  <!-- floor -->
+  <rect x="0" y="864" width="1920" height="216" fill="#BDBDBD"/>
+
+  <!-- baseboard line (hand-wobbled) -->
+  <path d="M -10,862 C 200,859 400,864 620,861 C 840,858 1000,864 1220,861 C 1440,858 1620,864 1930,861 L 1930,874 C 1620,877 1440,871 1220,874 C 1000,877 840,871 620,874 C 400,877 200,872 -10,874 Z"
+        fill="#8A8A8A"/>
+
+  <!-- faint floor plank lines, kept toward edges only -->
+  <g stroke="#A9A9A9" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M40,920 L40,1070"/>
+    <path d="M150,915 L150,1075"/>
+    <path d="M1780,918 L1780,1072"/>
+    <path d="M1870,912 L1870,1078"/>
+  </g>
+
+  <!-- small framed picture, far left edge, below the quiet title band -->
+  <g>
+    <rect x="90" y="250" rx="4" ry="4" width="120" height="90" fill="#F5F1E6" stroke="#141414" stroke-width="6"/>
+    <rect x="106" y="266" width="88" height="58" fill="#D2B488" stroke="#141414" stroke-width="3"/>
+    <path d="M112,312 L140,282 L162,304 L188,278" fill="none" stroke="#8B5A2B" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- simple window outline, far left edge, lower -->
+  <g>
+    <rect x="70" y="560" rx="4" ry="4" width="150" height="180" fill="#ABD3E5" stroke="#141414" stroke-width="6"/>
+    <line x1="145" y1="560" x2="145" y2="740" stroke="#141414" stroke-width="5"/>
+    <line x1="70" y1="650" x2="220" y2="650" stroke="#141414" stroke-width="5"/>
+  </g>
+
+  <!-- potted plant silhouette, far right edge, near the floor -->
+  <g>
+    <path d="M1770,864 L1782,796 C 1790,780 1820,780 1828,796 L1840,864 Z" fill="#3C7A36" stroke="#141414" stroke-width="6"/>
+    <path d="M1760,864 L1850,864 L1842,912 L1768,912 Z" fill="#7A4F2A" stroke="#141414" stroke-width="6"/>
+    <line x1="1768" y1="912" x2="1842" y2="912" stroke="#5A3A1C" stroke-width="4"/>
+  </g>
+
+  <!-- small wall shelf, far right edge, upper -->
+  <g>
+    <rect x="1720" y="330" width="140" height="14" fill="#A0683A" stroke="#141414" stroke-width="5"/>
+    <ellipse cx="1760" cy="316" rx="18" ry="14" fill="#F29BB0" stroke="#141414" stroke-width="4"/>
+  </g>
+</svg>

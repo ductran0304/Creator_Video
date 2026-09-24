@@ -12,7 +12,7 @@ import sys
 from PIL import Image
 
 from .backgrounds import BACKGROUNDS_DESC
-from .character import VARIANTS, POSES, EXPRESSIONS, EXTRAS
+from .character import VARIANTS, POSES, EXPRESSIONS, EXTRAS, OUTFITS
 from .props import PROPS
 from .scene import FRAMES, ELEMENT_TYPES, render_png, W, H
 from .pen import Pen
@@ -30,6 +30,7 @@ def vocabulary():
         "poses": list(POSES),
         "expressions": EXPRESSIONS,
         "extras": EXTRAS,
+        "outfits": OUTFITS,
         "props": {k: m["desc"] for k, m in PROPS.items()},
         "holdable_props": [k for k, m in PROPS.items() if m["grip"]],
         "sky_props": [k for k, m in PROPS.items() if m["anchor"] == "center"],

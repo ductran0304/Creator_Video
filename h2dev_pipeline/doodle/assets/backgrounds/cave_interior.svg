@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- dark rock wall, fills whole frame -->
+  <rect x="0" y="0" width="1920" height="1080" fill="#4A4346"/>
+
+  <!-- lighter rock-arch opening in the middle, flat shape, kept clear of the top 20% title band -->
+  <path d="M 260,842 C 258,660 310,460 480,360 C 630,276 760,248 960,246 C 1160,248 1290,276 1440,360 C 1610,460 1662,660 1660,842 Z"
+        fill="#6A6064"/>
+
+  <!-- faint rock cracks on the dark wall, kept off the open middle -->
+  <g stroke="#3A3436" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M60,300 C 72,340 58,380 74,416"/>
+    <path d="M120,180 C 130,214 118,246 132,278"/>
+    <path d="M1830,320 C 1818,360 1834,398 1820,432"/>
+    <path d="M1780,160 C 1790,196 1776,226 1790,258"/>
+  </g>
+
+  <!-- stalactites hanging from the ceiling, top-left cluster only -->
+  <g fill="#4A4346" stroke="#141414" stroke-width="5">
+    <path d="M 30,0 L 56,0 L 46,96 L 40,120 Z"/>
+    <path d="M 76,0 L 100,0 L 90,72 L 84,92 Z"/>
+    <path d="M 116,0 L 146,0 L 134,110 L 126,136 Z"/>
+    <path d="M 168,0 L 190,0 L 181,68 L 175,86 Z"/>
+    <path d="M 208,0 L 236,0 L 224,88 L 216,108 Z"/>
+  </g>
+
+  <!-- stalactites hanging from the ceiling, top-right cluster only -->
+  <g fill="#4A4346" stroke="#141414" stroke-width="5">
+    <path d="M 1690,0 L 1714,0 L 1706,80 L 1700,98 Z"/>
+    <path d="M 1734,0 L 1762,0 L 1750,116 L 1742,140 Z"/>
+    <path d="M 1782,0 L 1804,0 L 1795,70 L 1789,88 Z"/>
+    <path d="M 1822,0 L 1850,0 L 1838,100 L 1830,122 Z"/>
+    <path d="M 1868,0 L 1892,0 L 1883,74 L 1877,92 Z"/>
+  </g>
+
+  <!-- faint cave-painting marks: two simple flat ochre handprints on the left wall -->
+  <g fill="#C0643A" fill-opacity="0.85">
+    <path d="M150,470 C 146,450 158,444 162,458 C 166,438 180,438 182,456 C 190,442 202,448 198,464 C 208,462 212,476 202,484 C 206,496 194,502 186,494 C 182,506 166,504 164,492 C 152,496 144,484 150,470 Z"/>
+    <path d="M120,560 C 116,542 127,537 131,550 C 135,532 148,532 150,548 C 157,536 168,541 165,556 C 174,554 178,566 169,574 C 173,585 162,590 155,583 C 151,594 137,592 135,581 C 124,585 116,574 120,560 Z"/>
+  </g>
+
+  <!-- faint tiny animal outline on the right wall -->
+  <g stroke="#C0643A" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.85">
+    <path d="M1720,520 C 1740,506 1770,506 1790,518 C 1804,510 1818,512 1824,522 M1790,518 L1796,500 M1790,518 L1802,504 M1720,520 C 1710,530 1708,546 1716,556 L1706,566 M1730,556 L1722,568 M1750,522 C 1748,536 1752,548 1762,554"/>
+  </g>
+
+  <!-- wood-brown floor: hand-wobbled top edge, horizon sits at ground_top=842 -->
+  <path d="M -10,842 C 120,834 200,850 330,841 C 450,833 550,848 670,841 C 790,833 880,849 1000,842 C 1120,834 1210,849 1330,841 C 1450,833 1550,848 1670,841 C 1790,833 1870,848 1930,841 L 1930,1090 L -10,1090 Z"
+        fill="#7A4F2A"/>
+
+  <!-- darker floor patches for minimal texture, kept off the walkable center strip -->
+  <g fill="#6B441F">
+    <path d="M40,890 C 80,884 130,888 160,898 C 120,906 60,904 40,890 Z"/>
+    <path d="M1760,900 C 1810,892 1870,898 1900,910 C 1850,918 1790,916 1760,900 Z"/>
+  </g>
+
+  <!-- a couple of cracks on the floor -->
+  <g stroke="#5A3A1C" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M300,940 C 308,955 300,970 310,985"/>
+    <path d="M1560,950 C 1568,964 1560,978 1570,992"/>
+  </g>
+
+  <!-- scattered pebbles near the floor edges -->
+  <g>
+    <ellipse cx="55" cy="960" rx="15" ry="9" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="95" cy="990" rx="11" ry="7" fill="#6B6B6B" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="35" cy="1020" rx="13" ry="8" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="1865" cy="965" rx="14" ry="8" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="1825" cy="995" rx="12" ry="7" fill="#6B6B6B" stroke="#141414" stroke-width="3"/>
+    <ellipse cx="1890" cy="1025" rx="11" ry="7" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -125 120 125" width="120" height="125">
+<g>
+  <path d="M -58,-95 C -61,-115 -34,-124 0,-124 C 34,-124 61,-115 58,-95 C 55,-50 30,-15 0,0 C -30,-15 -55,-50 -58,-95 Z" fill="#7A4F2A" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M -33,-112 C -35,-80 -35,-45 -30,-18" stroke="#5C3B1E" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M -12,-119 C -13,-80 -13,-40 -10,-6" stroke="#5C3B1E" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 12,-119 C 13,-80 13,-40 10,-6" stroke="#5C3B1E" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 33,-112 C 35,-80 35,-45 30,-18" stroke="#5C3B1E" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M -52,-70 C -50,-64 -50,-57 -52,-50 L 52,-50 C 50,-57 50,-64 52,-70 Z" fill="#8A8A8A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="0" cy="-60" r="17" fill="#8A8A8A" stroke="#141414" stroke-width="6"/>
+  <circle cx="0" cy="-60" r="7" fill="#5A5A5E" stroke="#141414" stroke-width="3"/>
+</g>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-48 -55 96 110" width="96" height="110">
+<g>
+  <path d="M -26,-30 L -34,-34" stroke="#F4C430" stroke-width="5" stroke-linecap="round"/>
+  <path d="M -15,-41 L -19,-49" stroke="#F4C430" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 0,-45 L 0,-54" stroke="#F4C430" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 15,-41 L 20,-49" stroke="#F4C430" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 26,-30 L 34,-34" stroke="#F4C430" stroke-width="5" stroke-linecap="round"/>
+
+  <path d="M -36,-18 C -38,-38 -22,-53 0,-53 C 22,-53 38,-38 36,-18 C 34,-2 24,10 16,18 C 13,21 13,23 13,26 L -13,26 C -13,23 -13,21 -16,18 C -24,10 -34,-2 -36,-18 Z" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M -8,-36 C -10,-27 -9,-16 -6,-4" stroke="#FBE28A" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+  <path d="M -13,26 L 13,26 C 14,32 14,36 12,40 L -12,40 C -14,36 -14,32 -13,26 Z" fill="#8A8A8A" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M -12,32 L 12,32" stroke="#141414" stroke-width="2.5"/>
+  <path d="M -12,40 L 12,40 C 12,44 10,47 6,48 L -6,48 C -10,47 -12,44 -12,40 Z" fill="#5A5A5E" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+</g>
+</svg>

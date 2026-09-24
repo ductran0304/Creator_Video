@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-120 -520 240 520" width="240" height="520">
+<g>
+  <path d="M -1,-503 L 1,-522" stroke="#5A5A5E" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="1" cy="-522" r="6" fill="#8A8A8A" stroke="#141414" stroke-width="3"/>
+
+  <path d="M -120,-498 C -121,-330 -121,-160 -120,0 L 120,0 C 121,-160 121,-330 120,-498 C 60,-503 -60,-503 -120,-498 Z" fill="#9FB3C8" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+
+  <rect x="-80" y="-470" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-470" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-470" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-432" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-432" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-432" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-394" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-394" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-394" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-356" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-356" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-356" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-318" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-318" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-318" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-280" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-280" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-280" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-242" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-242" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-242" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-204" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-204" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-204" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-166" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-166" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-166" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-128" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-128" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-128" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="-80" y="-90" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="0" y="-90" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+  <rect x="80" y="-90" width="36" height="24" rx="2" fill="#ABD3E5" stroke="#141414" stroke-width="3"/>
+
+  <path d="M -26,-64 C -27,-42 -27,-20 -26,0 L 26,0 C 27,-20 27,-42 26,-64 C 12,-70 -12,-70 -26,-64 Z" fill="#5A5A5E" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M 0,-64 L 0,0" stroke="#141414" stroke-width="3"/>
+</g>
+</svg>

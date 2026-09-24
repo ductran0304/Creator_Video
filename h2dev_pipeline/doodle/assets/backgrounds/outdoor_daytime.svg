@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- sky -->
+  <rect x="0" y="0" width="1920" height="1080" fill="#ABD3E5"/>
+
+  <!-- flat white clouds, kept away from top-center title area -->
+  <g fill="#FFFFFF" stroke="#141414" stroke-width="4">
+    <path d="M60,150 C 50,128 80,112 100,124 C 108,104 148,104 156,124 C 178,116 198,136 186,156 C 196,172 178,190 158,186 C 148,200 116,200 106,186 C 82,192 56,174 60,150 Z"/>
+    <path d="M1770,120 C 1762,102 1788,88 1804,98 C 1810,82 1844,82 1850,98 C 1868,92 1884,108 1874,124 C 1882,138 1868,152 1852,148 C 1844,160 1816,160 1808,148 C 1788,154 1766,140 1770,120 Z"/>
+    <path d="M1800,260 C 1794,246 1814,236 1826,244 C 1830,232 1856,232 1860,244 C 1874,240 1886,252 1878,264 C 1884,274 1874,286 1862,282 C 1856,292 1834,292 1828,282 C 1812,286 1796,276 1800,260 Z"/>
+  </g>
+
+  <!-- far green rolling hills -->
+  <path d="M -10,720 C 80,700 150,670 250,678 C 340,686 400,650 500,646 C 600,642 660,676 760,668 C 860,660 920,624 1020,632 C 1120,640 1170,676 1270,668 C 1360,660 1420,630 1520,638 C 1610,646 1660,682 1760,676 C 1830,672 1880,690 1930,684 L 1930,820 L -10,820 Z"
+        fill="#4E9A45"/>
+
+  <!-- a few distant trees along the horizon, kept toward the edges -->
+  <g>
+    <path d="M110,676 L110,706" stroke="#3C7A36" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="110" cy="662" rx="26" ry="24" fill="#3C7A36" stroke="#141414" stroke-width="4"/>
+    <path d="M160,684 L160,710" stroke="#3C7A36" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="160" cy="672" rx="20" ry="18" fill="#4E9A45" stroke="#141414" stroke-width="4"/>
+    <path d="M1790,672 L1790,702" stroke="#3C7A36" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="1790" cy="658" rx="26" ry="24" fill="#3C7A36" stroke="#141414" stroke-width="4"/>
+    <path d="M1840,680 L1840,706" stroke="#3C7A36" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="1840" cy="668" rx="20" ry="18" fill="#4E9A45" stroke="#141414" stroke-width="4"/>
+  </g>
+
+  <!-- nearer low hill, layer 2, darker green, closer to horizon -->
+  <path d="M -10,780 C 100,764 180,792 290,778 C 400,764 470,796 580,784 C 690,772 760,798 870,786 C 980,774 1050,800 1160,788 C 1270,776 1340,800 1450,790 C 1560,780 1630,802 1740,792 C 1810,786 1880,796 1930,792 L 1930,820 L -10,820 Z"
+        fill="#3C7A36"/>
+
+  <!-- main ground: sand-tan, horizon at ground_top = 799 -->
+  <path d="M -10,799 C 110,792 190,808 310,798 C 430,790 520,805 640,797 C 760,789 860,806 980,799 C 1100,792 1190,807 1310,799 C 1430,791 1520,806 1640,798 C 1760,790 1850,805 1930,799 L 1930,1090 L -10,1090 Z"
+        fill="#D2B488"/>
+
+  <!-- darker sand patches, kept off the walkable center strip -->
+  <g fill="#BE9E70">
+    <path d="M40,840 C 90,832 150,838 180,850 C 130,860 60,856 40,840 Z"/>
+    <path d="M1750,860 C 1810,850 1870,858 1900,872 C 1840,882 1780,878 1750,860 Z"/>
+    <path d="M100,940 C 160,930 230,938 260,952 C 200,962 130,958 100,940 Z"/>
+    <path d="M1700,970 C 1760,960 1830,968 1860,982 C 1800,992 1740,988 1700,970 Z"/>
+  </g>
+
+  <!-- grass tufts and small rocks toward edges and bottom -->
+  <g>
+    <g stroke="#3C7A36" stroke-width="5" fill="none" stroke-linecap="round">
+      <path d="M55,1010 C 52,992 58,978 50,960"/>
+      <path d="M70,1014 C 74,996 68,982 76,964"/>
+      <path d="M85,1018 C 82,1000 88,986 80,968"/>
+    </g>
+    <ellipse cx="130" cy="1040" rx="18" ry="11" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+    <ellipse cx="170" cy="1065" rx="14" ry="9" fill="#9B9B9B" stroke="#141414" stroke-width="4"/>
+
+    <g stroke="#3C7A36" stroke-width="5" fill="none" stroke-linecap="round">
+      <path d="M1830,1020 C 1827,1002 1833,988 1825,970"/>
+      <path d="M1845,1024 C 1849,1006 1843,992 1851,974"/>
+      <path d="M1860,1028 C 1857,1010 1863,996 1855,978"/>
+    </g>
+    <ellipse cx="1790" cy="1045" rx="17" ry="10" fill="#8A8A8A" stroke="#141414" stroke-width="4"/>
+    <ellipse cx="1750" cy="1070" rx="13" ry="8" fill="#9B9B9B" stroke="#141414" stroke-width="4"/>
+  </g>
+</svg>

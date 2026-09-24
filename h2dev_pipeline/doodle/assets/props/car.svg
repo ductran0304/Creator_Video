@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-175 -125 350 125" width="350" height="125">
+<g>
+  <path d="M -108,-72 C -106,-100 -90,-120 -68,-123 C -25,-127 22,-127 58,-123 C 82,-120 96,-100 98,-72 C 50,-77 -55,-77 -108,-72 Z" fill="#ABD3E5" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M -4,-121 C -5,-105 -5,-88 -4,-73" stroke="#141414" stroke-width="5" stroke-linecap="round"/>
+
+  <path d="M -175,-27 C -172,-52 -166,-68 -150,-74 C -80,-80 60,-80 138,-74 C 158,-68 170,-52 175,-27 C 175,-16 168,-10 156,-9 C 100,-4 -100,-4 -156,-9 C -168,-10 -175,-16 -175,-27 Z" fill="#E0302B" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M 22,-73 C 21,-55 21,-35 22,-14" stroke="#141414" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <ellipse cx="163" cy="-42" rx="9" ry="7" fill="#F4C430" stroke="#141414" stroke-width="3"/>
+
+  <circle cx="-100" cy="-30" r="30" fill="#141414"/>
+  <circle cx="-100" cy="-30" r="13" fill="#BDBDBD" stroke="#141414" stroke-width="2.5"/>
+  <circle cx="100" cy="-30" r="30" fill="#141414"/>
+  <circle cx="100" cy="-30" r="13" fill="#BDBDBD" stroke="#141414" stroke-width="2.5"/>
+</g>
+</svg>

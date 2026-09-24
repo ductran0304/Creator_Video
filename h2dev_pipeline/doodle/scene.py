@@ -15,8 +15,8 @@ import resvg_py
 
 from .pen import Pen
 from .palette import C, NAMED
-from .character import character, pose_extents, POSES, VARIANTS, EXPRESSIONS, EXTRAS
-from .props import PROPS, draw_prop
+from .character import character, pose_extents, POSES, VARIANTS, EXPRESSIONS, EXTRAS, OUTFITS
+from .props import PROPS, draw_prop, prop_body
 from .backgrounds import BACKGROUNDS, DARK
 from .text import text_block, FONT_PATH, FONT_FAMILY
 
@@ -31,7 +31,7 @@ FRAMES = {
     "stats": "Thanh so sánh số liệu: title, bars[{label, value, display, color}]",
 }
 ELEMENT_TYPES = {
-    "character": "variant, pose, expression, extras[], holding, flip, scale",
+    "character": "variant, pose, expression, extras[], holding, outfit, flip, scale",
     "prop": "name, scale, flip, cracked",
     "label": "text, color, size, on",
     "thought": "of (id nhân vật), text hoặc prop, side",
@@ -83,6 +83,8 @@ def _layout(elements, x0, y0, w, h, ground_y, warnings):
             _check(el.get("expression", "calm_content"), EXPRESSIONS, "expression")
             for fx in el.get("extras", []):
                 _check(fx, EXTRAS, "extras")
+            if el.get("outfit"):
+                _check(el["outfit"], OUTFITS, "outfit")
             if el.get("holding"):
                 _check(el["holding"], {k for k, m in PROPS.items() if m["grip"]}, "holding")
         if kind == "prop":
@@ -209,7 +211,8 @@ def render_panel(pen, spec, x0, y0, w, h, warnings, visible=None):
         pen = root.child(i)
         if kind == "character":
             svg, anchors = character(pen, x, y, el.get("variant", "you_main"), el.get("pose", "standing"),
-                                     el.get("expression", "calm_content"), s, flip, el.get("extras", []))
+                                     el.get("expression", "calm_content"), s, flip, el.get("extras", []),
+                                     el.get("outfit"))
             parts.append(svg)
             if el.get("holding"):
                 meta = PROPS[el["holding"]]
@@ -218,7 +221,7 @@ def render_panel(pen, spec, x0, y0, w, h, warnings, visible=None):
                 hx, hy = anchors["hand"]
                 sx = -hs if flip else hs
                 parts.append(f'<g transform="translate({hx - gx * sx:.1f},{hy - gy * hs:.1f}) scale({sx:.3f},{hs:.3f})">'
-                             f'{meta["fn"](pen, {})}</g>')
+                             f'{prop_body(pen, el["holding"])}</g>')
         elif kind == "prop":
             ctx = {"bg_color": bg_color, "labeled": el.get("id") in labeled, "cracked": el.get("cracked", False)}
             parts.append(draw_prop(pen, el["name"], x, y, s, ctx, flip))
