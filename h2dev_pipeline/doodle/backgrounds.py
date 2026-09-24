@@ -1,11 +1,21 @@
 """Nền màu phẳng theo cảm xúc (visual_style_dna.backgrounds). Mỗi hàm vẽ trong khung (x, y, w, h)
 và trả về (svg, ground_y, sky_color)."""
+from .palette import C
 
-CREAM = "#FBF5E8"
+BACKGROUNDS_DESC = {
+    "neutral_default": "Nền kem trơn — mặc định, khung chữ, trung tính",
+    "neutral_modern": "Nền kem + dải sàn xám — cảnh hiện đại / 'limbo'",
+    "outdoor_daytime": "Trời xanh + đất nâu nhạt — ngoài trời ban ngày, thiên nhiên",
+    "ancient_savanna": "Trời cam + đất vàng + cỏ — thời tiền sử, bình minh/hoàng hôn",
+    "calm_night": "Xanh navy + đất xám — đêm yên tĩnh",
+    "deep_night": "Tím chàm + sao + đất nâu — đêm sâu / giấc ngủ",
+    "cave_interior": "Trong hang đá tối, sàn đất — sinh hoạt trong hang, tranh hang động",
+}
+DARK = {"calm_night", "deep_night", "cave_interior"}
 
 
 def _sky(x, y, w, h, color):
-    return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{color}"/>'
+    return f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" fill="{color}"/>'
 
 
 def _ground(pen, x, w, top, bottom, color):
@@ -15,48 +25,61 @@ def _ground(pen, x, w, top, bottom, color):
 
 
 def neutral_default(pen, x, y, w, h):
-    return _sky(x, y, w, h, CREAM), y + h * 0.88, CREAM
+    return _sky(x, y, w, h, C["cream"]), y + h * 0.88, C["cream"]
 
 
 def neutral_modern(pen, x, y, w, h):
     g = y + h * 0.8
-    return _sky(x, y, w, h, CREAM) + _ground(pen, x, w, g, y + h, "#BDBDBD"), g + 30, CREAM
+    return _sky(x, y, w, h, C["cream"]) + _ground(pen, x, w, g, y + h, C["light_gray"]), g + 30, C["cream"]
 
 
 def outdoor_daytime(pen, x, y, w, h):
     g = y + h * 0.74
-    return _sky(x, y, w, h, "#A8DDF5") + _ground(pen, x, w, g, y + h, "#D8B57C"), g + 40, "#A8DDF5"
+    return (_sky(x, y, w, h, C["cave_light_blue"]) + _ground(pen, x, w, g, y + h, C["sand_tan"]),
+            g + 40, C["cave_light_blue"])
 
 
 def ancient_savanna(pen, x, y, w, h):
     g = y + h * 0.72
-    svg = _sky(x, y, w, h, "#F7A440") + _ground(pen, x, w, g, y + h, "#D6AE74")
+    svg = _sky(x, y, w, h, C["savanna_orange"]) + _ground(pen, x, w, g, y + h, C["sand_tan"])
     for i in range(7):
         gx = x + w * (0.06 + 0.14 * i) + pen.jitter(0, 30)
         gy = g + 60 + pen.jitter(0, 70)
-        svg += pen.line([(gx - 16, gy), (gx - 8, gy - 26), (gx, gy), (gx + 8, gy - 30), (gx + 16, gy)],
-                        width=4, stroke="#6B8E23", amp=0.6)
-    return svg, g + 40, "#F7A440"
+        for dx, lean in ((-12, -10), (0, 2), (12, 12)):
+            svg += pen.shape(f"M{gx+dx*0.4:.0f},{gy:.0f} Q{gx+dx:.0f},{gy-16:.0f} {gx+dx+lean:.0f},{gy-30:.0f}",
+                             stroke=C["leaf_dark"], width=4)
+    return svg, g + 40, C["savanna_orange"]
 
 
 def calm_night(pen, x, y, w, h):
     g = y + h * 0.76
-    return _sky(x, y, w, h, "#1E2A5A") + _ground(pen, x, w, g, y + h, "#6E6E78"), g + 40, "#1E2A5A"
+    return (_sky(x, y, w, h, C["night_navy"]) + _ground(pen, x, w, g, y + h, "#6E6E78"),
+            g + 40, C["night_navy"])
 
 
 def deep_night(pen, x, y, w, h):
     g = y + h * 0.74
-    svg = _sky(x, y, w, h, "#2B1E5C")
+    svg = _sky(x, y, w, h, C["deep_indigo"])
     for _ in range(int(w / 45)):
         sx, sy = x + pen.rng.uniform(20, w - 20), y + pen.rng.uniform(20, h * 0.6)
-        r = pen.rng.uniform(2.5, 5.5)
-        svg += f'<circle cx="{sx:.0f}" cy="{sy:.0f}" r="{r:.1f}" fill="#FFF3B0"/>'
-    svg += _ground(pen, x, w, g, y + h, "#6B4A2B")
-    return svg, g + 40, "#2B1E5C"
+        svg += f'<circle cx="{sx:.0f}" cy="{sy:.0f}" r="{pen.rng.uniform(2.5, 5.5):.1f}" fill="#FFF3B0"/>'
+    svg += _ground(pen, x, w, g, y + h, C["dirt_brown"])
+    return svg, g + 40, C["deep_indigo"]
 
 
-BACKGROUNDS = {
-    "neutral_default": neutral_default, "neutral_modern": neutral_modern, "outdoor_daytime": outdoor_daytime,
-    "ancient_savanna": ancient_savanna, "calm_night": calm_night, "deep_night": deep_night,
-}
-DARK = {"calm_night", "deep_night"}
+def cave_interior(pen, x, y, w, h):
+    g = y + h * 0.78
+    wall = "#4A4346"
+    svg = _sky(x, y, w, h, wall)
+    # vòm hang sáng hơn ở giữa
+    arch = [(x + w * 0.08, g + 10), (x + w * 0.1, y + h * 0.35), (x + w * 0.3, y + h * 0.1), (x + w * 0.7, y + h * 0.08),
+            (x + w * 0.9, y + h * 0.3), (x + w * 0.93, g + 10)]
+    svg += pen.poly(arch, "#6A6064", width=6, amp=5)
+    for _ in range(int(w / 240)):
+        cx, cy = x + pen.rng.uniform(w * 0.15, w * 0.85), y + pen.rng.uniform(h * 0.2, h * 0.6)
+        svg += pen.line([(cx, cy), (cx + pen.jitter(0, 30), cy + 40), (cx + pen.jitter(0, 30), cy + 80)], width=4)
+    svg += _ground(pen, x, w, g, y + h, C["wood_brown"])
+    return svg, g + 35, wall
+
+
+BACKGROUNDS = {name: globals()[name] for name in BACKGROUNDS_DESC}
