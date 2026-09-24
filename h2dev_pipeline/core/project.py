@@ -28,7 +28,7 @@ from doodle.scene import scene_svg, SceneError
 
 LANGS = {"en", "vi"}
 WPM = {"en": 150, "vi": 190}  # tốc độ đọc ước lượng của edge-tts (từ/phút)
-SCENE_DOC_KEYS = {"lines", "id", "note"}
+SCENE_DOC_KEYS = {"lines", "id", "note", "chapter"}
 
 
 class ProjectError(Exception):

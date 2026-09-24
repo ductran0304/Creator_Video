@@ -1,0 +1,47 @@
+{
+  "titles": [
+    "How Did Ancient Humans Actually Sleep?",
+    "You Were Never Meant to Sleep 8 Hours Straight",
+    "The Forgotten Second Sleep"
+  ],
+  "description": "For most of human history, you slept twice a night.\n\nChapters:\n{{chapters}}\n\nSources: Roger Ekirch, At Day's Close (2005); Yetish, Siegel et al., Current Biology (2015).",
+  "tags": [
+    "ancient humans",
+    "segmented sleep",
+    "history of sleep",
+    "first sleep",
+    "second sleep"
+  ],
+  "hashtags": [
+    "#history",
+    "#sleep",
+    "#ancienthumans"
+  ],
+  "thumbnail": {
+    "frame": "scene",
+    "bg": "deep_night",
+    "elements": [
+      {
+        "type": "prop",
+        "name": "moon",
+        "x": 0.82,
+        "y": 0.2
+      },
+      {
+        "type": "character",
+        "variant": "you_main",
+        "pose": "sitting",
+        "expression": "surprise",
+        "x": 0.3,
+        "scale": 1.5
+      },
+      {
+        "type": "label",
+        "text": "YOU SLEPT TWICE?!",
+        "x": 0.62,
+        "y": 0.5,
+        "size": 150
+      }
+    ]
+  }
+}

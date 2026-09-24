@@ -3,6 +3,7 @@
   python make_video.py init <slug> --title "..." [--lang en|vi]   tạo projects/<slug>/scenes.json mẫu
   python make_video.py validate <slug|thư_mục> [--json]           kiểm tra kịch bản + hình (không vẽ PNG)
   python make_video.py preview <slug|thư_mục> [--scene N]         vẽ nháp → projects/<slug>/preview/
+  python make_video.py build <slug|thư_mục> [--draft]            dựng video → projects/<slug>/output/
   python make_video.py vocab                                       in danh mục từ vựng bộ vẽ (JSON)
 """
 import argparse
@@ -88,6 +89,13 @@ def cmd_preview(a):
     return 0
 
 
+def cmd_build(a):
+    from core.build import build
+    d = resolve_project_dir(a.project, BASE_DIR)
+    build(load_project(d), d, load_config(), BASE_DIR, draft=a.draft)
+    return 0
+
+
 def cmd_vocab(a):
     from doodle.catalog import vocabulary
     print(json.dumps(vocabulary(), ensure_ascii=False, indent=1))
@@ -111,6 +119,10 @@ def main():
     p.add_argument("project")
     p.add_argument("--scene", type=int, help="chỉ vẽ các bước hiện dần của cảnh N")
     p.set_defaults(fn=cmd_preview)
+    p = sub.add_parser("build")
+    p.add_argument("project")
+    p.add_argument("--draft", action="store_true", help="bản nháp 960x540, 12fps — dựng rất nhanh để kiểm tra")
+    p.set_defaults(fn=cmd_build)
     p = sub.add_parser("vocab")
     p.set_defaults(fn=cmd_vocab)
     a = ap.parse_args()

@@ -237,7 +237,9 @@ def render_panel(pen, spec, x0, y0, w, h, warnings, visible=None):
                                     INK if color == C["white"] else None, max_lines=2)
             else:
                 outline = INK if dark or color == C["white"] else None
-                svg, _ = text_block(pen, el["text"], x, y0 + h * el.get("y", 0.14), w * 0.86,
+                # chữ canh giữa tại x nên bề rộng tối đa bị giới hạn bởi mép gần nhất
+                max_w = min(w * 0.86, 2 * min(x - x0, x0 + w - x) * 0.94)
+                svg, _ = text_block(pen, el["text"], x, y0 + h * el.get("y", 0.14), max_w,
                                     int(el.get("size", 110) * base), color, outline)
             parts.append(svg)
         elif kind == "thought":
@@ -372,9 +374,11 @@ def scene_svg(spec, warnings=None, visible=None, seed=None):
             + body + "</svg>")
 
 
-def render_png(svg):
+def render_png(svg, zoom=1.0):
+    """zoom > 1 vẽ ở độ phân giải cao hơn (dùng khi dựng video có hiệu ứng zoom để hình không bị mờ)."""
     return bytes(resvg_py.svg_to_bytes(svg_string=svg, font_files=[FONT_PATH], skip_system_fonts=True,
-                                       font_family=FONT_FAMILY, sans_serif_family=FONT_FAMILY))
+                                       font_family=FONT_FAMILY, sans_serif_family=FONT_FAMILY,
+                                       zoom=zoom if zoom != 1.0 else None))
 
 
 def render_scene(spec, out_path, warnings=None, visible=None, seed=None):
