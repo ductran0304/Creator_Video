@@ -65,6 +65,26 @@ def limit(x, peak=0.97):
     return x * (peak / m) if m > peak else x
 
 
+def default_page_flip(sr=SR, seed=7):
+    """Tiếng lật trang tổng hợp (nhiễu lọc thấp + đường bao) — dùng khi không có file sfx_page.wav."""
+    rng = np.random.default_rng(seed)
+    n = int(0.4 * sr)
+    noise = np.convolve(rng.uniform(-1, 1, n), np.ones(12) / 12, mode="same")
+    t = np.arange(n) / sr
+    env = np.where(t < 0.12, np.sin(np.pi * t / 0.24), np.exp(-(t - 0.12) * 8))
+    env *= 0.85 + 0.15 * np.sin(2 * np.pi * 50 * t)
+    return (noise * env * 0.9).astype(np.float32)
+
+
+def default_pop(sr=SR):
+    """Tiếng 'pop' ngắn khi hiện thành phần mới — dùng khi không có file sfx_pop.wav."""
+    n = int(0.09 * sr)
+    t = np.arange(n) / sr
+    freq = 900 - 5500 * t  # quét từ cao xuống thấp
+    phase = 2 * np.pi * np.cumsum(freq) / sr
+    return (np.sin(phase) * np.exp(-t * 45) * 0.8).astype(np.float32)
+
+
 def write_wav(path, x, sr=SR):
     pcm = (np.clip(x, -1, 1) * 32767).astype("<i2")
     with wave.open(path, "wb") as w:

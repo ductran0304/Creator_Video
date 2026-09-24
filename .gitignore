@@ -9,7 +9,7 @@ __pycache__/
 h2dev_pipeline/projects/
 h2dev_pipeline/temp/
 h2dev_pipeline/outputs/
-h2dev_flow_local/outputs/
+h2dev_flow_local/
 
 # Large media files (if any outside projects)
 *.mp4
@@ -27,3 +27,5 @@ h2dev_flow_local/outputs/
 # Agent/IDE directories
 .gemini/
 h2dev_pipeline/examples/*/preview/
+h2dev_pipeline/examples/*/cache/
+h2dev_pipeline/examples/*/output/

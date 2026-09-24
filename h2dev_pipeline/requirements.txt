@@ -1,9 +1,5 @@
-playwright>=1.40.0
-requests>=2.31.0
-google-generativeai>=0.3.0
-moviepy>=1.0.3
-edge-tts>=6.1.8
-click>=8.0.0
-rich>=13.0.0
-flask>=3.0.0
+edge-tts>=7.0.0
 resvg-py>=0.5.0
+pillow>=10.0.0
+numpy>=1.26.0
+imageio-ffmpeg>=0.5.0

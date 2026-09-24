@@ -183,25 +183,24 @@ def mix_audio(timeline, clips, total, cfg, base_dir, log):
     bgm = asset("bg_music_path", "bg_music.mp3")
     if bgm:
         music = A.fade(A.loop_to(A.decode(bgm), len(track)), 1.5, 3.0)
-        # bg_music_volume nhân thẳng vào nhạc gốc — cùng nghĩa với pipeline cũ nên giá trị đã chỉnh vẫn giữ nguyên
+        # bg_music_volume nhân thẳng vào biên độ nhạc gốc (0.03 ≈ nhạc nhỏ hơn giọng đọc ~27 dB)
         track += music * cfg.get("bg_music_volume", 0.05)
         log(f"  + nhạc nền {os.path.basename(bgm)} (âm lượng {cfg.get('bg_music_volume', 0.05)})")
     else:
         log("  [i] không có nhạc nền (đặt file bg_music.mp3 hoặc sửa bg_music_path trong config.json)")
 
     if cfg.get("sfx_enabled", True):
+        # thiếu file (vd máy mới clone — *.wav bị gitignore) thì dùng âm tổng hợp sẵn
         page = asset("sfx_path", "sfx_page.wav")
-        if page:
-            s = A.decode(page)
-            for sc in timeline[1:]:
-                A.place(track, s, max(0, sc["start"] - 0.12), cfg.get("sfx_volume", 0.25))
+        s = A.decode(page) if page else A.default_page_flip()
+        for sc in timeline[1:]:
+            A.place(track, s, max(0, sc["start"] - 0.12), cfg.get("sfx_volume", 0.25))
         pop = asset("sfx_reveal_path", "sfx_pop.wav")
-        if pop:
-            s = A.decode(pop)
-            for sc in timeline:
-                for ln in sc["lines"]:
-                    if ln["reveal"]:
-                        A.place(track, s, ln["start"], cfg.get("sfx_reveal_volume", 0.15))
+        s = A.decode(pop) if pop else A.default_pop()
+        for sc in timeline:
+            for ln in sc["lines"]:
+                if ln["reveal"]:
+                    A.place(track, s, ln["start"], cfg.get("sfx_reveal_volume", 0.15))
     return A.normalize(track)
 
 
