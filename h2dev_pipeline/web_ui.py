@@ -10,6 +10,7 @@ import queue
 import threading
 import glob
 import logging
+import importlib
 from flask import Flask, render_template, request, jsonify, Response, send_from_directory
 
 # Disable Werkzeug logging to prevent HTTP requests from flooding the console
@@ -122,25 +123,23 @@ def run_pipeline_thread(topic):
         pipeline_state["error"] = ""
         pipeline_state["topic"] = topic
 
-        # Import pipeline (phải import SAU khi đã capture stdout)
-        sys.path.insert(0, PIPELINE_DIR)
-        import pipeline as pl
-
-        # Reload config
-        pl.config = pl.load_config()
-        pl.LANGUAGE = pl.config.get("language", "en")
-        pl.VOICE_NAME = pl.config.get("voice_name", "en-US-EmmaNeural")
-        pl.USE_WEB2API = pl.config.get("use_web2api", True)
-        pl.WEB2API_URL = pl.config.get("web2api_url", "http://localhost:8081/v1")
-        pl.WEB2API_KEY = pl.config.get("web2api_key", "sk-gemini")
-        pl.WEB2API_MODEL_SCRIPT = pl.config.get("web2api_model_script", "gemini-3.1-pro")
-        pl.WEB2API_MODEL_SEO = pl.config.get("web2api_model_seo", "gemini-3.5-flash-thinking")
-        pl.KB = pl.load_knowledge_base()
+        # Import pipeline (phải import SAU khi đã capture stdout).
+        # Reload mỗi job để toàn bộ hằng số cấp module (BGM, SFX, delay, OmniVoice...) đọc lại config.json.
+        if PIPELINE_DIR not in sys.path:
+            sys.path.insert(0, PIPELINE_DIR)
+        if "pipeline" in sys.modules:
+            pl = importlib.reload(sys.modules["pipeline"])
+        else:
+            import pipeline as pl
 
         # Chạy pipeline
-        pl.run_pipeline(topic)
+        success = pl.run_pipeline(topic)
 
-        if pipeline_state["status"] == "running":
+        if not success:
+            pipeline_state["status"] = "error"
+            pipeline_state["error"] = pipeline_state["error"] or "Pipeline dừng giữa chừng."
+            pipeline_state["completed_at"] = time.time()
+        elif pipeline_state["status"] == "running":
             pipeline_state["status"] = "completed"
             pipeline_state["completed_at"] = time.time()
 
@@ -374,4 +373,5 @@ if __name__ == "__main__":
     print(f"[H2DEV] Pipeline dir: {PIPELINE_DIR}")
     print(f"[H2DEV] Mở trình duyệt tại: http://localhost:5000")
 
-    app.run(host="0.0.0.0", port=5000, debug=False, threaded=True)
+    # Chỉ lắng nghe localhost — /api/config trả về và ghi đè API key, không được lộ ra mạng LAN
+    app.run(host="127.0.0.1", port=5000, debug=False, threaded=True)

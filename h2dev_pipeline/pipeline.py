@@ -9,6 +9,7 @@ import base64
 import subprocess
 import asyncio
 import math
+import shlex
 import struct
 import urllib.request
 import wave
@@ -22,6 +23,7 @@ sys.stdout.reconfigure(encoding='utf-8', line_buffering=True)
 sys.stderr.reconfigure(encoding='utf-8', line_buffering=True)
 
 # --- CONFIG CONSTANTS ---
+PIPELINE_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_FILE = "config.json"
 TEMP_DIR = "temp"
 OUTPUT_DIR = "outputs"
@@ -41,11 +43,17 @@ OMNIVOICE_REF_AUDIO = config.get("omnivoice_ref_audio", "ref_voice.wav")
 OMNIVOICE_LANGUAGE = config.get("omnivoice_language", "English")
 OMNIVOICE_MODEL = config.get("omnivoice_model", "")
 OMNIVOICE_REF_TEXT = config.get("omnivoice_ref_text", "")
-VOICE_NAME = config.get("voice_name", "en-US-EmmaNeural")  # Default to US English voice
 DELAY_MIN = config.get("delay_min", 5)
 DELAY_MAX = config.get("delay_max", 15)
 MAX_WAIT_IMAGE = config.get("max_wait_image", 240)
 LANGUAGE = config.get("language", "en")
+
+# Giọng đọc mặc định theo ngôn ngữ — dùng khi voice_name không khớp ngôn ngữ kịch bản
+DEFAULT_VOICES = {"en": "en-US-EmmaNeural", "vi": "vi-VN-HoaiMyNeural"}
+VOICE_NAME = config.get("voice_name") or DEFAULT_VOICES.get(LANGUAGE, "en-US-EmmaNeural")
+if not VOICE_NAME.lower().startswith(f"{LANGUAGE.lower()}-") and LANGUAGE in DEFAULT_VOICES:
+    print(f"[i] Giọng '{VOICE_NAME}' không khớp ngôn ngữ '{LANGUAGE}', dùng '{DEFAULT_VOICES[LANGUAGE]}'.")
+    VOICE_NAME = DEFAULT_VOICES[LANGUAGE]
 USE_WEB2API = config.get("use_web2api", True)
 WEB2API_URL = config.get("web2api_url", "http://localhost:8081/v1")
 WEB2API_KEY = config.get("web2api_key", "sk-gemini")
@@ -481,16 +489,18 @@ def generate_voiceover_and_timestamps(script_data):
         elif USE_OMNIVOICE:
             # Chạy OmniVoice cục bộ
             try:
-                cmd = f'{OMNIVOICE_CLI_PATH} --text "{text}" --ref_audio "{OMNIVOICE_REF_AUDIO}" --output "{seg_audio_path}"'
+                # Truyền tham số dạng list (không qua shell) để văn bản chứa dấu ngoặc kép không phá lệnh
+                cmd = [t.strip('"') for t in shlex.split(OMNIVOICE_CLI_PATH, posix=(os.name != "nt"))]
+                cmd += ["--text", text, "--ref_audio", OMNIVOICE_REF_AUDIO, "--output", seg_audio_path]
                 if OMNIVOICE_MODEL:
-                    cmd += f' --model "{OMNIVOICE_MODEL}"'
+                    cmd += ["--model", OMNIVOICE_MODEL]
                 if OMNIVOICE_LANGUAGE:
-                    cmd += f' --language "{OMNIVOICE_LANGUAGE}"'
+                    cmd += ["--language", OMNIVOICE_LANGUAGE]
                 if OMNIVOICE_REF_TEXT:
-                    cmd += f' --ref_text "{OMNIVOICE_REF_TEXT}"'
-                
-                print(f"    [+] Chạy OmniVoice: {cmd}")
-                subprocess.run(cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    cmd += ["--ref_text", OMNIVOICE_REF_TEXT]
+
+                print(f"    [+] Chạy OmniVoice: {cmd[0]} ...")
+                subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except Exception as e:
                 print(f"    [WARNING] OmniVoice lỗi ({e}), tự động chuyển sang dùng edge-tts...")
                 asyncio.run(generate_segment_audio_edge(text, seg_audio_path))
@@ -795,15 +805,26 @@ def generate_srt_file(segments, output_path):
 def assemble_final_video(segments, audio_path, output_video_path):
     print("[+] Dang bat dau ghep noi va xuat video .mp4...")
     video_clips = []
-    
+
+    # Thiếu ảnh thì dùng lại ảnh gần nhất (ảnh trước, hoặc ảnh sau nếu thiếu ngay từ đầu)
+    # thay vì bỏ qua phân cảnh — bỏ qua sẽ làm hình chạy nhanh hơn lời thuyết minh.
+    img_paths = [os.path.join(TEMP_DIR, f"image_{idx}.png") for idx in range(len(segments))]
+    available = [p if os.path.exists(p) else None for p in img_paths]
+    last_valid = next((p for p in available if p), None)
+    if not last_valid:
+        print("[ERROR] Khong co anh nao hop le de ghep thanh video.")
+        return False
+
     for idx, seg in enumerate(segments):
-        img_path = os.path.join(TEMP_DIR, f"image_{idx}.png")
+        img_path = available[idx]
         duration = seg["duration"]
-        
-        if not os.path.exists(img_path):
-            print(f"  [WARNING] Khong tim thay anh image_{idx}.png, bo qua phan canh nay.")
-            continue
-            
+
+        if img_path:
+            last_valid = img_path
+        else:
+            print(f"  [WARNING] Khong tim thay anh image_{idx}.png, dung lai anh {os.path.basename(last_valid)}.")
+            img_path = last_valid
+
         try:
             # Tạo clip ảnh tĩnh có thời lượng khớp với câu thuyết minh tương ứng
             img_clip = ImageClip(img_path).with_duration(duration)
@@ -1060,13 +1081,13 @@ def run_pipeline(topic):
     # Bước 1: Sinh kịch bản & prompt
     script_data = run_script_generator(topic)
     if not script_data:
-        return
+        return False
         
     # Bước 2: Tạo âm thanh thuyết minh & tính toán mốc thời gian
     segments, audio_path = generate_voiceover_and_timestamps(script_data)
     if not segments or not audio_path:
         print("[ERROR] Tao am thanh & timestamps that bai.")
-        return
+        return False
         
     # Bước 3: Tạo SEO metadata (Tiêu đề, Mô tả, Tags, Thumbnail Prompt)
     seo_data = run_youtube_seo_generator(script_data, segments)
@@ -1104,7 +1125,7 @@ def run_pipeline(topic):
     success = generate_images_workflow(segments, thumbnail_prompt=thumbnail_prompt)
     if not success:
         print("[ERROR] Sinh anh tự dong that bai. Vui long kiem tra lai trinh duyet Chrome Debug.")
-        return
+        return False
         
     # Nếu bỏ qua vẽ ảnh (do dùng file script có sẵn timestamp) hoặc sinh ảnh thumbnail thất bại
     # Ta copy ảnh đầu tiên làm ảnh thumbnail fallback
@@ -1130,6 +1151,7 @@ def run_pipeline(topic):
         print(f"[✓] Render video hoan tat tai: {final_output}")
     else:
         print("[ERROR] Loi render video cuoi cung.")
+    return success
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
