@@ -36,3 +36,25 @@ def get(kind, name):
 
 def has(kind, name):
     return _inner(kind, name) is not None
+
+
+def path(kind, name, ext=".svg"):
+    return os.path.join(ASSET_DIR, kind, f"{name}{ext}")
+
+
+def sidecars(kind):
+    """Asset mới thêm không cần sửa code: metadata nằm trong <name>.json cạnh <name>.svg.
+    Trả về {name: dict}; bỏ qua json lỗi (asset check sẽ báo)."""
+    import json
+    out = {}
+    folder = os.path.join(ASSET_DIR, kind)
+    if not os.path.isdir(folder):
+        return out
+    for fn in sorted(os.listdir(folder)):
+        if fn.endswith(".json"):
+            try:
+                with open(os.path.join(folder, fn), "r", encoding="utf-8") as f:
+                    out[fn[:-5]] = json.load(f)
+            except (OSError, ValueError):
+                pass
+    return out

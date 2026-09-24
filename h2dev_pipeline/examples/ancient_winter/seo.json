@@ -1,0 +1,15 @@
+{
+  "titles": [
+    "How Did Ancient Humans Survive Winter?",
+    "You Wouldn't Last One Ice Age Winter. Your Ancestors Did.",
+    "The Weird Clue That Reveals When You Started Wearing Clothes"
+  ],
+  "description": "It is minus thirty degrees. No heater, no jacket, no door to close. And yet your ancestors survived winter after winter.\n\nIn this video you discover how early humans beat the cold: a million years of fire, a surprising clue hidden in lice that dates the first clothing, the bone needle that changed everything, and houses built from mammoth bones.\n\nIf you enjoyed this, like the video, tell us in the comments how cold your apartment is right now, and subscribe for more stories about how you became human.\n\nChapters:\n{{chapters}}\n\nSources:\n- Berna et al. (2012), Microstratigraphic evidence of in situ fire in the Acheulean strata of Wonderwerk Cave, PNAS\n- Toups, Kitchen, Light & Reed (2011), Origin of clothing lice indicates early clothing use by anatomically modern humans in Africa, Molecular Biology and Evolution\n- Mezhyrich mammoth-bone dwellings, Ukraine (Upper Paleolithic)\n\n#ancienthumans #iceage #prehistory #humanevolution #history #earlyhumans #anthropology #archaeology #survival #winter #mammoth #caveman #hunter #historyfacts #science #evolution #documentary #education #doodle",
+  "tags": ["ancient humans", "how did ancient humans survive winter", "ice age", "prehistory", "human evolution", "early humans", "hunter gatherers", "anthropology", "archaeology", "ice age survival", "prehistoric clothing", "when did humans start wearing clothes", "body lice clothing study", "bone needle", "mammoth bone houses", "mezhyrich", "wonderwerk cave", "discovery of fire", "paleolithic", "stone age", "caveman life", "history documentary", "doodle history", "educational animation", "how humans survived the cold", "neanderthal winter", "ancient survival skills"],
+  "hashtags": ["#ancienthumans", "#iceage", "#prehistory", "#humanevolution", "#history", "#earlyhumans", "#anthropology", "#archaeology", "#survival", "#winter", "#mammoth", "#caveman", "#historyfacts", "#science", "#evolution", "#documentary", "#education", "#doodle"],
+  "thumbnail": {"frame": "scene", "bg": "ice_age_winter", "elements": [
+    {"type": "character", "variant": "you_main", "pose": "hugging_knees", "expression": "worry_sadness", "x": 0.25, "scale": 1.6, "extras": ["sweat"]},
+    {"type": "label", "text": "-30°C", "x": 0.66, "y": 0.35, "size": 190},
+    {"type": "label", "text": "NO JACKET?!", "x": 0.66, "y": 0.62, "size": 150}
+  ]}
+}

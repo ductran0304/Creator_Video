@@ -114,3 +114,21 @@ def _with_plate(name, fn):
 
 
 BACKGROUNDS = {name: _with_plate(name, globals()[name]) for name in BACKGROUNDS_DESC}
+
+
+# ---------------- nền thêm sau (không cần code) ----------------
+def _custom(meta):
+    """Nền chỉ có tấm vẽ sẵn + json: ground_top/feet_y theo khung 1080, màu trời để khoét trăng."""
+    def fn(pen, x, y, w, h):
+        s = h / 1080
+        return _sky(x, y, w, h, meta.get("sky", C["cream"])), y + meta["feet_y"] * s, meta.get("sky", C["cream"])
+    return fn
+
+
+for _name, _m in assets.sidecars("backgrounds").items():
+    if _name in BACKGROUNDS:
+        continue
+    BACKGROUNDS_DESC[_name] = _m.get("desc", _name)
+    BACKGROUNDS[_name] = _with_plate(_name, _custom(_m))
+    if _m.get("dark"):
+        DARK.add(_name)

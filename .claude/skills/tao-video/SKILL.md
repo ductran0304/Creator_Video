@@ -33,6 +33,32 @@ Gọi tắt dưới đây: `MV = <python> make_video.py`.
 
 Nếu đầu vào là **file kịch bản có sẵn**: giữ NGUYÊN lời thoại (chỉ tách câu/cảnh, bỏ timestamp hoặc chú thích), phần việc còn lại là thiết kế hình.
 
+## Bước 2b — Vẽ thêm hình còn thiếu (chỉ khi thật sự cần)
+
+Thư viện lớn dần qua từng video: luôn kiểm tra `MV vocab` trước. Chỉ vẽ mới khi một hình là **trọng tâm
+của ý đang kể** mà không vật có sẵn nào thay được (vd video về kim khâu bằng xương cần `bone_needle`;
+đừng vẽ mới chỉ để trang trí). Tối đa ~8 asset mỗi video, gộp **một lần gọi** duy nhất.
+
+1. Đăng ký từng asset (tên tiếng Anh, chữ thường, `_`):
+   ```
+   MV asset new bone_needle --w 40 --h 160 --desc "kim khâu bằng xương có lỗ xỏ chỉ" --grip 0,-60
+   MV asset new mammoth_bone_hut --w 200 --h 260 --desc "lều khung xương voi ma mút phủ da thú"
+   MV asset new ice_age_camp --bg --ground-top 799 --feet-y 839 --sky "#9DB4C8" --desc "trại mùa đông kỷ băng hà"
+   ```
+   Kích thước theo khung 1080px, so với nhân vật cao ~450px ở scale 1 (xem bảng kích thước vật có sẵn trong
+   `MV vocab` để ước lượng). `--center` cho vật trên trời/biểu tượng; `--grip X,Y` cho vật cầm tay;
+   `--label CX,CY,W` nếu sẽ viết chữ lên vật.
+2. Gọi **một** subagent `doodle-illustrator` (Agent tool, subagent_type `doodle-illustrator` — chạy bằng
+   Sonnet) với danh sách tên + mô tả hình chi tiết cho từng asset (hình dáng, màu chính, chi tiết đặc trưng,
+   hướng quay mặt). Có thể chạy nền trong lúc viết kịch bản.
+   Nếu báo "Agent type 'doodle-illustrator' not found" (agent mới chỉ được nạp khi mở phiên Claude Code mới):
+   gọi `general-purpose` với `model: "sonnet"` và mở đầu prompt bằng "Đọc và làm đúng quy trình trong
+   `.claude/agents/doodle-illustrator.md`".
+3. Khi agent xong: `MV asset check <tên...>` rồi Read `doodle/assets/_asset_check.png`. Chưa đạt → nhắn tiếp
+   cho chính agent đó (SendMessage) nêu cụ thể cần sửa gì; tối đa 1 vòng, sau đó dùng vật có sẵn thay thế.
+4. Asset mới tự xuất hiện trong `MV vocab` và dùng được ngay như vật có sẵn. Báo người dùng những asset
+   đã thêm (chúng được commit cùng repo để các video sau dùng lại).
+
 ## Bước 3 — Viết `projects/<slug>/scenes.json`
 
 `<slug>`: chữ thường không dấu, nối bằng `_` (vd `ancient_humans_winter`). Nếu thư mục đã có `scenes.json` thì hỏi người dùng trước khi ghi đè.

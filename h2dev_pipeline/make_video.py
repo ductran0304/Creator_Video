@@ -5,6 +5,7 @@
   python make_video.py preview <slug|thư_mục> [--scene N]         vẽ nháp → projects/<slug>/preview/
   python make_video.py build <slug|thư_mục> [--draft]            dựng video → projects/<slug>/output/
   python make_video.py thumbnail <slug|thư_mục>                   vẽ thử thumbnail từ seo.json → preview/
+  python make_video.py asset new|check ...                        thêm asset mới cho thư viện (xem core/assets_cli.py)
   python make_video.py vocab                                     in danh mục từ vựng bộ vẽ (JSON)
 """
 import argparse
@@ -142,6 +143,8 @@ def main():
     p = sub.add_parser("thumbnail")
     p.add_argument("project")
     p.set_defaults(fn=cmd_thumbnail)
+    from core.assets_cli import add_parser as add_asset_parser
+    add_asset_parser(sub, BASE_DIR)
     p = sub.add_parser("vocab")
     p.set_defaults(fn=cmd_vocab)
     a = ap.parse_args()

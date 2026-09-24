@@ -32,6 +32,7 @@ def vocabulary():
         "extras": EXTRAS,
         "outfits": OUTFITS,
         "props": {k: m["desc"] for k, m in PROPS.items()},
+        "prop_sizes_w_h": {k: [m["w"], m["h"]] for k, m in PROPS.items()},  # nửa rộng, cao (khung 1080; người ~450)
         "holdable_props": [k for k, m in PROPS.items() if m["grip"]],
         "sky_props": [k for k, m in PROPS.items() if m["anchor"] == "center"],
         "label_colors": ["red", "white", "black", "orange", "yellow", "blue", "green"],

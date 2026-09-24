@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -170 80 170" width="80" height="170">
+<g>
+  <path d="M -9,-168 C -10,-138 -9,-98 -6,-54 C -4,-24 -2,-7 0,0 C 2,-7 4,-24 6,-54 C 9,-98 10,-138 9,-168 C 5,-173 -5,-173 -9,-168 Z"
+        fill="#EFE6D2" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+
+  <path d="M -3,-40 C -4,-80 -3,-120 -2,-155" stroke="#C9BFA8" stroke-width="2.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+
+  <ellipse cx="0" cy="-150" rx="6.5" ry="10" fill="#141414"/>
+
+  <path d="M -7,-130 C -14,-118 -13,-100 -10,-82 C -8,-66 -13,-52 -9,-38 C -7,-30 -2,-27 -4,-32"
+        stroke="#141414" stroke-width="7.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -7,-130 C -14,-118 -13,-100 -10,-82 C -8,-66 -13,-52 -9,-38 C -7,-30 -2,-27 -4,-32"
+        stroke="#7A4F2A" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M -5,-146 C -14,-142 -15,-132 -7,-128 C -1,-125 5,-129 6,-135 C 7,-141 2,-146 -4,-145"
+        stroke="#141414" stroke-width="7.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -5,-146 C -14,-142 -15,-132 -7,-128 C -1,-125 5,-129 6,-135 C 7,-141 2,-146 -4,-145"
+        stroke="#7A4F2A" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

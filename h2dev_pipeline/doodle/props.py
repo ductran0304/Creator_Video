@@ -445,3 +445,18 @@ def exclamation(pen, ctx):
 @prop("sign", 115, 235, "biển gỗ cắm đất (viết chữ lên)", label_box=(0, -170, 200))
 def sign(pen, ctx):
     return pen.rect(-12, -150, 24, 150, C["wood_brown"]) + pen.rect(-115, -225, 230, 105, C["light_wood"])
+
+
+# ---------------- asset thêm sau (không cần code) ----------------
+def _missing_asset(name):
+    def fn(pen, ctx):
+        raise ValueError(f"prop '{name}' đã đăng ký nhưng chưa có file assets/props/{name}.svg")
+    return fn
+
+
+for _name, _m in assets.sidecars("props").items():
+    if _name in PROPS:
+        continue  # prop có sẵn trong code: json chỉ để tham khảo, metadata code thắng
+    prop(_name, _m["w"], _m["h"], _m.get("desc", _name), anchor=_m.get("anchor", "bottom"),
+         grip=tuple(_m["grip"]) if _m.get("grip") else None, hand_scale=_m.get("hand_scale", 1.0),
+         label_box=tuple(_m["label_box"]) if _m.get("label_box") else None)(_missing_asset(_name))

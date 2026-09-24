@@ -29,3 +29,5 @@ h2dev_flow_local/
 h2dev_pipeline/examples/*/preview/
 h2dev_pipeline/examples/*/cache/
 h2dev_pipeline/examples/*/output/
+h2dev_pipeline/doodle/assets/**/*.png
+h2dev_pipeline/doodle/assets/*.png

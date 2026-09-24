@@ -1,0 +1,108 @@
+{
+  "title": "How Did Ancient Humans Survive Winter?",
+  "language": "en",
+  "scenes": [
+    {
+      "chapter": "The Cold", "frame": "scene", "bg": "ice_age_winter",
+      "elements": [
+        {"type": "prop", "name": "boulder", "x": 0.82, "scale": 0.8},
+        {"type": "character", "id": "me", "variant": "you_main", "pose": "hugging_knees", "expression": "worry_sadness", "x": 0.4, "scale": 1.2},
+        {"type": "label", "id": "temp", "text": "-30°C", "y": 0.16, "size": 150}
+      ],
+      "lines": [
+        {"text": "It is minus thirty degrees. The wind cuts through you like a knife.", "show": ["temp"]},
+        {"text": "There is no heater. No jacket. No door to close.", "change": {"me": {"extras": ["sweat"]}}},
+        {"text": "And yet, somehow, your ancestors survived this. Winter after winter.", "change": {"me": {"expression": "surprise", "extras": []}}}
+      ]
+    },
+    {
+      "frame": "concept_text", "text": "WINTER WAS A TEST",
+      "lines": [
+        {"text": "For most of human history, winter was not just a season. It was a test."},
+        {"text": "And failing it meant you did not see spring."}
+      ]
+    },
+    {
+      "chapter": "Fire", "frame": "scene", "bg": "cave_interior",
+      "elements": [
+        {"type": "prop", "name": "campfire", "id": "fire", "x": 0.5, "scale": 1.2},
+        {"type": "character", "id": "a", "variant": "ancient_human", "pose": "sitting", "expression": "worry_sadness", "attach": {"to": "fire", "side": "left", "gap": 70}},
+        {"type": "character", "id": "b", "variant": "you_main", "pose": "sitting", "expression": "worry_sadness", "attach": {"to": "fire", "side": "right", "gap": 70}},
+        {"type": "label", "id": "age", "text": "1,000,000 YEARS AGO", "y": 0.14}
+      ],
+      "lines": [
+        {"text": "Your first weapon against the cold was fire."},
+        {"text": "In Wonderwerk Cave in South Africa, researchers found ash and burned bone about one million years old.", "show": ["age"]},
+        {"text": "Fire meant warmth, cooked food, and a reason to stay close together.", "change": {"a": {"expression": "happy"}, "b": {"expression": "happy"}}}
+      ]
+    },
+    {
+      "chapter": "Clothing", "frame": "scene", "bg": "neutral_default",
+      "elements": [
+        {"type": "character", "id": "sci", "variant": "archaeologist", "pose": "thinking", "expression": "thinking", "x": 0.35, "scale": 1.1},
+        {"type": "thought", "id": "q", "of": "sci", "prop": "question_mark"},
+        {"type": "label", "id": "lice", "text": "THE CLUE: LICE", "x": 0.72, "y": 0.62, "size": 110}
+      ],
+      "lines": [
+        {"text": "But fire does not follow you outside. For that, you needed clothes."},
+        {"text": "Clothes rot away, so scientists had to find a stranger clue.", "show": ["q"]},
+        {"text": "Lice.", "show": ["lice"], "change": {"sci": {"expression": "surprise"}}},
+        {"text": "In 2011, a team led by David Reed studied body lice, the kind that only live in clothing."},
+        {"text": "Their genes suggest you started wearing clothes somewhere between eighty and one hundred seventy thousand years ago."}
+      ]
+    },
+    {
+      "frame": "timeline", "title": "HOW YOU BEAT THE COLD", "highlight": 1,
+      "events": [
+        {"label": "1,000,000 YA", "text": "Fire", "icon": "campfire"},
+        {"label": "170,000 YA", "text": "First clothing", "icon": "bone"},
+        {"label": "40,000 YA", "text": "Bone needles", "icon": "bone_needle"},
+        {"label": "15,000 YA", "text": "Mammoth bone huts", "icon": "mammoth_bone_hut"}
+      ],
+      "lines": [
+        {"text": "Then came one of the most important tools you have ever invented. The bone needle."},
+        {"text": "With a needle, you could sew furs tightly together, and seal the cold out."}
+      ]
+    },
+    {
+      "chapter": "Shelter", "frame": "scene", "bg": "ice_age_camp",
+      "elements": [
+        {"type": "prop", "name": "mammoth", "id": "mam", "x": 0.22, "scale": 0.9},
+        {"type": "prop", "name": "mammoth_bone_hut", "id": "hut", "x": 0.6, "scale": 1.25},
+        {"type": "character", "id": "me", "variant": "ancient_human", "pose": "pointing", "expression": "calm_content", "attach": {"to": "hut", "side": "right", "gap": 30}},
+        {"type": "label", "id": "t", "text": "HOUSES MADE OF MAMMOTH", "y": 0.13, "size": 100}
+      ],
+      "lines": [
+        {"text": "At Mezhyrich, in modern Ukraine, people built huts from mammoth bones about fifteen thousand years ago.", "show": ["t"]},
+        {"text": "Hundreds of bones, stacked into walls, and covered with thick hides."},
+        {"text": "Your ancestors did not just survive the Ice Age. They built their homes out of it.", "change": {"me": {"expression": "happy", "pose": "arms_up"}}}
+      ]
+    },
+    {
+      "chapter": "You Today", "frame": "split",
+      "left": {"bg": "ice_age_winter", "title": "THEN", "elements": [
+        {"type": "prop", "name": "campfire", "id": "f", "x": 0.3, "scale": 0.9},
+        {"type": "character", "variant": "ancient_human", "pose": "sitting", "expression": "happy", "attach": {"to": "f", "side": "right", "gap": 40}}
+      ]},
+      "right": {"bg": "neutral_modern", "title": "NOW", "elements": [
+        {"type": "character", "id": "me", "variant": "you_main", "pose": "holding", "holding": "coffee", "expression": "strain_anger", "x": 0.35, "extras": ["shock_lines"]},
+        {"type": "thought", "of": "me", "text": "19°C?!"}
+      ]},
+      "lines": [
+        {"text": "Today, you complain when the heating is two degrees too low."},
+        {"text": "Your ancestors would call your apartment a paradise."}
+      ]
+    },
+    {
+      "frame": "scene", "bg": "ice_age_winter",
+      "elements": [
+        {"type": "prop", "name": "tent", "x": 0.8, "scale": 0.9},
+        {"type": "character", "id": "me", "variant": "you_main", "pose": "holding", "holding": "torch", "expression": "calm_content", "x": 0.38, "scale": 1.1}
+      ],
+      "lines": [
+        {"text": "So the next time the wind cuts through you like a knife,"},
+        {"text": "remember that you come from people who burned, sewed and built their way through a million winters.", "change": {"me": {"expression": "happy", "extras": ["sparkle"]}}}
+      ]
+    }
+  ]
+}
