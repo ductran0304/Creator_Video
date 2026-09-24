@@ -313,7 +313,8 @@ def _timeline(pen, spec, warnings):
         if ev.get("icon"):
             _check(ev["icon"], PROPS, "timeline icon")
             meta = PROPS[ev["icon"]]
-            ps = min(slot * 0.7 / (2 * meta["w"]), 220 / meta["h"], 1.2)
+            # cỡ hiển thị đồng đều: vật nhỏ (xương, rìu) được phóng to, vật lớn thu nhỏ vào ô ~200px
+            ps = min(slot * 0.62 / (2 * meta["w"]), 200 / meta["h"], 3.0)
             iy = ly - 50 - (0 if meta["anchor"] == "bottom" else meta["h"] * ps / 2)
             out += draw_prop(pen, ev["icon"], cx, iy, ps, {"bg_color": C["cream"]})
         # nhãn (năm) một dòng, tự thu nhỏ; mô tả đặt ngay dưới theo chiều cao thật của nhãn

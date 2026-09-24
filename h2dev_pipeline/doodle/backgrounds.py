@@ -10,6 +10,7 @@ BACKGROUNDS_DESC = {
     "calm_night": "Xanh navy + đất xám — đêm yên tĩnh",
     "deep_night": "Tím chàm + sao + đất nâu — đêm sâu / giấc ngủ",
     "cave_interior": "Trong hang đá tối, sàn đất — sinh hoạt trong hang, tranh hang động",
+    "ice_age_winter": "Trời xám xanh + tuyết rơi + đất phủ tuyết — mùa đông, kỷ băng hà, giá lạnh",
 }
 DARK = {"calm_night", "deep_night", "cave_interior"}
 
@@ -80,6 +81,20 @@ def cave_interior(pen, x, y, w, h):
         svg += pen.line([(cx, cy), (cx + pen.jitter(0, 30), cy + 40), (cx + pen.jitter(0, 30), cy + 80)], width=4)
     svg += _ground(pen, x, w, g, y + h, C["wood_brown"])
     return svg, g + 35, wall
+
+
+def ice_age_winter(pen, x, y, w, h):
+    g = y + h * 0.74
+    svg = _sky(x, y, w, h, "#9DB4C8")
+    for _ in range(int(w / 22)):
+        sx, sy = x + pen.rng.uniform(10, w - 10), y + pen.rng.uniform(10, h * 0.72)
+        svg += f'<circle cx="{sx:.0f}" cy="{sy:.0f}" r="{pen.rng.uniform(3, 7):.1f}" fill="#FFFFFF"/>'
+    svg += _ground(pen, x, w, g, y + h, "#F4F7FA")
+    for i in range(5):  # vệt tuyết đọng
+        gx, gy = x + w * (0.1 + 0.2 * i) + pen.jitter(0, 40), g + 70 + pen.jitter(0, 60)
+        svg += pen.shape(f"M{gx-40:.0f},{gy:.0f} Q{gx:.0f},{gy-14:.0f} {gx+40:.0f},{gy:.0f}", stroke="#B9C9D6",
+                         width=4)
+    return svg, g + 40, "#9DB4C8"
 
 
 BACKGROUNDS = {name: globals()[name] for name in BACKGROUNDS_DESC}

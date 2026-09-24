@@ -4,7 +4,8 @@
   python make_video.py validate <slug|thư_mục> [--json]           kiểm tra kịch bản + hình (không vẽ PNG)
   python make_video.py preview <slug|thư_mục> [--scene N]         vẽ nháp → projects/<slug>/preview/
   python make_video.py build <slug|thư_mục> [--draft]            dựng video → projects/<slug>/output/
-  python make_video.py vocab                                       in danh mục từ vựng bộ vẽ (JSON)
+  python make_video.py thumbnail <slug|thư_mục>                   vẽ thử thumbnail từ seo.json → preview/
+  python make_video.py vocab                                     in danh mục từ vựng bộ vẽ (JSON)
 """
 import argparse
 import json
@@ -96,6 +97,21 @@ def cmd_build(a):
     return 0
 
 
+def cmd_thumbnail(a):
+    from core.build import write_thumbnail
+    d = resolve_project_dir(a.project, BASE_DIR)
+    seo_path = os.path.join(d, "seo.json")
+    if not os.path.exists(seo_path):
+        print(f"[LỖI] Thiếu {seo_path}")
+        return 1
+    with open(seo_path, "r", encoding="utf-8") as f:
+        seo = json.load(f)
+    out = os.path.join(d, "preview")
+    os.makedirs(out, exist_ok=True)
+    print(write_thumbnail(load_project(d), seo, out))
+    return 0
+
+
 def cmd_vocab(a):
     from doodle.catalog import vocabulary
     print(json.dumps(vocabulary(), ensure_ascii=False, indent=1))
@@ -123,6 +139,9 @@ def main():
     p.add_argument("project")
     p.add_argument("--draft", action="store_true", help="bản nháp 960x540, 12fps — dựng rất nhanh để kiểm tra")
     p.set_defaults(fn=cmd_build)
+    p = sub.add_parser("thumbnail")
+    p.add_argument("project")
+    p.set_defaults(fn=cmd_thumbnail)
     p = sub.add_parser("vocab")
     p.set_defaults(fn=cmd_vocab)
     a = ap.parse_args()
