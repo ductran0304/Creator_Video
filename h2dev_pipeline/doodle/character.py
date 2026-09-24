@@ -176,10 +176,11 @@ def _face(pen, expression):
 
 
 def _head(pen, cx, cy, tilt, variant, expression):
+    hair = _hair(pen, variant)  # vẽ tóc trước để đổi biểu cảm không làm tóc rung khác đi
     face = _face(pen, expression)
     if tilt <= -60:  # nằm: tóc xoay theo đầu, mặt giữ thẳng để vẫn đọc được biểu cảm
         face = f'<g transform="rotate({-tilt})">{face}</g>'
-    body = pen.circle(0, 0, HEAD_R, C["white"]) + face + _hair(pen, variant)
+    body = pen.circle(0, 0, HEAD_R, C["white"]) + face + hair
     return f'<g transform="translate({cx:.1f},{cy:.1f}) rotate({tilt})">{body}</g>'
 
 

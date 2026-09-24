@@ -1,0 +1,106 @@
+{
+  "title": "How Did Ancient Humans Actually Sleep?",
+  "language": "en",
+  "scenes": [
+    {
+      "frame": "scene", "bg": "deep_night",
+      "elements": [
+        {"type": "prop", "name": "moon", "x": 0.85, "y": 0.17, "scale": 0.9},
+        {"type": "prop", "name": "campfire", "id": "fire", "x": 0.5, "scale": 1.1},
+        {"type": "character", "id": "me", "variant": "you_main", "pose": "sleeping", "x": 0.22},
+        {"type": "character", "id": "elder", "variant": "ancient_human", "pose": "sitting",
+         "attach": {"to": "fire", "side": "right", "gap": 60}}
+      ],
+      "lines": [
+        {"text": "You wake up in the middle of the night."},
+        {"text": "No alarm. No phone. Just the crackle of a fire.", "change": {"me": {"pose": "sitting", "x": 0.3, "expression": "surprise"}}},
+        {"text": "And you are not the only one awake.", "change": {"elder": {"expression": "happy"}}}
+      ]
+    },
+    {
+      "frame": "concept_text", "text": "300,000 YEARS", "sub": "of sleeping without a clock",
+      "lines": [
+        {"text": "For roughly three hundred thousand years, this was completely normal."}
+      ]
+    },
+    {
+      "frame": "scene", "bg": "neutral_modern",
+      "elements": [
+        {"type": "prop", "name": "bed", "id": "bed", "x": 0.5, "scale": 1.3},
+        {"type": "character", "variant": "modern_neutral", "pose": "sleeping", "x": 0.5, "y": 0.72, "extras": ["zzz"]},
+        {"type": "label", "text": "8 HOURS STRAIGHT", "y": 0.15},
+        {"type": "red_x", "id": "x"}
+      ],
+      "lines": [
+        {"text": "Today you are told to sleep eight hours in one solid block."},
+        {"text": "But historian Roger Ekirch found that this idea is surprisingly new.", "show": ["x"]}
+      ]
+    },
+    {
+      "frame": "scene", "bg": "ancient_savanna",
+      "elements": [
+        {"type": "prop", "name": "acacia", "x": 0.8},
+        {"type": "character", "id": "thinker", "variant": "archaeologist", "pose": "thinking", "expression": "thinking", "x": 0.32},
+        {"type": "thought", "id": "bubble", "of": "thinker", "prop": "book"}
+      ],
+      "lines": [
+        {"text": "Ekirch spent years reading diaries, court records and old medical books."},
+        {"text": "Again and again, people wrote about a first sleep and a second sleep.", "show": ["bubble"]}
+      ]
+    },
+    {
+      "frame": "split",
+      "left": {"bg": "deep_night", "title": "FIRST SLEEP", "elements": [
+        {"type": "character", "variant": "ancient_human", "pose": "sleeping", "x": 0.5, "extras": ["zzz"]}
+      ]},
+      "right": {"bg": "calm_night", "title": "SECOND SLEEP", "elements": [
+        {"type": "prop", "name": "campfire", "id": "f2", "x": 0.35},
+        {"type": "character", "variant": "ancient_human", "pose": "sitting", "expression": "happy",
+         "attach": {"to": "f2", "side": "right", "gap": 40}}
+      ]},
+      "lines": [
+        {"text": "You would fall asleep a few hours after dark."},
+        {"text": "Then wake around midnight for an hour or two, talk, tend the fire, and sleep again."}
+      ]
+    },
+    {
+      "frame": "stats", "title": "HOURS OF SLEEP PER NIGHT",
+      "bars": [
+        {"label": "Hunter-gatherers (shortest)", "value": 5.7, "display": "5.7 h"},
+        {"label": "Hunter-gatherers (longest)", "value": 7.1, "display": "7.1 h"},
+        {"label": "Recommended", "value": 8, "display": "8 h", "color": "red"}
+      ],
+      "lines": [
+        {"text": "In 2015, Jerome Siegel measured sleep in three hunter gatherer groups."},
+        {"text": "The Hadza, the San and the Tsimane slept between five point seven and seven point one hours. Less than you are told you need."}
+      ]
+    },
+    {
+      "frame": "timeline", "title": "WHEN DID SLEEP CHANGE?", "highlight": 2,
+      "events": [
+        {"label": "PREHISTORY", "text": "Fire and darkness", "icon": "campfire"},
+        {"label": "1600s", "text": "Two sleeps", "icon": "lantern"},
+        {"label": "1880s", "text": "Electric light", "icon": "lightbulb"},
+        {"label": "TODAY", "text": "Screens at midnight", "icon": "phone"}
+      ],
+      "lines": [
+        {"text": "So what changed? Light."},
+        {"text": "Once cheap artificial light arrived, the quiet hour in the middle of the night slowly disappeared."}
+      ]
+    },
+    {
+      "frame": "scene", "bg": "neutral_modern",
+      "elements": [
+        {"type": "prop", "name": "clock", "x": 0.8, "y": 0.3, "scale": 0.8},
+        {"type": "character", "id": "me", "variant": "you_main", "pose": "holding", "holding": "phone",
+         "expression": "worry_sadness", "x": 0.4, "extras": ["sweat"]},
+        {"type": "thought", "id": "q", "of": "me", "text": "3 AM?!"}
+      ],
+      "lines": [
+        {"text": "So the next time you wake up at three in the morning and panic,", "show": ["q"]},
+        {"text": "remember that your ancestors did exactly the same thing.", "change": {"me": {"expression": "calm_content", "extras": []}}},
+        {"text": "You wake up in the middle of the night. And that might be the most human thing about you.", "change": {"me": {"expression": "happy"}}}
+      ]
+    }
+  ]
+}

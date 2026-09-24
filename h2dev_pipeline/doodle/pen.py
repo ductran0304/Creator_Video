@@ -4,6 +4,7 @@ Mọi độ rung đều sinh từ seed nên cùng một cảnh luôn vẽ ra gi�
 """
 import math
 import random
+import zlib
 
 INK = "#141414"
 STROKE = 6
@@ -11,6 +12,7 @@ STROKE = 6
 
 class Pen:
     def __init__(self, seed, amp=2.4, step=12):
+        self.seed = seed
         self.rng = random.Random(seed)
         self.amp = amp
         self.step = step
@@ -86,6 +88,11 @@ class Pen:
 
     def rect(self, x, y, w, h, fill, width=STROKE, stroke=INK, amp=None):
         return self.poly([(x, y), (x + w, y), (x + w, y + h), (x, y + h)], fill, width, stroke, amp)
+
+    def child(self, key):
+        """Bút con có seed riêng, cố định theo key — để mỗi thành phần rung giống hệt nhau
+        dù các thành phần khác bị ẩn/hiện (hiệu ứng hiện dần không làm hình 'giật')."""
+        return Pen((self.seed * 1000003 + zlib.crc32(str(key).encode()) % 1000003) & 0xFFFFFFFF, self.amp, self.step)
 
     def jitter(self, v, spread):
         return v + self.rng.uniform(-spread, spread)

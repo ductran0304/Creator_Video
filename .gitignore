@@ -26,3 +26,4 @@ h2dev_flow_local/outputs/
 
 # Agent/IDE directories
 .gemini/
+h2dev_pipeline/examples/*/preview/

@@ -189,9 +189,10 @@ def _red_x(pen, x0, y0, w, h):
 
 # ---------------- vẽ khung ----------------
 def render_panel(pen, spec, x0, y0, w, h, warnings, visible=None):
+    root = pen
     bg_name = spec.get("bg", "neutral_default")
     _check(bg_name, BACKGROUNDS, "bg")
-    bg_svg, ground_y, bg_color = BACKGROUNDS[bg_name](pen, x0, y0, w, h)
+    bg_svg, ground_y, bg_color = BACKGROUNDS[bg_name](pen.child('bg'), x0, y0, w, h)
     dark = bg_name in DARK
     base = h / H
     elements = spec.get("elements", [])
@@ -205,6 +206,7 @@ def render_panel(pen, spec, x0, y0, w, h, warnings, visible=None):
             continue
         el, s, x, y, flip = info["el"], info["s"], info["x"], info["y"], info["flip"]
         kind = el["type"]
+        pen = root.child(i)
         if kind == "character":
             svg, anchors = character(pen, x, y, el.get("variant", "you_main"), el.get("pose", "standing"),
                                      el.get("expression", "calm_content"), s, flip, el.get("extras", []))
@@ -276,7 +278,7 @@ def _split(pen, spec, warnings):
     out = ""
     for i, side in enumerate(("left", "right")):
         panel = spec.get(side, {})
-        inner = render_panel(pen, panel, i * half, 0, half, H, warnings)
+        inner = render_panel(pen.child(side), panel, i * half, 0, half, H, warnings)
         if panel.get("title"):
             inner += text_block(pen, panel["title"], i * half + half / 2, H * 0.12, half * 0.8, 120, RED,
                                 INK if panel.get("bg") in DARK else None)[0]
@@ -346,11 +348,12 @@ def _stats(pen, spec, warnings):
     return out
 
 
-def scene_svg(spec, warnings=None, visible=None):
+def scene_svg(spec, warnings=None, visible=None, seed=None):
     """spec → chuỗi SVG. warnings: list nhận cảnh báo bố cục. visible: tập chỉ số element cần hiện
-    (dùng cho hiệu ứng hiện dần; chỉ áp dụng frame=scene)."""
+    (dùng cho hiệu ứng hiện dần; chỉ áp dụng frame=scene). seed: giữ nét rung cố định giữa các trạng thái
+    của cùng một cảnh (mặc định tính từ nội dung spec)."""
     warnings = [] if warnings is None else warnings
-    pen = Pen(zlib.crc32(json.dumps({k: v for k, v in spec.items() if k != "lines"}, sort_keys=True).encode()))
+    pen = Pen(seed if seed is not None else zlib.crc32(json.dumps(spec, sort_keys=True).encode()))
     frame = spec.get("frame", "scene")
     _check(frame, FRAMES, "frame")
     if frame == "concept_text":
@@ -374,7 +377,7 @@ def render_png(svg):
                                        font_family=FONT_FAMILY, sans_serif_family=FONT_FAMILY))
 
 
-def render_scene(spec, out_path, warnings=None, visible=None):
+def render_scene(spec, out_path, warnings=None, visible=None, seed=None):
     with open(out_path, "wb") as f:
-        f.write(render_png(scene_svg(spec, warnings, visible)))
+        f.write(render_png(scene_svg(spec, warnings, visible, seed)))
     return out_path
