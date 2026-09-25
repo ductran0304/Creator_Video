@@ -117,8 +117,12 @@ def check(project, wpm):
         if secs < 12:
             warnings.append(f"{tag} chỉ ~{secs:.0f}s — nên 20–45s")
         plain = p["hook"].replace("*", "")
-        if len(plain) > 60:
-            warnings.append(f"{tag}: hook dài {len(plain)} ký tự — nên ≤ 45 để đọc kịp trên điện thoại")
+        if len(plain) > 45:
+            warnings.append(f"{tag}: chữ hook dài {len(plain)} ký tự — nên ≤ 45 để đọc kịp trên điện thoại")
+        from .project import hook_warnings
+        texts = [sc["lines"][li].get("text", "") for sc, li in p["items"][:2]]
+        if texts:
+            warnings += hook_warnings(texts, tag, project.get("language", "en"))
         if p["own"]:
             for si, sc in enumerate({id(sc): sc for sc, _ in p["items"]}.values(), 1):
                 try:

@@ -50,13 +50,14 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (Nghị định 68/2026/NĐ-CP Điều 3, 4, 8; Luật Thuế TNCN 109/2025 khoản 4 Điều 7 — góc 'vách đá' GTGT 5% trên toàn bộ doanh thu)
 - [x] V10 · KT · Lãi trên sổ nhưng không có tiền: vì sao? → projects/kttg_lai_tren_so_khong_co_tien · 25/09/2026
   (Nghị định 320/2025/NĐ-CP Điều 8: doanh thu tính thuế không phân biệt đã thu tiền; ví dụ xưởng may 5 chỗ tiền kẹt)
+- [x] V11 · TL · Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu → projects/kttg_thanh_lap_cong_ty_30_ngay · 25/09/2026
+  (Nghị quyết 198/2025/QH15 Điều 10 khoản 4, 7: miễn TNDN 3 năm, bỏ môn bài; NĐ 252/2026 Điều 8 khoản 4, Điều 10)
 
-Độ phủ sau 10 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 — **chưa có**: TG, TL, SS, TC, LD → hàng đợi dưới đây ưu tiên các nhóm này.
+Độ phủ sau 11 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 — **chưa có**: TG, SS, TC, LD → hàng đợi dưới đây ưu tiên các nhóm này.
 
 ## Hàng đợi (thứ tự đề xuất)
 
 Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký hợp đồng):
-- [ ] TL1 · Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu
 - [ ] TG1 · Công ty chưa có doanh thu: mỗi tháng vẫn phải làm gì?
 - [ ] SS1 · 5 dấu hiệu sổ sách công ty đang "có vấn đề"
 - [ ] LD1 · Tuyển nhân viên đầu tiên: 5 thủ tục lao động, BHXH phải làm
@@ -115,7 +116,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 ### TL — Thành lập doanh nghiệp & hộ kinh doanh
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
-| TL1 | Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu | Checklist "ngày đầu đi làm" | Thành lập + gói Cơ bản | D + S | [ ] |
+| TL1 | Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu | Checklist "ngày đầu đi làm" | Thành lập + gói Cơ bản | D + S | [x] V11 |
 | TL2 | Hộ kinh doanh hay công ty: khi nào nên chuyển lên doanh nghiệp? | So sánh chi phí, thủ tục, rủi ro | Thành lập DN | D + S | [ ] |
 | TL3 | Vốn điều lệ ghi bao nhiêu là vừa? | "Ghi 5 tỷ, góp 500 triệu" | Thành lập DN | D + QA | [ ] |
 | TL4 | Năm đầu thành lập: 5 lỗi thuế khiến giám đốc mất tiền oan | Mở bằng một khoản phạt cụ thể | Thành lập + trọn gói | D + S | [ ] |

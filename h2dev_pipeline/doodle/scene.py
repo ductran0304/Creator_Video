@@ -482,9 +482,9 @@ def photo_credit(src):
         return ""
     with open(base, "r", encoding="utf-8") as f:
         m = json.load(f)
-    if m.get("license") in ("pexels", "legal-doc") or m.get("kind") in ("video", "doc", "logo"):
+    if m.get("license") in ("pexels", "pixabay", "legal-doc") or m.get("kind") in ("video", "doc", "logo"):
         from core.footage import short_credit
-        return "" if m.get("kind") == "logo" else ("Nguồn: " + short_credit(m) if m.get("license") == "pexels"
+        return "" if m.get("kind") == "logo" else ("Nguồn: " + short_credit(m) if m.get("license") in ("pexels", "pixabay")
                                                    else short_credit(m))
     lic = {"cc0": "CC0", "pdm": "Public Domain", "by": "CC BY", "by-sa": "CC BY-SA"}.get(m.get("license"), m.get("license", ""))
     if m.get("license") in ("by", "by-sa") and m.get("license_version"):

@@ -1,6 +1,8 @@
 """Footage thật cho kịch bản: ảnh, video B-roll, logo, trang văn bản pháp luật.
 
-  footage search "<từ khoá>" --kind photo|video|logo [--source pexels|openverse|wikimedia] [--n 12] [--allow-sa]
+  footage search "<từ khoá>" --kind photo|video|illustration|logo [--source pexels|pixabay|openverse|wikimedia]
+                  [--n 12] [--allow-sa]
+      --kind illustration: tranh minh hoạ / vector Pixabay (mặc định nguồn pixabay) — hợp phong cách doodle
       → bảng xem trước có đánh số: cache/footage_search/last.png (video: 3 khung hình/clip + thời lượng)
   footage get <project> <số> --name <tên> [--shared]
       → projects/<slug>/footage/<tên>.(jpg|png|mp4) + <tên>.json (nguồn, tác giả, giấy phép)
@@ -8,7 +10,9 @@
   footage pdf <project> <url|file.pdf> --page N --name <tên> [--find "cụm từ"]
       → ảnh trang văn bản (PNG) + toạ độ khoanh vùng cụm từ (dùng cho khung doc_page)
 
-Giấy phép được nhận (dùng thương mại được): Pexels License, CC0, Public Domain, CC BY (CC BY-SA khi --allow-sa).
+Giấy phép được nhận (dùng thương mại được): Pexels License, Pixabay Content License, CC0, Public Domain, CC BY
+(CC BY-SA khi --allow-sa). Pexels/Pixabay: không bắt buộc ghi nguồn nhưng pipeline vẫn ghi; không bán lại nguyên
+bản, không dùng người trong ảnh cho ngữ cảnh tiêu cực/ngụ ý xác nhận sản phẩm.
 Không nhận: CC NC (cấm thương mại), CC ND (cấm chỉnh sửa — mình phải cắt khung).
 Logo (--kind logo): nhãn hiệu của chủ sở hữu — chỉ dùng để nhắc tên trong nội dung giáo dục, không chỉnh sửa,
 không ngụ ý hợp tác; mô tả video tự thêm câu miễn trừ nhãn hiệu.
@@ -26,7 +30,7 @@ import urllib.request
 from PIL import Image, ImageDraw, ImageFont
 
 UA = {"User-Agent": "h2dev-doodle-pipeline/1.0 (educational video tool; contact via ketoantinhgon.com)"}
-LIC = {"pexels": "Pexels License", "cc0": "CC0", "pdm": "Public Domain", "by": "CC BY", "by-sa": "CC BY-SA",
+LIC = {"pexels": "Pexels License", "pixabay": "Pixabay License", "cc0": "CC0", "pdm": "Public Domain", "by": "CC BY", "by-sa": "CC BY-SA",
        "legal-doc": "Văn bản quy phạm pháp luật", "trademark": "Nhãn hiệu của chủ sở hữu"}
 
 
@@ -87,6 +91,43 @@ def _pexels(base_dir, query, kind, n, orientation):
                         "creator": p.get("photographer"), "creator_url": p.get("photographer_url"),
                         "landing_url": p.get("url"), "url": p["src"].get("large2x") or p["src"]["original"],
                         "width": p.get("width"), "height": p.get("height"), "thumbs": [p["src"].get("medium")]})
+    return out
+
+
+def _pixabay(base_dir, query, kind, n, orientation):
+    key = _env(base_dir, "PIXABAY_API_KEY")
+    if not key:
+        raise SystemExit("[✗] Chưa có PIXABAY_API_KEY (đặt trong h2dev_pipeline/.env)")
+    q = {"key": key, "q": query[:100], "per_page": max(3, min(n, 200)), "safesearch": "true", "lang": "en"}
+    lic = {"license": "pixabay", "license_url": "https://pixabay.com/service/license-summary/"}
+    out = []
+
+    def user(h):
+        return {"creator": h.get("user"), "creator_url": f"https://pixabay.com/users/{h.get('user')}-{h.get('user_id')}/"}
+
+    if kind == "video":
+        data = _json("https://pixabay.com/api/videos/?" + urllib.parse.urlencode(q))
+        for h in data.get("hits", []):
+            vs = h.get("videos") or {}
+            files = [f for f in (vs.get(k) for k in ("large", "medium", "small")) if f and f.get("url") and f.get("width")]
+            if not files:
+                continue
+            best = min(files, key=lambda f: (abs(f["width"] - 1920), -f["width"]))
+            thumbs = [f.get("thumbnail") for f in (vs.get("medium"), vs.get("small"), vs.get("tiny")) if f and f.get("thumbnail")]
+            out.append({"kind": "video", "source": "pixabay", "id": h["id"], "title": h.get("tags") or query, **lic,
+                        **user(h), "landing_url": h.get("pageURL"), "url": best["url"], "width": best["width"],
+                        "height": best["height"], "duration": h.get("duration"), "thumbs": thumbs[:3] or [h.get("picture_id")]})
+    else:
+        q["image_type"] = "all" if kind == "illustration" else "photo"  # all + lọc: lấy cả illustration lẫn vector
+        q["orientation"] = {"landscape": "horizontal", "portrait": "vertical"}.get(orientation, orientation or "all")
+        data = _json("https://pixabay.com/api/?" + urllib.parse.urlencode(q))
+        for h in data.get("hits", []):
+            if kind == "illustration" and h.get("type") not in ("illustration", "vector/svg", "vector/ai", "vector"):
+                continue
+            out.append({"kind": "photo", "source": "pixabay", "id": h["id"], "title": h.get("tags") or query, **lic,
+                        **user(h), "landing_url": h.get("pageURL"), "url": h.get("largeImageURL") or h.get("webformatURL"),
+                        "width": h.get("imageWidth"), "height": h.get("imageHeight"),
+                        "subtype": h.get("type"), "thumbs": [h.get("webformatURL") or h.get("previewURL")]})
     return out
 
 
@@ -152,15 +193,19 @@ def _wikimedia(query, kind, n, allow_sa):
 
 
 def search(base_dir, query, kind="photo", source=None, n=12, allow_sa=False, orientation=None):
-    source = source or ("wikimedia" if kind == "logo" else "pexels")
+    source = source or {"logo": "wikimedia", "illustration": "pixabay"}.get(kind, "pexels")
+    if kind == "illustration" and source != "pixabay":
+        raise SystemExit("[✗] --kind illustration chỉ có ở --source pixabay")
     if source == "pexels":
         results = _pexels(base_dir, query, kind, n, orientation)
+    elif source == "pixabay":
+        results = _pixabay(base_dir, query, kind, n, orientation)
     elif source == "openverse":
         results = _openverse(query, n, allow_sa)
     elif source == "wikimedia":
         results = _wikimedia(query, kind, n, allow_sa)
     else:
-        raise SystemExit(f"[✗] Nguồn '{source}' chưa hỗ trợ (pexels | openverse | wikimedia)")
+        raise SystemExit(f"[✗] Nguồn '{source}' chưa hỗ trợ (pexels | pixabay | openverse | wikimedia)")
     out_dir = os.path.join(base_dir, "cache", "footage_search")
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "last.json"), "w", encoding="utf-8") as f:
@@ -286,9 +331,10 @@ def pdf_page(out_dir, src, page, name, find=None, title=None):
 def credit_line(meta):
     lic = meta.get("license")
     who = meta.get("creator") or "không rõ tác giả"
-    if lic == "pexels":
-        kind = "Video" if meta.get("kind") == "video" else "Ảnh"
-        return f"{kind}: {who} / Pexels ({meta.get('landing_url')})"
+    if lic in ("pexels", "pixabay"):
+        kind = "Video" if meta.get("kind") == "video" else ("Hình minh hoạ" if "vector" in str(meta.get("subtype"))
+                                                             or meta.get("subtype") == "illustration" else "Ảnh")
+        return f"{kind}: {who} / {'Pexels' if lic == 'pexels' else 'Pixabay'} ({meta.get('landing_url')})"
     if lic == "legal-doc":
         return f"Trích văn bản: {meta.get('title')} ({meta.get('landing_url') or meta.get('source')})"
     name = LIC.get(lic, lic or "")
@@ -300,8 +346,8 @@ def credit_line(meta):
 def short_credit(meta):
     lic = meta.get("license")
     who = meta.get("creator") or "không rõ"
-    if lic == "pexels":
-        return f"{who} / Pexels"
+    if lic in ("pexels", "pixabay"):
+        return f"{who} / {'Pexels' if lic == 'pexels' else 'Pixabay'}"
     if lic == "legal-doc":
         return "Nguồn: văn bản gốc"
     return f"{who} ({LIC.get(lic, lic or '')})"
@@ -347,7 +393,7 @@ def used(project, dirs):
         if m.get("trademark") or m.get("kind") == "logo":
             marks.append(m.get("owner") or m.get("title") or s)
         else:
-            credits.append(credit_line(m) if m.get("kind") in ("video", "doc") or m.get("license") == "pexels"
+            credits.append(credit_line(m) if m.get("kind") in ("video", "doc") or m.get("license") in ("pexels", "pixabay")
                            or m.get("source", "").startswith(("wikimedia", "openverse")) else _legacy(m))
     return credits, marks
 

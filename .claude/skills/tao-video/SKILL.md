@@ -38,7 +38,13 @@ chủ đề `[ ]` đầu tiên trong Hàng đợi), tránh trùng chủ đề đ
 - Dàn ý theo `narrative_arc`: Hook (2nd person, giác quan) → Reframe (số liệu hiện đại) → Evidence stack → Reconstruct → Counterintuitive twist → Modern mirror → Echo closing (câu cuối vọng lại câu đầu).
 - **Dẫn chứng:** ghi ra ≥3 nhà nghiên cứu / nghiên cứu / di chỉ CÓ THẬT mà bạn chắc chắn (tên, năm, phát hiện chính). Không chắc thì bỏ, tuyệt đối không bịa tên hay con số. Số liệu trong khung `stats` phải có nguồn thật.
 - Chia dàn ý thành 4–7 chapter.
-- **Cold open (hook 20–30 giây đầu) — bắt buộc**, đứng TRƯỚC phần hook giác quan của `content_dna`:
+- **Hook và tiêu đề: đọc [hooks.md](hooks.md) trước khi viết câu nào.** Viết 6 câu mở đầu thuộc 6 nhóm công
+  thức (tò mò · dễ liên tưởng · phản biện niềm tin · kết quả · kêu gọi hành động · "điều gì xảy ra nếu"), chấm
+  theo 5 tiêu chí, chọn câu cao điểm nhất làm câu 1; lưu 6 phương án + điểm vào `projects/<slug>/hooks.md`.
+  Luật cứng: câu 1 ≤ 16 từ và chứa ngay mâu thuẫn/con số/hậu quả — **không dựng bối cảnh trước**, không chào,
+  không "trong video này / trong vài phút tới" ở 2 câu đầu (câu hứa hẹn đặt sau giây 15). `validate` cảnh báo.
+- **Cold open (hook 20–30 giây đầu) — bắt buộc**, đứng TRƯỚC phần hook giác quan của `content_dna`
+  (thương hiệu: dùng bảng nhịp 0–4s / 4–9s / 9–15s / 15–25s trong hooks.md mục 5):
   1. Mở bằng khoảnh khắc cụ thể, gây sốc nhất trong cả câu chuyện (một người, một nơi, một con số) — câu đầu
      tiên phải có hình ảnh mạnh ("Fourteen thousand years ago… someone pushed a sharp stone into his tooth").
   2. 1–2 câu cực ngắn tăng kịch tính ("No numbing. No painkiller." / "And somehow, it worked.").
@@ -130,10 +136,12 @@ Lệnh:
 MV footage search "packing online orders" --kind video        # Pexels (mặc định), bảng xem trước cache/footage_search/last.png
 MV footage search "Shopee" --kind logo                        # Wikimedia
 MV footage search "vietnam market" --kind photo --source openverse
+MV footage search "vietnam street food" --kind video --source pixabay   # Pixabay: thêm lựa chọn khi Pexels thiếu cảnh Việt Nam
+MV footage search "tax document" --kind illustration                  # tranh minh hoạ / vector Pixabay, hợp nét doodle
 MV footage get <slug> <số> --name dong_goi [--shared]
 MV footage pdf <slug> <url.pdf> --page 4 --name doc_nd117_p4 --title "Nghị định 117/2025/NĐ-CP, trang 4"
 ```
-Read bảng xem trước trước khi chọn — chọn đúng ý câu thoại, không chọn cho có. Giấy phép chỉ nhận: Pexels, CC0,
+Read bảng xem trước trước khi chọn — chọn đúng ý câu thoại, không chọn cho có. Giấy phép chỉ nhận: Pexels, Pixabay, CC0,
 Public Domain, CC BY (BY-SA với --allow-sa). KHÔNG dùng: meme có người thật/nhân vật có bản quyền, GIF GIPHY/Tenor,
 clip cắt từ TV/YouTube/TikTok người khác, ảnh CC-NC/CC-ND, ảnh người nhận diện được trong ngữ cảnh tiêu cực,
 quốc huy/con dấu. Mô tả video tự ghi nguồn footage và câu miễn trừ nhãn hiệu. Mục tiêu: ≥ 30% số câu có footage
@@ -173,6 +181,8 @@ phụ đề karaoke to. Mỗi video dài nên có **2–3 bản dọc**:
 ]
 ```
 (`"short": {...}` một bản vẫn dùng được.) `*từ*` trong hook → màu nhấn; không có `*` thì tự nhấn các con số.
+**Hook bản dọc** (hooks.md mục 6): câu NÓI đầu tiên của mỗi bản dọc phải là câu hook (không cắt từ câu dựng cảnh);
+dòng chữ `hook` ≤ 45 ký tự, bổ sung chứ không lặp y lời câu 1; mỗi bản dọc một nhóm công thức khác nhau.
 Bản cắt: chọn 25–45 giây (`validate` báo ước lượng) — câu đầu tiên phải là câu gây chú ý nhất, không câu dẫn.
 - `lines`: `"S"` cả cảnh · `"S.L"` một câu · `"S.L-M"` / `"S.L-S.M"` dải câu (đánh số từ 1, như `preview --scene`).
   Mặc định: cả cảnh 1 (cold open). Chọn 30–60 giây (`validate` báo ước lượng): cold open + 1–2 ý "đắt" nhất tự
@@ -184,7 +194,7 @@ Bản cắt: chọn 25–45 giây (`validate` báo ước lượng) — câu đ�
 ```json
 {
   "youtube": {
-    "titles": ["3 tiêu đề ≤ 70 ký tự theo seo_dna.title_rules — cái đầu là tiêu đề chính"],
+    "titles": ["3 tiêu đề 45–60 ký tự, 3 công thức khác nhau (hooks.md mục 7), từ khoá ở nửa đầu — cái đầu là chính"],
     "description": "2 dòng đầu chứa từ khoá chính ... 
 
 Chapters:

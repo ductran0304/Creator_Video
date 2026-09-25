@@ -8,7 +8,7 @@
                                                                  → projects/<slug>/publish/ (mở PUBLISH.md)
   python make_video.py publish <slug|thư_mục>                     chỉ ghi lại metadata YouTube/Shorts/TikTok/Reels
   python make_video.py thumbnail <slug|thư_mục>                   vẽ thử thumbnail + cover 9:16 các bản dọc → preview/
-  python make_video.py footage search "<từ khoá>" --kind photo|video|logo [--source pexels|openverse|wikimedia]
+  python make_video.py footage search "<từ khoá>" --kind photo|video|illustration|logo [--source pexels|pixabay|openverse|wikimedia]
   python make_video.py footage get <slug> <số> --name <tên> [--shared]     tải footage (+ nguồn, giấy phép)
   python make_video.py footage pdf <slug> <url|file.pdf> --page N --name <tên> [--find "cụm từ"]
   python make_video.py stats import <file.csv> [--brand b]        nhập số liệu YouTube Studio (giữ chân, CTR...)
@@ -234,8 +234,8 @@ def main():
     ps = p.add_subparsers(dest="footage_cmd", required=True)
     q = ps.add_parser("search")
     q.add_argument("query")
-    q.add_argument("--kind", default="photo", choices=["photo", "video", "logo"])
-    q.add_argument("--source", choices=["pexels", "openverse", "wikimedia"])
+    q.add_argument("--kind", default="photo", choices=["photo", "video", "illustration", "logo"])
+    q.add_argument("--source", choices=["pexels", "pixabay", "openverse", "wikimedia"])
     q.add_argument("--n", type=int, default=10)
     q.add_argument("--allow-sa", action="store_true")
     q.set_defaults(fn=cmd_footage)

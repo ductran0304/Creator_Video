@@ -154,6 +154,28 @@ def _still_warn(warnings, tag, secs, a, b, max_still):
         warnings.append(f"{tag}: hình đứng yên ~{secs:.0f}s (câu {a}–{b}) — thêm show/change/focus/cut để hình đổi mỗi 3–5s")
 
 
+HOOK_BANNED = ("xin chào", "chào mừng", "hôm nay", "trong video này", "trong vài phút tới", "video này sẽ",
+               "kế toán tinh gọn sẽ", "chào anh chị", "hello")
+
+
+def hook_warnings(texts, tag, lang="vi"):
+    """Cảnh báo cho 2 câu đầu (hooks.md mục 2): câu 1 ≤ 16 từ, không chào/báo trước, nên có con số hoặc câu hỏi."""
+    out = []
+    t1 = (texts[0] or "").strip()
+    n = words(t1)
+    if n > 16:
+        out.append(f"{tag}: câu 1 dài {n} từ — hook nên ≤ 16 từ, nói ngay mâu thuẫn/con số (xem hooks.md)")
+    for i, t in enumerate(texts[:2], 1):
+        low = (t or "").lower()
+        hit = next((b for b in HOOK_BANNED if b in low), None)
+        if hit:
+            out.append(f"{tag}: câu {i} có '{hit}' — không chào/báo trước ở 2 câu đầu; đưa câu hứa hẹn ra sau giây 15")
+    joined = " ".join(texts[:2])
+    if lang == "vi" and not re.search(r"\d|một|hai|ba|bốn|năm|sáu|bảy|tám|chín|mười|trăm|triệu|tỷ|\?", joined.lower()):
+        out.append(f"{tag}: 2 câu đầu không có con số hay câu hỏi — hook thường mạnh hơn khi có con số/mâu thuẫn cụ thể")
+    return out
+
+
 def validate(project, kb=None, cfg=None):
     """Trả về (errors, warnings, stats). errors ≠ [] nghĩa là không build được."""
     cfg = cfg or {}
@@ -319,6 +341,11 @@ def validate(project, kb=None, cfg=None):
     if target and n_lines and n_foot / n_lines < target:
         warnings.append(f"Footage thật chỉ {n_foot}/{n_lines} câu ({n_foot / n_lines:.0%}) < mục tiêu {target:.0%} — "
                         "thêm video/ảnh (footage search), trang văn bản (doc_page), logo khi nhắc tên riêng")
+
+    # hook: câu mở đầu video dài (luật trong .claude/skills/tao-video/hooks.md)
+    first_lines = [ln.get("text", "") for sc in scenes[:1] if isinstance(sc, dict) for ln in sc.get("lines", [])[:2]]
+    if first_lines:
+        warnings += hook_warnings(first_lines, "Video dài", lang)
 
     # bản dọc 9:16 (mục "short")
     from .vertical import check as check_short
