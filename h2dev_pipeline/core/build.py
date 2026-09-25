@@ -177,7 +177,7 @@ def render_state(st, cache_dir, size=None, draw=False, scene=None):
             draw_box = (min(b["x0"] for b in bs), min(b["top"] for b in bs), max(b["x1"] for b in bs),
                         max(b["bottom"] for b in bs))
     return {"path": p, "view": view, "cut": st["cut"], "reveal": st["reveal"], "fit": fit, "draw": draw_box,
-            "native": native}
+            "native": native, "frame": frame}
 
 
 def render_shots(project, cache_dir, log, draw=False):
@@ -543,7 +543,7 @@ def encode_video(timeline, shots, total, audio_wav, out_path, fps, size, preset,
             img = fm.frame(si, t)
             if layout:
                 img = layout.compose(img, t, si)
-            if progress and timeline[si].get("progress") and not _shot_at(timeline, shots, si, t)["cut"]:
+            if progress and timeline[si].get("progress") and _shot_at(timeline, shots, si, t).get("frame", "scene") == "scene":  # thẻ đã có tiêu đề riêng
                 lay = progress.layer(timeline[si]["progress"])
                 img.paste(lay, (int(36 * progress.k), int(36 * progress.k)), lay)
             if sub:
