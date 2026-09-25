@@ -60,6 +60,8 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (Luật BHXH 41/2024/QH15 Điều 28, 33, 34, 39, 40; tỷ lệ BHYT/BHTN tổng 21,5% lấy từ báo chí — cần kiểm)
 - [x] V15 · SS · Đối chiếu công nợ cuối năm: làm sớm đỡ rối → projects/kttg_doi_chieu_cong_no_cuoi_nam · 25/09/2026
   (Luật Kế toán Điều 40; không nêu tỷ lệ dự phòng vì TT 48/2019 có thể đã bị thay bởi TT 20/2026 — cần kiểm)
+- [x] V16 · LD · Thưởng Tết cho nhân viên: tính thuế TNCN thế nào? → projects/kttg_thuong_tet_thue_tncn · 26/09/2026
+  (Luật Thuế TNCN 109/2025 Điều 3, 8, 9, 10; NĐ 252/2026 Điều 10 khoản 5 hạn tự quyết toán cuối tháng 4)
 
 Độ phủ sau 15 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 2 · LD 1 — **chưa có**: TC → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -69,7 +71,6 @@ Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký 
 - [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị? (chờ KTTG xác nhận giá, phạm vi từng gói)
 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
-- [ ] LD2 · Thưởng Tết cho nhân viên: tính thuế TNCN thế nào?
 - [ ] QT4 · Công tác phí, tiếp khách, quà Tết: làm sao để được trừ?
 - [ ] HD3 · Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn?
 - [ ] BC4 · Lịch thuế tháng 1: thông báo doanh thu hạn 31/1 (L, nối V9)
@@ -163,7 +164,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
 | LD1 | Tuyển nhân viên đầu tiên: 5 thủ tục lao động, BHXH phải làm | Công ty nhỏ bắt đầu có người | Lao động, BHXH | D + S | [x] V14 |
-| LD2 | Thưởng Tết cho nhân viên: tính thuế TNCN thế nào? | Mùa tháng 12–1 | Tiền lương, thuế TNCN | S + L | [ ] |
+| LD2 | Thưởng Tết cho nhân viên: tính thuế TNCN thế nào? | Mùa tháng 12–1 | Tiền lương, thuế TNCN | S + L | [x] V16 |
 | LD3 | Hợp đồng thử việc, thời vụ, cộng tác viên: đóng gì, khấu trừ gì? | Bảng so sánh 3 loại hợp đồng | Lao động, BHXH | D + S | [ ] |
 | LD4 | Chậm đóng BHXH: hậu quả nhiều hơn anh chị nghĩ | Rủi ro với người lao động và giám đốc | Lao động, BHXH | D + QA | [ ] |
 | LD5 | Trả lương tiền mặt hay chuyển khoản: chi phí lương được trừ khi nào? | Hợp đồng, bảng lương, chứng từ; nối V5 | Tiền lương | D + S | [ ] |
