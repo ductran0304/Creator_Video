@@ -54,15 +54,16 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (Nghị quyết 198/2025/QH15 Điều 10 khoản 4, 7: miễn TNDN 3 năm, bỏ môn bài; NĐ 252/2026 Điều 8 khoản 4, Điều 10)
 - [x] V12 · TG · Công ty chưa có doanh thu: mỗi tháng vẫn phải làm gì? → projects/kttg_cong_ty_chua_co_doanh_thu · 25/09/2026
   (NĐ 252/2026 Điều 10, Điều 11 khoản 4, 6, 7; NĐ 320/2025 Điều 7 chuyển lỗ 5 năm; video đầu tiên theo hooks.md, footage Pixabay)
+- [x] V13 · SS · 5 dấu hiệu sổ sách công ty đang có vấn đề → projects/kttg_5_dau_hieu_so_sach_co_van_de · 25/09/2026
+  (Luật Kế toán 88/2015/QH13 Điều 40 kiểm kê, Điều 41 lưu trữ 10 năm)
 
-Độ phủ sau 12 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 — **chưa có**: SS, TC, LD → hàng đợi dưới đây ưu tiên các nhóm này.
+Độ phủ sau 13 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 1 — **chưa có**: TC, LD → hàng đợi dưới đây ưu tiên các nhóm này.
 
 ## Hàng đợi (thứ tự đề xuất)
 
 Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký hợp đồng):
-- [ ] SS1 · 5 dấu hiệu sổ sách công ty đang "có vấn đề"
 - [ ] LD1 · Tuyển nhân viên đầu tiên: 5 thủ tục lao động, BHXH phải làm
-- [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị?
+- [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị? (chờ KTTG xác nhận giá, phạm vi từng gói)
 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
 - [ ] SS2 · Đối chiếu công nợ cuối năm: làm sớm đỡ rối
@@ -138,7 +139,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 ### SS — Soát xét & hoàn thiện sổ sách
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
-| SS1 | 5 dấu hiệu sổ sách công ty đang "có vấn đề" | Tồn quỹ tiền mặt ảo, công nợ treo, kho âm... | Soát xét sổ sách | D + S | [ ] |
+| SS1 | 5 dấu hiệu sổ sách công ty đang "có vấn đề" | Tồn quỹ tiền mặt ảo, công nợ treo, kho âm... | Soát xét sổ sách | D + S | [x] V13 |
 | SS2 | Đối chiếu công nợ cuối năm: làm sớm đỡ rối | Checklist tháng 12, nối V10 | Soát xét sổ sách | D + L | [ ] |
 | SS3 | Tồn kho sổ sách lệch tồn kho thực tế: xử lý thế nào? | Tình huống xưởng gia công | Soát xét sổ sách | D + QA | [ ] |
 | SS4 | Tài khoản công ty và tài khoản giám đốc: tách thế nào cho đúng? | Rút tiền công ty tiêu cá nhân | Soát xét + trọn gói | D + S | [ ] |
