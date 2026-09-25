@@ -72,8 +72,10 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (video niềm tin, số liệu giả định; KTTG cần xác nhận đúng 5 con số và cách gửi báo cáo thật)
 - [x] V21 · QT · Lịch quyết toán năm 2026: đếm ngược đến 31/3/2027 → projects/kttg_lich_quyet_toan_31_3 · 26/09/2026
   (NĐ 252/2026 Điều 10 khoản 5; Tết 6/2/2027; mốc 26/3 là khuyến nghị; đăng đầu tháng 2/2027)
+- [x] V22 · TC · Báo cáo tài chính năm: hạn 90 ngày, gồm những gì? → projects/kttg_bao_cao_tai_chinh_nam · 26/09/2026
+  (Luật Kế toán 88/2015 Điều 29; TT 133/2016 không có PDF trên Cổng CP; TT 99/2025 cho DN chọn áp dụng từ 2026 — cần KTTG kiểm tên mẫu biểu)
 
-Độ phủ sau 15 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 2 · LD 1 — **chưa có**: TC → hàng đợi dưới đây ưu tiên các nhóm này.
+Độ phủ sau 22 video: HK 5 · BC 3 · HD 2 · QT 3 · KT 2 · TL 1 · TG 1 · SS 2 · LD 2 · TC 1 — đã phủ đủ 10 dịch vụ → hàng đợi dưới đây ưu tiên các nhóm này.
 
 ## Hàng đợi (thứ tự đề xuất)
 
@@ -83,7 +85,6 @@ Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
 
 Tháng 2–3/2027 (mùa quyết toán):
-- [ ] TC1 · Báo cáo tài chính và quyết toán thuế năm: hạn cuối tháng 3
 - [ ] QT2 · Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế?
 - [ ] TC2 · Đọc báo cáo tài chính trong 5 phút: giám đốc cần nhìn 3 dòng nào?
 - [ ] QT3 · Đăng ký người phụ thuộc: giảm thuế thế nào?
@@ -158,7 +159,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 ### TC — Báo cáo tài chính
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
-| TC1 | Báo cáo tài chính và quyết toán thuế năm: hạn cuối tháng 3 | Series mùa quyết toán | Báo cáo tài chính | D + L | [ ] |
+| TC1 | Báo cáo tài chính và quyết toán thuế năm: hạn cuối tháng 3 | Series mùa quyết toán | Báo cáo tài chính | D + L | [x] V22 |
 | TC2 | Đọc báo cáo tài chính trong 5 phút: giám đốc cần nhìn 3 dòng nào? | Nối V10 (lãi ≠ tiền) | Báo cáo tài chính | D + S | [ ] |
 | TC3 | Công ty lỗ nhiều năm liền: cơ quan thuế nhìn anh chị thế nào? | Rủi ro bị đưa vào diện kiểm tra | Báo cáo tài chính + soát xét | D + QA | [ ] |
 | TC4 | Vay ngân hàng: báo cáo tài chính "đẹp" và "thật" khác nhau thế nào? | Trung thực về giới hạn | Báo cáo tài chính | D + QA | [ ] |
