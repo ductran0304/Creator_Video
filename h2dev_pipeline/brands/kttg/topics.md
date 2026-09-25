@@ -22,11 +22,12 @@ Skill `/tao-video` đọc file này khi làm video cho brand `kttg`:
   (chưa có hướng dẫn chi tiết cho shop ≤ 1 tỷ đã bị sàn khấu trừ — cập nhật video khi Cục Thuế hướng dẫn)
 - [x] V8 · B26 · Nợ thuế bao nhiêu thì giám đốc bị tạm hoãn xuất cảnh? → projects/kttg_tam_hoan_xuat_canh_no_thue · 25/09/2026
   (Nghị định 252/2026/NĐ-CP Điều 28; video đầu tiên có footage thật: Pexels, trang văn bản, meme)
+- [x] V9 · A10 · Cho thuê phòng trọ: khi nào phải nộp thuế? → projects/kttg_cho_thue_phong_tro · 25/09/2026
+  (Nghị định 68/2026/NĐ-CP Điều 3, 4, 8; Luật Thuế TNCN 109/2025 khoản 4 Điều 7 — góc 'vách đá' GTGT 5% trên toàn bộ doanh thu)
 
 ## Hàng đợi (thứ tự đề xuất)
 
 Tháng 10–11/2026 (quanh năm, nỗi đau rõ, dễ ra khách hỏi dịch vụ):
-- [ ] A10 · Cho thuê phòng trọ công nhân: khi nào phải nộp thuế?
 - [ ] B27 · Lãi trên sổ nhưng không có tiền: vì sao?
 - [ ] A12 · Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu
 
@@ -73,7 +74,7 @@ Tạo niềm tin (đăng khi kênh đã có ~10 video):
 ### A.3 Cho thuê nhà, phòng trọ, mặt bằng
 | # | Chủ đề | Góc / hook | Định dạng | Trạng thái |
 |---|---|---|---|---|
-| A10 | Cho thuê phòng trọ công nhân: khi nào phải nộp thuế? | Chủ dãy trọ ở Bến Cát, Mỹ Phước | D + HĐ | [ ] |
+| A10 | Cho thuê phòng trọ công nhân: khi nào phải nộp thuế? | Chủ dãy trọ ở Bến Cát, Mỹ Phước | D + HĐ | [x] V9 |
 | A11 | Cho thuê mặt bằng: bên thuê hay bên cho thuê khai thuế? | Hợp đồng ghi "giá đã gồm thuế" | D + S | [ ] |
 
 ### A.4 Doanh nghiệp mới thành lập, doanh nghiệp nhỏ
