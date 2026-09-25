@@ -30,8 +30,8 @@ LIMITS = {
     "tiktok_caption": 2200, "reels_caption": 2200, "reels_hashtags": 5, "short_hashtags": 5,
 }
 TXT = {
-    "vi": {"full": "Xem bản đầy đủ", "credits": "Nguồn ảnh", "no_url": "<dán link video YouTube dài>"},
-    "en": {"full": "Watch the full video", "credits": "Photo credits", "no_url": "<paste the long YouTube video link>"},
+    "vi": {"full": "Xem bản đầy đủ", "credits": "Nguồn hình ảnh, video, tư liệu", "no_url": "<dán link video YouTube dài>"},
+    "en": {"full": "Watch the full video", "credits": "Image, video and document credits", "no_url": "<paste the long YouTube video link>"},
 }
 
 
@@ -75,7 +75,7 @@ def _with_tags(text, hashtags):
     return (text.rstrip() + "\n\n" + " ".join(missing)).strip() if missing else text.strip()
 
 
-def resolve(project, seo, chapter_lines, credits):
+def resolve(project, seo, chapter_lines, credits, marks=()):
     """Metadata video dài YouTube → (youtube dict, cảnh báo)."""
     lang = project.get("language", "en")
     tx = TXT.get(lang, TXT["en"])
@@ -252,12 +252,12 @@ def write_all(project, project_dir, pub_dir, long_info, shorts_info, chapter_lin
     """Ghi metadata các nền tảng + PUBLISH.md + publish.json. long_info: dict đường dẫn + thời lượng (hoặc None);
     shorts_info: list dict cho từng bản dọc (id, folder, video, cover, srt, duration, hook)."""
     from doodle import scene as ds
-    from .photos import used_credits
+    from .footage import used
     seo = load_seo(project_dir)
     if not seo:
         log("  [i] chưa có seo.json — metadata chỉ gồm tiêu đề + chapters")
-    credits = used_credits(project, ds.PHOTO_DIRS)
-    y, warn = resolve(project, seo, chapter_lines, credits)
+    credits, marks = used(project, ds.PHOTO_DIRS)
+    y, warn = resolve(project, seo, chapter_lines, credits, marks)
     os.makedirs(os.path.join(pub_dir, "youtube"), exist_ok=True)
     with open(os.path.join(pub_dir, "youtube", "metadata.txt"), "w", encoding="utf-8") as f:
         f.write(_yt_txt(y))

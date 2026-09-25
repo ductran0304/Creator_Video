@@ -16,13 +16,14 @@ Skill `/tao-video` đọc file này khi làm video cho brand `kttg`:
 - [x] V3 · Nộp thuế 0 đồng vẫn bị phạt, vì sao? → projects/kttg_thue_0_dong_van_bi_phat · 25/09/2026
 - [x] V4 · Hoá đơn điện tử 2026: tiệm nào bắt buộc, dùng loại nào? → projects/kttg_hoa_don_dien_tu_2026 · 25/09/2026
   (cập nhật so với V1: ngưỡng "trên 1 tỷ", được chọn hoá đơn có mã hoặc từ máy tính tiền — ghim bình luận ở V1 dẫn sang V4)
+- [x] V5 · B9 · 7 khoản chi hay bị loại khi quyết toán TNDN → projects/kttg_7_khoan_chi_bi_loai_tndn · 25/09/2026
+- [x] V6 · A3 · Khách chuyển khoản vào tài khoản cá nhân: có bị tính doanh thu không? → projects/kttg_chuyen_khoan_tai_khoan_ca_nhan · 25/09/2026
+- [x] V7 · A7 · Bán trên Shopee, TikTok Shop: sàn đã trừ thuế, anh chị còn phải làm gì? → projects/kttg_ban_hang_san_tmdt · 25/09/2026
+  (chưa có hướng dẫn chi tiết cho shop ≤ 1 tỷ đã bị sàn khấu trừ — cập nhật video khi Cục Thuế hướng dẫn)
 
 ## Hàng đợi (thứ tự đề xuất)
 
 Tháng 10–11/2026 (quanh năm, nỗi đau rõ, dễ ra khách hỏi dịch vụ):
-- [ ] A3 · Khách chuyển khoản vào tài khoản cá nhân: có bị tính doanh thu không?
-- [ ] A7 · Bán trên Shopee, TikTok Shop: sàn đã khấu trừ thuế, anh chị còn phải làm gì?
-- [ ] B9 · 7 khoản chi hay bị loại khi quyết toán TNDN
 - [ ] A10 · Cho thuê phòng trọ công nhân: khi nào phải nộp thuế?
 - [ ] B27 · Lãi trên sổ nhưng không có tiền: vì sao?
 - [ ] A12 · Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu
@@ -56,7 +57,7 @@ Tạo niềm tin (đăng khi kênh đã có ~10 video):
 |---|---|---|---|---|
 | A1 | Ghi sổ doanh thu mẫu S1a-HKD: 10 phút mỗi tối là đủ | Hướng dẫn cầm tay chỉ việc, có bảng sổ mẫu | D + S | [ ] |
 | A2 | Kiểm kê hàng tồn ngày chuyển đổi: đếm sao cho đúng? | "Đếm từng thùng mì, đừng ước chừng" | D + HĐ | [ ] |
-| A3 | Khách chuyển khoản vào tài khoản cá nhân: có bị tính doanh thu không? | Nỗi lo của chủ tiệm dùng mã QR | D + HĐ | [ ] |
+| A3 | Khách chuyển khoản vào tài khoản cá nhân: có bị tính doanh thu không? | Nỗi lo của chủ tiệm dùng mã QR | D + HĐ | [x] V6 |
 | A4 | Mở thêm cửa hàng thứ hai: cần làm những gì? | Mã địa điểm, hoá đơn, kê khai | D + S | [ ] |
 | A5 | Hộ kinh doanh hay công ty: khi nào nên chuyển lên doanh nghiệp? | So sánh chi phí, thủ tục, rủi ro | D + S | [ ] |
 | A6 | 6 con số chủ hộ kinh doanh hay nhớ nhầm | Chuyển thể từ câu đố trên Facebook KTTG | D + 3 S | [ ] |
@@ -64,7 +65,7 @@ Tạo niềm tin (đăng khi kênh đã có ~10 video):
 ### A.2 Bán hàng online, thương mại điện tử
 | # | Chủ đề | Góc / hook | Định dạng | Trạng thái |
 |---|---|---|---|---|
-| A7 | Bán trên Shopee, TikTok Shop: sàn đã khấu trừ thuế, anh chị còn phải làm gì? | Hiểu lầm "sàn trừ rồi là xong" | D + HĐ | [ ] |
+| A7 | Bán trên Shopee, TikTok Shop: sàn đã khấu trừ thuế, anh chị còn phải làm gì? | Hiểu lầm "sàn trừ rồi là xong" | D + HĐ | [x] V7 |
 | A8 | Bán qua Facebook, Zalo (không qua sàn): kê khai thế nào? | Nhóm dễ bỏ sót nhất | D + S | [ ] |
 | A9 | Livestream bán hàng: doanh thu tính từ lúc nào? | Tiền cọc, hoàn hàng, phí sàn | S + HĐ | [ ] |
 
@@ -138,7 +139,7 @@ Tạo niềm tin (đăng khi kênh đã có ~10 video):
 ### B.3 Chi phí được trừ (tiết kiệm thuế hợp pháp)
 | # | Chủ đề | Góc / hook | Định dạng | Trạng thái |
 |---|---|---|---|---|
-| B9 | 7 khoản chi hay bị loại khi quyết toán TNDN | Mất tiền thật, dễ minh hoạ | D + 3 S | [ ] |
+| B9 | 7 khoản chi hay bị loại khi quyết toán TNDN | Mất tiền thật, dễ minh hoạ | D + 3 S | [x] V5 |
 | B10 | Tiền điện, nước, thuê nhà đứng tên giám đốc: có được tính chi phí? | Tình huống phổ biến ở công ty nhỏ | D + HĐ | [ ] |
 | B11 | Công tác phí, tiếp khách, quà Tết: làm sao để được trừ? | Mùa cuối năm | D + S | [ ] |
 | B12 | Xe ô tô công ty: chi phí nào được trừ, chi phí nào không? | Câu hỏi của gần như mọi giám đốc | D + HĐ | [ ] |

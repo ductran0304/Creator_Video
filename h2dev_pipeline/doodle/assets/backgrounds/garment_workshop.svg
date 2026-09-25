@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- wall -->
+  <rect x="0" y="0" width="1920" height="830" fill="#F4F7FF"/>
+
+  <!-- floor -->
+  <rect x="0" y="830" width="1920" height="250" fill="#E8D9BD"/>
+  <path d="M -10,828 C 220,824 460,831 700,827 C 940,823 1180,830 1420,827 C 1660,824 1820,830 1930,827 L 1930,834 C 1820,837 1660,831 1420,834 C 1180,837 940,830 700,834 C 460,837 220,830 -10,834 Z"
+        fill="#D2B488"/>
+  <g stroke="#D2B488" stroke-width="3">
+    <line x1="0" y1="890" x2="1920" y2="888"/>
+    <line x1="0" y1="950" x2="1920" y2="952"/>
+    <line x1="0" y1="1012" x2="1920" y2="1010"/>
+  </g>
+
+  <!-- ============ LEFT: industrial sewing machine on table ============ -->
+  <g>
+    <!-- table legs -->
+    <rect x="66" y="748" width="16" height="82" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <rect x="238" y="748" width="16" height="82" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <!-- tabletop -->
+    <path d="M 44,726 C 120,720 200,720 276,726 C 278,738 278,746 276,752 C 200,758 120,758 44,752 C 42,746 42,738 44,726 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <!-- machine base -->
+    <path d="M 78,722 C 78,690 78,664 82,644 C 130,636 178,636 220,644 C 224,664 224,690 222,722 C 178,728 122,728 78,722 Z"
+          fill="#101A3D" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <!-- machine arm curving up and over -->
+    <path d="M 200,644 C 200,606 200,570 214,548 C 226,530 250,530 252,552 C 254,568 240,572 234,588 C 228,604 230,626 230,644 Z"
+          fill="#101A3D" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <!-- needle -->
+    <rect x="220" y="636" width="8" height="30" fill="#141414"/>
+    <!-- balance wheel -->
+    <circle cx="100" cy="682" r="24" fill="#00C2A8" stroke="#141414" stroke-width="6"/>
+    <circle cx="100" cy="682" r="6" fill="#141414"/>
+    <!-- thread spool -->
+    <ellipse cx="244" cy="534" rx="14" ry="7" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="230" y="534" width="28" height="18" rx="3" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+  </g>
+
+  <!-- fabric rolls beside table, end-on view -->
+  <g>
+    <circle cx="322" cy="800" r="44" fill="#FFC93C" stroke="#141414" stroke-width="6"/>
+    <circle cx="322" cy="800" r="15" fill="#D2B488" stroke="#141414" stroke-width="4"/>
+    <circle cx="392" cy="812" r="32" fill="#FF5C7A" stroke="#141414" stroke-width="6"/>
+    <circle cx="392" cy="812" r="11" fill="#D2B488" stroke="#141414" stroke-width="4"/>
+  </g>
+
+  <!-- ============ RIGHT: shelf of folded shirts ============ -->
+  <g>
+    <path d="M 1650,760 C 1648,560 1648,400 1650,262 C 1730,255 1810,255 1878,260 C 1880,400 1880,560 1880,760 C 1810,754 1730,752 1650,758 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <line x1="1654" y1="362" x2="1876" y2="358" stroke="#141414" stroke-width="6"/>
+    <line x1="1654" y1="480" x2="1876" y2="478" stroke="#141414" stroke-width="6"/>
+    <line x1="1654" y1="600" x2="1876" y2="600" stroke="#141414" stroke-width="6"/>
+    <line x1="1654" y1="700" x2="1876" y2="700" stroke="#141414" stroke-width="6"/>
+
+    <!-- row 1 -->
+    <rect x="1662" y="296" width="66" height="50" rx="8" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="1736" y="296" width="66" height="50" rx="8" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="1810" y="296" width="62" height="50" rx="8" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <!-- row 2 -->
+    <rect x="1662" y="414" width="66" height="50" rx="8" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    <rect x="1736" y="414" width="66" height="50" rx="8" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <rect x="1810" y="414" width="62" height="50" rx="8" fill="#00857A" stroke="#141414" stroke-width="5"/>
+    <!-- row 3 -->
+    <rect x="1662" y="536" width="66" height="50" rx="8" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="1736" y="536" width="66" height="50" rx="8" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="1810" y="536" width="62" height="50" rx="8" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    <!-- row 4: boxes of finished goods -->
+    <rect x="1666" y="644" width="70" height="66" rx="4" fill="#FFC93C" stroke="#141414" stroke-width="6"/>
+    <rect x="1748" y="644" width="70" height="66" rx="4" fill="#00857A" stroke="#141414" stroke-width="6"/>
+  </g>
+
+  <!-- pendant lamp, right edge, kept high but off the quiet middle band -->
+  <g>
+    <line x1="1770" y1="60" x2="1770" y2="220" stroke="#141414" stroke-width="5"/>
+    <path d="M 1730,220 C 1730,204 1808,204 1808,220 C 1808,236 1730,236 1730,220 Z" fill="#FFC93C" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+</svg>

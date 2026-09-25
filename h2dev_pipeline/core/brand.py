@@ -51,7 +51,7 @@ def activate(project, base_dir, cfg):
         if k in brand:
             project.setdefault(k, brand[k])
     cfg = dict(cfg)
-    for k in ("script_word_count_min", "script_word_count_max", "scene_count_min", "scene_count_max"):
+    for k in ("script_word_count_min", "script_word_count_max", "scene_count_min", "scene_count_max", "footage_min_ratio"):
         if k in brand:
             cfg[k] = brand[k]
     outro = brand.get("outro")

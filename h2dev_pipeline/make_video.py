@@ -8,6 +8,9 @@
                                                                  → projects/<slug>/publish/ (mở PUBLISH.md)
   python make_video.py publish <slug|thư_mục>                     chỉ ghi lại metadata YouTube/Shorts/TikTok/Reels
   python make_video.py thumbnail <slug|thư_mục>                   vẽ thử thumbnail + cover 9:16 các bản dọc → preview/
+  python make_video.py footage search "<từ khoá>" --kind photo|video|logo [--source pexels|openverse|wikimedia]
+  python make_video.py footage get <slug> <số> --name <tên> [--shared]     tải footage (+ nguồn, giấy phép)
+  python make_video.py footage pdf <slug> <url|file.pdf> --page N --name <tên> [--find "cụm từ"]
   python make_video.py stats import <file.csv> [--brand b]        nhập số liệu YouTube Studio (giữ chân, CTR...)
   python make_video.py stats show [--brand b]                     tóm tắt video tốt/kém để rút kinh nghiệm
   python make_video.py asset new|check ...                        thêm asset mới cho thư viện (xem core/assets_cli.py)
@@ -55,7 +58,8 @@ def load(project_arg):
     from doodle.theme import T
     T["today"] = project.get("updated")  # khung deadline đếm "Còn N ngày" từ ngày cập nhật của video
     from doodle import scene as ds
-    ds.PHOTO_DIRS[:] = [os.path.join(d, "photos")] + ([os.path.join(brand["_dir"], "photos")] if brand else [])
+    ds.PHOTO_DIRS[:] = [os.path.join(d, "footage"), os.path.join(d, "photos")] + (
+        [os.path.join(brand["_dir"], "footage"), os.path.join(brand["_dir"], "photos")] if brand else [])
     return d, project, cfg
 
 
@@ -81,7 +85,7 @@ def cmd_validate(a):
         return 1 if errors else 0
     if stats:
         print(f"[i] {stats['scenes']} cảnh · {stats['lines']} câu · {stats['words']} từ · "
-              f"~{stats['est_minutes']} phút ({stats['language']}) · bản dọc ~{stats['short_seconds']}s")
+              f"~{stats['est_minutes']} phút ({stats['language']}) · bản dọc ~{stats['short_seconds']}s · footage thật {stats.get('footage_ratio', 0):.0%} số câu")
     for e in errors:
         print(f"[LỖI] {e}")
     for w in warnings:
@@ -137,6 +141,30 @@ def cmd_thumbnail(a):
         shots = vertical.render_shots(p, refs, os.path.join(d, "cache", "frames_v"), lay)
         name = "cover.png" if p["folder"] == "short" else f"cover_{p['id']}.png"
         print(publish.write_cover(project, seo, p, shots, segs, os.path.join(out, name)))
+    return 0
+
+
+def cmd_footage(a):
+    from core import footage
+    if a.footage_cmd == "search":
+        results, sheet = footage.search(BASE_DIR, a.query, a.kind, a.source, a.n, a.allow_sa)
+        for i, r in enumerate(results, 1):
+            dur = f" · {r['duration']}s" if r.get("duration") else ""
+            print(f"{i:2d}. [{footage.LIC.get(r['license'], r['license'])}] {(r.get('title') or '')[:60]} — "
+                  f"{r.get('creator') or '?'} ({r['source']}, {r.get('width')}x{r.get('height')}{dur})")
+        print(f"[i] Bảng xem trước: {sheet}")
+        return 0
+    d, project, _ = load(a.project)
+    out = footage.dest_dir(BASE_DIR, d, project, getattr(a, "shared", False))
+    if a.footage_cmd == "get":
+        path, meta = footage.get(BASE_DIR, out, a.idx, a.name)
+        print(f"[✓] {path}")
+        print(f"    {footage.credit_line(meta)}")
+    else:
+        png, meta = footage.pdf_page(out, a.src, a.page, a.name, a.find, a.title)
+        print(f"[✓] {png}")
+        if a.find:
+            print(f"    vùng tìm thấy (highlight): {meta['found'] or 'không thấy — PDF scan, tự đặt toạ độ sau khi xem ảnh'}")
     return 0
 
 
@@ -202,6 +230,30 @@ def main():
     p = sub.add_parser("thumbnail")
     p.add_argument("project")
     p.set_defaults(fn=cmd_thumbnail)
+    p = sub.add_parser("footage", help="ảnh/video/logo/trang văn bản thật cho kịch bản (Pexels, Openverse, Wikimedia)")
+    ps = p.add_subparsers(dest="footage_cmd", required=True)
+    q = ps.add_parser("search")
+    q.add_argument("query")
+    q.add_argument("--kind", default="photo", choices=["photo", "video", "logo"])
+    q.add_argument("--source", choices=["pexels", "openverse", "wikimedia"])
+    q.add_argument("--n", type=int, default=10)
+    q.add_argument("--allow-sa", action="store_true")
+    q.set_defaults(fn=cmd_footage)
+    q = ps.add_parser("get")
+    q.add_argument("project")
+    q.add_argument("idx", type=int)
+    q.add_argument("--name", required=True)
+    q.add_argument("--shared", action="store_true", help="lưu vào thư viện dùng chung brands/<brand>/footage/")
+    q.set_defaults(fn=cmd_footage)
+    q = ps.add_parser("pdf")
+    q.add_argument("project")
+    q.add_argument("src", help="URL hoặc đường dẫn file PDF văn bản")
+    q.add_argument("--page", type=int, required=True)
+    q.add_argument("--name", required=True)
+    q.add_argument("--find", help="cụm từ cần khoanh (PDF có lớp chữ)")
+    q.add_argument("--title", help="tên văn bản để ghi nguồn, vd 'Nghị định 117/2025/NĐ-CP, trang 4'")
+    q.add_argument("--shared", action="store_true")
+    q.set_defaults(fn=cmd_footage)
     p = sub.add_parser("stats", help="số liệu YouTube Studio → rút kinh nghiệm cho video sau")
     ps = p.add_subparsers(dest="stats_cmd", required=True)
     q = ps.add_parser("import")

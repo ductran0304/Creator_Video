@@ -145,6 +145,47 @@ def sfx_scribble(sr=SR, seconds=0.8, seed=13):
     return (hp * strokes * env * 0.18).astype(np.float32)
 
 
+def sfx_boom(sr=SR):
+    """Tiếng 'bùm' trầm kiểu meme (nhấn mạnh plot twist)."""
+    n = int(1.1 * sr)
+    t = np.arange(n) / sr
+    f = 70 * np.exp(-t * 2.5) + 32
+    body = np.sin(2 * np.pi * np.cumsum(f) / sr) * np.exp(-t * 3.2)
+    hit = np.random.default_rng(21).uniform(-1, 1, n) * np.exp(-t * 60) * 0.5
+    return (np.tanh((body + hit) * 1.8) * 0.8).astype(np.float32)
+
+
+def sfx_scratch(sr=SR):
+    """Tiếng đĩa nhạc rít (khoảnh khắc 'khoan đã')."""
+    n = int(0.5 * sr)
+    t = np.arange(n) / sr
+    noise = np.random.default_rng(8).uniform(-1, 1, n)
+    f = 2400 * np.sin(np.pi * t / 0.5) ** 0.5 + 300
+    tone = np.sin(2 * np.pi * np.cumsum(f) / sr)
+    return ((tone * 0.5 + noise * 0.35) * np.sin(np.pi * t / 0.5) ** 0.6 * 0.5).astype(np.float32)
+
+
+def sfx_crickets(sr=SR):
+    """Tiếng dế kêu (im lặng ngượng ngùng)."""
+    n = int(1.4 * sr)
+    t = np.arange(n) / sr
+    carrier = np.sin(2 * np.pi * 4600 * t)
+    chirps = (np.sin(2 * np.pi * 36 * t) > 0.2) * ((t % 0.45) < 0.16)
+    return (carrier * chirps * 0.18 * np.clip((1.4 - t) / 0.2, 0, 1)).astype(np.float32)
+
+
+def sfx_ting(sr=SR):
+    """Tiếng 'ting ting' tiền về tài khoản."""
+    out = np.zeros(int(0.8 * sr), dtype=np.float32)
+    for start, f in ((0.0, 1567.98), (0.16, 2093.0)):
+        n = int(0.55 * sr)
+        t = np.arange(n) / sr
+        tone = (np.sin(2 * np.pi * f * t) + 0.3 * np.sin(4 * np.pi * f * t)) * np.exp(-t * 8) * 0.35
+        i = int(start * sr)
+        out[i:i + n] += tone[:len(out) - i].astype(np.float32)
+    return out
+
+
 def speech_envelope(voice, sr=SR, win=0.25, thresh=0.02):
     """0..1 theo thời gian: 1 khi đang có giọng đọc (đã làm mượt) — dùng để giảm nhạc nền khi có lời."""
     hop = int(sr * 0.05)

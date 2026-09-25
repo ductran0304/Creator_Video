@@ -205,11 +205,12 @@ def stat_cards(spec, W, H):
     parts.append(tsvg)
     mx, gap = W * 0.07, 34 * k
     port = _portrait(W, H)
-    cols = 1 if (port and n <= 3) else (2 if (port or n == 4) else n)
+    boxed = (W, H) != (1920, 1080)  # ô nội dung bản dọc: xếp dọc để chữ số to, dễ đọc trên điện thoại
+    cols = 1 if ((port or boxed) and n <= 3) else (2 if (port or boxed or n == 4) else n)
     rows = math.ceil(n / cols)
     area_h = H * 0.92 - top
     cw = (W - 2 * mx - gap * (cols - 1)) / cols
-    ch = min((area_h - gap * (rows - 1)) / rows, cw * (0.8 if not port else 0.5), 460 * k)
+    ch = min((area_h - gap * (rows - 1)) / rows, cw * (0.8 if not (port or boxed) else 0.5), 460 * k)
     y0 = top + (area_h - (ch * rows + gap * (rows - 1))) / 2
     for i, c in enumerate(cards):
         if i >= shown:
@@ -297,10 +298,10 @@ def document(spec, W, H):
     parts.append(s)
     cy += nh + 18 * k
     meta = " · ".join(v for v in (spec.get("date") and "Ngày " + spec["date"], spec.get("issuer")) if v)
-    if meta:
-        parts.append(f'<text x="{px:.0f}" y="{cy + 34 * k:.0f}" {_font_attrs(600)} font-size="{34 * k:.0f}" '
-                     f'fill="{MUTED}">{escape(meta)}</text>')
-        cy += 70 * k
+    if meta:  # ngày · cơ quan ban hành — tự xuống dòng, không tràn khỏi thẻ
+        ms, (_, mh) = rich(meta, px, cy + 6 * k, inner * 0.78, 34 * k, MUTED, max_lines=2, weight=600, lh=1.25)
+        parts.append(ms)
+        cy += mh + 30 * k
     parts.append(f'<path d="M{px:.0f} {cy:.0f}H{px + inner:.0f}" stroke="#DCE2EE" stroke-width="3"/>')
     cy += 40 * k
     if spec.get("quote"):
@@ -460,7 +461,7 @@ def compare(spec, W, H):
         parts.append(s)
         cy = y + 40 * k + th + 24 * k
         items = side.get("items", [])
-        fs = min(42 * k, (y + ch - cy - 30 * k) / max(1, len(items)) * 0.5)
+        fs = min(52 * k, (y + ch - cy - 30 * k) / max(1, len(items)) * 0.5)
         for it in items:
             parts.append(f'<circle cx="{x + 50 * k:.0f}" cy="{cy + fs * 0.62:.0f}" r="{fs * 0.22:.0f}" fill="{colors[i]}"/>')
             s, (_, ih) = rich(it, x + 80 * k, cy, cw - 120 * k, fs, INK, max_lines=2, weight=600)
@@ -580,6 +581,296 @@ def world_map(spec, W, H, pen=None):
     return "".join(parts)
 
 
+# ---------------- footage: logo, trang văn bản, màn hình ứng dụng ----------------
+def _boxed(W, H):
+    return (W, H) != (1920, 1080)
+
+
+def logo_row(spec, W, H):
+    """Hàng logo nhãn hiệu: logos[{src, label}] (2–5), hiện dần theo step; dòng miễn trừ nhãn hiệu nhỏ."""
+    from .scene import _photo
+    k = _k(W, H)
+    logos = spec.get("logos", [])
+    shown = spec.get("_step", len(logos))
+    parts = [background(W, H)]
+    tsvg, top = _title(spec, W, H, H * 0.09)
+    parts.append(tsvg)
+    n = max(1, len(logos))
+    cols = n if (n <= 3 or not _boxed(W, H)) else math.ceil(n / 2)
+    rows = math.ceil(n / cols)
+    mx, gap = W * 0.07, 30 * k
+    cw = (W - 2 * mx - gap * (cols - 1)) / cols
+    area_h = H * 0.88 - top
+    ch = min((area_h - gap * (rows - 1)) / rows, cw * 0.75)
+    y0 = top + (area_h - (ch * rows + gap * (rows - 1))) / 2
+    for i, lg in enumerate(logos):
+        if i >= shown:
+            continue
+        r, c = divmod(i, cols)
+        x, y = mx + c * (cw + gap), y0 + r * (ch + gap)
+        parts.append(card(x, y, cw, ch))
+        uri, (iw, ih) = _photo(lg["src"])
+        bw, bh = cw * 0.7, ch * 0.5
+        s = min(bw / iw, bh / ih)
+        lw, lh = iw * s, ih * s
+        parts.append(f'<image href="{uri}" x="{x + (cw - lw) / 2:.0f}" y="{y + ch * 0.12 + (bh - lh) / 2:.0f}" '
+                     f'width="{lw:.0f}" height="{lh:.0f}" preserveAspectRatio="xMidYMid meet"/>')
+        if lg.get("label"):
+            parts.append(rich(lg["label"], x + cw / 2, y + ch * 0.72, cw * 0.9, min(40 * k, ch * 0.14), T["title"],
+                              anchor="middle", max_lines=2, weight=700)[0])
+    parts.append(f'<text x="{W / 2:.0f}" y="{H * 0.96:.0f}" text-anchor="middle" {_font_attrs(400)} '
+                 f'font-size="{20 * k:.0f}" fill="{MUTED}">Các nhãn hiệu thuộc về chủ sở hữu; video không có liên kết hay tài trợ.</text>')
+    return "".join(parts)
+
+
+def doc_geom(spec, W, H):
+    """Vị trí trang văn bản trên khung + các vùng khoanh (toạ độ khung)."""
+    from .scene import _photo
+    _, (iw, ih) = _photo(spec["src"])
+    side = not _boxed(W, H) and not _portrait(W, H)
+    ph = H * 0.9
+    pw = ph * iw / ih
+    if pw > W * (0.55 if side else 0.9):
+        pw = W * (0.55 if side else 0.9)
+        ph = pw * ih / iw
+    px = W * 0.95 - pw if side else (W - pw) / 2
+    py = (H - ph) / 2
+    hl = [(px + x * pw, py + y * ph, w * pw, h * ph) for x, y, w, h in spec.get("highlight", [])]
+    return (px, py, pw, ph), hl, side
+
+
+def doc_view(spec, W=1920, H=1080):
+    """Cú máy zoom vào vùng khoanh đầu tiên (khi step ≥ 1) → (cx, cy, z) theo tỉ lệ khung, hoặc None."""
+    if not spec.get("highlight") or spec.get("_step", 0) < 1:
+        return None
+    _, hl, _ = doc_geom(spec, W, H)
+    x, y, w, h = hl[min(len(hl), spec.get("_step", 1)) - 1]
+    z = max(1.3, min(3.2, 0.72 * W / max(w, 1), 0.4 * H / max(h, 1)))
+    return ((x + w / 2) / W, (y + h / 2) / H, z)
+
+
+def doc_page(spec, W, H):
+    """Ảnh trang văn bản thật (footage pdf) + khoanh vùng điều khoản; step 1.. → camera zoom vào vùng khoanh."""
+    from .scene import _photo
+    k = _k(W, H)
+    uri, _ = _photo(spec["src"])
+    (px, py, pw, ph), hl, side = doc_geom(spec, W, H)
+    parts = [background(W, H)]
+    parts.append(f'<rect x="{px + 10 * k:.0f}" y="{py + 14 * k:.0f}" width="{pw:.0f}" height="{ph:.0f}" fill="#101A3D" fill-opacity="0.12"/>')
+    parts.append(f'<image href="{uri}" x="{px:.0f}" y="{py:.0f}" width="{pw:.0f}" height="{ph:.0f}" preserveAspectRatio="none"/>')
+    parts.append(f'<rect x="{px:.0f}" y="{py:.0f}" width="{pw:.0f}" height="{ph:.0f}" fill="none" stroke="#C9CFDD" stroke-width="2"/>')
+    for x, y, w, h in hl:
+        pad = 4 * k
+        parts.append(f'<rect x="{x - pad:.1f}" y="{y - pad:.1f}" width="{w + 2 * pad:.1f}" height="{h + 2 * pad:.1f}" rx="{3 * k:.1f}" '
+                     f'fill="{T["highlight"]}" fill-opacity="0.38" stroke="{T.get("accent") or T["alert"]}" stroke-width="{3 * k:.1f}"/>')
+    if side:
+        tx, tw = W * 0.06, px - W * 0.1
+        y = H * 0.24
+        if spec.get("kicker"):
+            s, (_, chh) = chip(spec["kicker"].upper(), tx, y, 30 * k)
+            parts.append(s)
+            y += chh + 24 * k
+        if spec.get("title"):
+            s, (_, th) = rich(spec["title"], tx, y, tw, 76 * k, max_lines=3, weight=800)
+            parts.append(s)
+            y += th + 24 * k
+        if spec.get("caption"):
+            parts.append(rich(spec["caption"], tx, y, tw, 38 * k, INK, max_lines=5, weight=500, lh=1.35)[0])
+    parts.append(f'<text x="{px + pw:.0f}" y="{py + ph + 26 * k:.0f}" text-anchor="end" {_font_attrs(400)} font-size="{20 * k:.0f}" '
+                 f'fill="{MUTED}">{escape(spec.get("credit") or "Ảnh chụp trang văn bản gốc")}</text>')
+    return "".join(parts)
+
+
+def phone_screen(spec, W, H):
+    """Màn hình ứng dụng vẽ mô phỏng (không chụp tài khoản thật): app, title, items[], button; step = bước đang làm."""
+    k = _k(W, H)
+    items = spec.get("items", [])
+    cur = spec.get("_step", 0)
+    side = not _boxed(W, H) and not _portrait(W, H)
+    ph = H * (0.9 if side else 0.94)
+    pw = ph * 0.49
+    px = W * 0.34 - pw / 2 if side else (W - pw) / 2
+    py = (H - ph) / 2
+    parts = [background(W, H)]
+    r = pw * 0.12
+    parts.append(f'<rect x="{px + 10 * k:.0f}" y="{py + 14 * k:.0f}" width="{pw:.0f}" height="{ph:.0f}" rx="{r:.0f}" fill="#101A3D" fill-opacity="0.15"/>')
+    parts.append(f'<rect x="{px:.0f}" y="{py:.0f}" width="{pw:.0f}" height="{ph:.0f}" rx="{r:.0f}" fill="#1E2233"/>')
+    bz = pw * 0.045
+    sx, sy, sw, sh = px + bz, py + bz, pw - 2 * bz, ph - 2 * bz
+    parts.append(f'<rect x="{sx:.0f}" y="{sy:.0f}" width="{sw:.0f}" height="{sh:.0f}" rx="{r * 0.8:.0f}" fill="#FFFFFF"/>')
+    parts.append(f'<rect x="{px + pw * 0.38:.0f}" y="{sy + 10 * k:.0f}" width="{pw * 0.24:.0f}" height="{14 * k:.0f}" rx="{7 * k:.0f}" fill="#1E2233"/>')
+    bar_h = sh * 0.1
+    parts.append(f'<path d="M{sx:.0f} {sy + r * 0.8:.0f}a{r * 0.8:.0f} {r * 0.8:.0f} 0 0 1 {r * 0.8:.0f} {-r * 0.8:.0f}h{sw - 1.6 * r * 0.8:.0f}'
+                 f'a{r * 0.8:.0f} {r * 0.8:.0f} 0 0 1 {r * 0.8:.0f} {r * 0.8:.0f}v{bar_h + 30 * k - r * 0.8:.0f}h{-sw:.0f}z" fill="{T["label"]}"/>')
+    parts.append(rich(spec.get("app", "Ứng dụng"), sx + sw / 2, sy + 30 * k + bar_h / 2, sw * 0.86, min(36 * k, sw * 0.08), "#FFFFFF",
+                      anchor="middle", max_lines=1, weight=800, valign="middle")[0])
+    y = sy + bar_h + 60 * k
+    if spec.get("title"):
+        s, (_, th) = rich(spec["title"], sx + sw * 0.07, y, sw * 0.86, min(40 * k, sw * 0.085), T["title"], max_lines=2, weight=800)
+        parts.append(s)
+        y += th + 24 * k
+    n = max(1, len(items))
+    rh = min(sh * 0.11, (sy + sh * 0.84 - y) / n - 12 * k)
+    for i, it in enumerate(items):
+        on = i == cur - 1
+        fill = _tint(T["highlight"], 0.45) if on else "#F2F4F9"
+        parts.append(f'<rect x="{sx + sw * 0.06:.0f}" y="{y:.0f}" width="{sw * 0.88:.0f}" height="{rh:.0f}" rx="{14 * k:.0f}" fill="{fill}" '
+                     f'stroke="{T["highlight"] if on else "#E1E5EE"}" stroke-width="{3 * k:.1f}"/>')
+        parts.append(f'<circle cx="{sx + sw * 0.14:.0f}" cy="{y + rh / 2:.0f}" r="{rh * 0.26:.0f}" fill="{T["label"] if i < cur else "#C9CFDD"}"/>')
+        parts.append(f'<text x="{sx + sw * 0.14:.0f}" y="{y + rh / 2 + rh * 0.1:.0f}" text-anchor="middle" {_font_attrs(800)} '
+                     f'font-size="{rh * 0.28:.0f}" fill="#FFFFFF">{i + 1}</text>')
+        parts.append(rich(it, sx + sw * 0.24, y + rh / 2, sw * 0.66, min(30 * k, rh * 0.32), INK, max_lines=2, weight=600,
+                          valign="middle")[0])
+        if on:  # vòng chạm
+            parts.append(f'<circle cx="{sx + sw * 0.86:.0f}" cy="{y + rh / 2:.0f}" r="{rh * 0.32:.0f}" fill="none" '
+                         f'stroke="{T.get("accent") or T["alert"]}" stroke-width="{5 * k:.1f}"/>')
+        y += rh + 12 * k
+    if spec.get("button"):
+        bh = sh * 0.07
+        by = sy + sh - bh - 30 * k
+        parts.append(f'<rect x="{sx + sw * 0.1:.0f}" y="{by:.0f}" width="{sw * 0.8:.0f}" height="{bh:.0f}" rx="{bh / 2:.0f}" '
+                     f'fill="{T.get("accent") or T["alert"]}"/>')
+        parts.append(rich(spec["button"], sx + sw / 2, by + bh / 2, sw * 0.7, bh * 0.42, "#FFFFFF", anchor="middle", max_lines=1,
+                          weight=800, valign="middle")[0])
+    if side:
+        tx, tw = W * 0.58, W * 0.36
+        yy = H * 0.3
+        if spec.get("kicker"):
+            s, (_, chh) = chip(spec["kicker"].upper(), tx, yy, 30 * k)
+            parts.append(s)
+            yy += chh + 24 * k
+        if spec.get("side_title"):
+            s, (_, th) = rich(spec["side_title"], tx, yy, tw, 70 * k, max_lines=3, weight=800)
+            parts.append(s)
+            yy += th + 24 * k
+        if spec.get("note"):
+            parts.append(rich(spec["note"], tx, yy, tw, 36 * k, MUTED, max_lines=5, weight=500, lh=1.35)[0])
+    parts.append(f'<text x="{W / 2:.0f}" y="{H * 0.985:.0f}" text-anchor="middle" {_font_attrs(400)} font-size="{18 * k:.0f}" '
+                 f'fill="{MUTED}">Màn hình minh hoạ</text>')
+    return "".join(parts)
+
+
+# ---------------- meme (vẽ lại định dạng meme bằng nhân vật thương hiệu) ----------------
+def _char(pen, c, cx, ground, height):
+    from .character import character
+    s = max(0.35, min(1.4, height / 470))
+    svg, _ = character(pen, cx, ground, c.get("variant", "shop_owner"), c.get("pose", "standing"),
+                       c.get("expression", "calm_content"), s, c.get("flip", False), c.get("extras", []), c.get("outfit"))
+    return svg
+
+
+def _pen(spec):
+    import json as _json
+    import zlib
+    from .pen import Pen
+    return Pen(zlib.crc32(_json.dumps(spec, sort_keys=True, ensure_ascii=False).encode()))
+
+
+def meme_expect(spec, W, H):
+    """Kỳ vọng vs Thực tế: left/right {title, text, character{variant,pose,expression,extras}}."""
+    k = _k(W, H)
+    pen = _pen(spec)
+    parts = [background(W, H)]
+    tsvg, top = _title(spec, W, H, H * 0.06)
+    parts.append(tsvg)
+    mx, gap = W * 0.05, 30 * k
+    cw, ch = (W - 2 * mx - gap) / 2, H * 0.93 - top
+    for i, (side, dflt, col) in enumerate((("left", "Kỳ vọng", "#2E9E5B"), ("right", "Thực tế", T.get("accent") or T["alert"]))):
+        sd = spec.get(side, {})
+        x = mx + i * (cw + gap)
+        parts.append(card(x, top, cw, ch, fill=_tint(col, 0.08)))
+        parts.append(chip(sd.get("title", dflt).upper(), x + cw / 2, top + 24 * k, 40 * k, fill=col, anchor="middle")[0])
+        ground = top + ch * 0.78
+        parts.append(_char(pen.child(side), sd.get("character", {}), x + cw / 2, ground, ch * 0.5))
+        if sd.get("text"):
+            parts.append(rich(sd["text"], x + cw / 2, top + ch * 0.83, cw * 0.88, 42 * k, INK, anchor="middle", max_lines=2,
+                              weight=700)[0])
+    return "".join(parts)
+
+
+def meme_choice(spec, W, H):
+    """Chọn A hay B (lắc đầu / gật đầu): no, yes (chữ), character{variant} — vẽ lại bằng nhân vật thương hiệu."""
+    k = _k(W, H)
+    pen = _pen(spec)
+    c = dict(spec.get("character") or {"variant": "shop_owner"})
+    parts = [background(W, H)]
+    tsvg, top = _title(spec, W, H, H * 0.05)
+    parts.append(tsvg)
+    mx = W * 0.05
+    rh = (H * 0.95 - top - 20 * k) / 2
+    for i, (key, expr, pose, col) in enumerate((("no", "strain_anger", "standing", T.get("accent") or T["alert"]),
+                                                 ("yes", "happy", "pointing", "#2E9E5B"))):
+        y = top + i * (rh + 20 * k)
+        parts.append(card(mx, y, W - 2 * mx, rh, fill=_tint(col, 0.08)))
+        split = W * 0.34
+        parts.append(f'<rect x="{mx:.0f}" y="{y:.0f}" width="{split - mx:.0f}" height="{rh:.0f}" rx="{max(14, rh * 0.06):.0f}" fill="{_tint(col, 0.22)}"/>')
+        cc = dict(c, expression=expr, pose=pose)
+        parts.append(_char(pen.child(key), cc, (mx + split) / 2, y + rh * 0.93, rh * 0.8))
+        mark_x, mark_y, mr = split + 60 * k, y + rh / 2, 34 * k
+        if key == "no":
+            parts.append(f'<g stroke="{col}" stroke-width="{12 * k:.0f}" stroke-linecap="round"><path d="M{mark_x - mr} {mark_y - mr}L{mark_x + mr} {mark_y + mr}M{mark_x + mr} {mark_y - mr}L{mark_x - mr} {mark_y + mr}"/></g>')
+        else:
+            parts.append(f'<path d="M{mark_x - mr} {mark_y}L{mark_x - mr * 0.25} {mark_y + mr * 0.8}L{mark_x + mr} {mark_y - mr * 0.8}" fill="none" '
+                         f'stroke="{col}" stroke-width="{12 * k:.0f}" stroke-linecap="round" stroke-linejoin="round"/>')
+        parts.append(rich(spec.get(key, ""), split + 130 * k, y + rh / 2, W - mx - split - 170 * k, 56 * k, INK, max_lines=3,
+                          weight=800, valign="middle")[0])
+    return "".join(parts)
+
+
+def meme_pov(spec, W, H):
+    """POV: <tình huống> — chữ to + nhân vật phản ứng."""
+    k = _k(W, H)
+    pen = _pen(spec)
+    parts = [background(W, H)]
+    mx = W * 0.07
+    parts.append(chip("POV", mx, H * 0.1, 44 * k, fill=T["title"])[0])
+    text = re.sub(r"^\s*POV\s*:\s*", "", spec.get("text", ""), flags=re.I)
+    s, (_, th) = rich(text, mx, H * 0.1 + 100 * k, W - 2 * mx, (80 if not _boxed(W, H) else 64) * k, T["title"],
+                      max_lines=3, weight=800)
+    parts.append(s)
+    top = H * 0.1 + 100 * k + th + 20 * k
+    ground = H * 0.97
+    parts.append(_char(pen, spec.get("character") or {"variant": "shop_owner", "expression": "surprise", "extras": ["shock_lines"]},
+                       W / 2, ground, max(120 * k, ground - top)))
+    return "".join(parts)
+
+
+def meme_twist(spec, W, H):
+    """Con dấu PLOT TWIST (hoặc text tuỳ chọn) đóng xuống + dòng giải thích."""
+    k = _k(W, H)
+    col = T.get("accent") or T["alert"]
+    parts = [background(W, H)]
+    text = spec.get("text", "PLOT TWIST")
+    size = (170 if not _boxed(W, H) else 120) * k
+    tw = text_width(text, size) * 1.1
+    bw, bh = tw + 80 * k, size * 1.5
+    cx, cy = W / 2, H * 0.42
+    parts.append(f'<g transform="rotate(-8 {cx:.0f} {cy:.0f})" opacity="0.92">'
+                 f'<rect x="{cx - bw / 2:.0f}" y="{cy - bh / 2:.0f}" width="{bw:.0f}" height="{bh:.0f}" rx="{18 * k:.0f}" fill="none" stroke="{col}" stroke-width="{12 * k:.0f}"/>'
+                 f'<rect x="{cx - bw / 2 + 18 * k:.0f}" y="{cy - bh / 2 + 18 * k:.0f}" width="{bw - 36 * k:.0f}" height="{bh - 36 * k:.0f}" rx="{10 * k:.0f}" fill="none" stroke="{col}" stroke-width="{4 * k:.0f}"/>'
+                 f'<text x="{cx:.0f}" y="{cy + size * 0.36:.0f}" text-anchor="middle" {_font_attrs(800)} font-size="{size:.0f}" fill="{col}" letter-spacing="{4 * k:.1f}">{escape(text)}</text></g>')
+    if spec.get("sub"):
+        parts.append(rich(spec["sub"], W / 2, H * 0.7, W * 0.8, 54 * k, T["title"], anchor="middle", max_lines=3, weight=700)[0])
+    return "".join(parts)
+
+
+def video_overlay(spec, W=1920, H=1080):
+    """Lớp phủ trong suốt của khung video: chú thích + ghi nguồn (đặt trong vùng an toàn để bản dọc cắt không mất)."""
+    k = _k(W, H)
+    parts = []
+    if spec.get("caption"):
+        s, (tw, th) = rich(spec["caption"], 0, 0, W * 0.6, 44 * k, "#FFFFFF", max_lines=2, weight=700)
+        mx, my = W * 0.15, H * 0.08
+        parts.append(f'<rect x="{mx:.0f}" y="{my:.0f}" width="{tw + 50 * k:.0f}" height="{th + 30 * k:.0f}" rx="{14 * k:.0f}" '
+                     f'fill="#101A3D" fill-opacity="0.82"/>')
+        parts.append(rich(spec["caption"], mx + 25 * k, my + 15 * k, W * 0.6, 44 * k, "#FFFFFF", max_lines=2, weight=700)[0])
+    credit = spec.get("credit")
+    if credit:
+        parts.append(f'<text x="{W * 0.85:.0f}" y="{H * 0.14:.0f}" text-anchor="end" {_font_attrs(400)} font-size="{22 * k:.0f}" '
+                     f'fill="#FFFFFF" stroke="#000000" stroke-opacity="0.55" stroke-width="3" paint-order="stroke">{escape(credit)}</text>')
+    return "".join(parts)
+
+
 CARD_FRAMES = {
     "headline": (headline, "Tiêu đề kiểu báo: kicker, title (*từ nhấn*), deck, source"),
     "stat_cards": (stat_cards, "Thẻ số liệu: title, cards[{label, value, note, color}] (1–4), hiện dần theo step"),
@@ -590,6 +881,13 @@ CARD_FRAMES = {
     "compare": (compare, "So sánh giữ ngữ cảnh: left/right {title, items[], color}; step 1/2 làm sáng một bên"),
     "media_card": (media_card, "Ảnh thực tế trong thẻ bo góc: src, caption, title"),
     "map": (world_map, "Bản đồ thế giới: pins[{lat, lon, label}] hiện dần theo step, zoom {lat, lon, z}, title"),
+    "logo_row": (logo_row, "Hàng logo nhãn hiệu: title, logos[{src, label}] (2–5), hiện dần theo step"),
+    "doc_page": (doc_page, "Trang văn bản thật (footage pdf): src, highlight[[x,y,w,h]], kicker, title, caption; step ≥1 → zoom vùng khoanh"),
+    "phone_screen": (phone_screen, "Màn hình ứng dụng mô phỏng: app, title, items[], button, side_title, note; step = bước đang làm"),
+    "meme_expect": (meme_expect, "Meme Kỳ vọng vs Thực tế: title, left/right {title, text, character{variant,pose,expression,extras}}"),
+    "meme_choice": (meme_choice, "Meme lắc đầu / gật đầu: title, no, yes, character{variant, outfit}"),
+    "meme_pov": (meme_pov, "Meme POV: text, character{variant,pose,expression,extras}"),
+    "meme_twist": (meme_twist, "Con dấu PLOT TWIST: text (mặc định PLOT TWIST), sub"),
 }
 # khung vẽ được theo mọi tỉ lệ (bản dọc vẽ lại riêng thay vì thu nhỏ ảnh 16:9)
 RESPONSIVE = (set(CARD_FRAMES) - {"map"}) | {"concept_text", "photo"}

@@ -37,6 +37,7 @@ FRAMES = {
     "stats": "Thanh so sánh số liệu: title, bars[{label, value, display, color}]",
     "photo": "Ảnh thực tế toàn màn hình (B-roll): src, caption",
     "brand_card": "Màn kết thương hiệu (tự thêm từ brands/<tên>/brand.json): logo, headline, card_lines, note",
+    "video": "Video B-roll thật (footage --kind video): src, start (giây), speed, caption — preview hiện khung hình đầu",
 }
 from .cards import CARD_FRAMES, RESPONSIVE  # noqa: E402  (khung thẻ kiểu báo)
 FRAMES.update({name: desc for name, (_, desc) in CARD_FRAMES.items()})
@@ -48,6 +49,7 @@ ELEMENT_TYPES = {
     "arrow": "from [x,y], to [x,y] hoặc between [id1, id2]",
     "red_x": "dấu X đỏ lớn phủ cả khung = 'không phải thế này'",
     "photo": "ảnh thực tế dán khung polaroid: src, w (tỉ lệ bề ngang), tilt, caption, frame (polaroid|plain)",
+    "logo": "logo nhãn hiệu (footage --kind logo): src, w (tỉ lệ bề ngang), x, y — không viền, không nghiêng",
     "svg": "markup SVG tự vẽ (toạ độ cục bộ, gốc ở chân vật)",
 }
 
@@ -133,7 +135,7 @@ def _layout(elements, x0, y0, w, h, ground_y, warnings):
             else:
                 info["y"] = y = t["top"] - gap
 
-        if kind == "photo":
+        if kind in ("photo", "logo"):
             iw, ih = photo_size(el.get("src"))
             pw = w * el.get("w", 0.4)
             ph = pw * ih / iw
@@ -287,6 +289,8 @@ def render_panel(pen, spec, x0, y0, w, h, warnings, visible=None, boxes_out=None
             parts.append(_red_x(pen, x0, y0, w, h))
         elif kind == "photo":
             parts.append(_photo_card(pen, el, x, y, *info["photo_wh"], base))
+        elif kind == "logo":
+            parts.append(logo_image(el["src"], x, y, *info["photo_wh"]))
         elif kind == "svg":
             parts.append(f'<g transform="translate({x:.1f},{y:.1f}) scale({s:.3f})">{el["markup"]}</g>')
     return "".join(parts)
@@ -407,6 +411,8 @@ def scene_svg(spec, warnings=None, visible=None, seed=None, boxes_out=None, size
         body = _timeline(pen, spec, warnings)
     elif frame == "photo":
         body = _photo_frame(pen, spec)
+    elif frame == "video":
+        body = _video_still(spec)
     elif frame == "brand_card":
         body = _brand_card(pen, spec)
     elif frame == "stats":
@@ -427,8 +433,9 @@ def photo_path(src):
     if os.path.isabs(src) and os.path.exists(src):
         return src
     for d in PHOTO_DIRS:
-        for cand in (os.path.join(d, src), os.path.join(d, src + ".jpg"), os.path.join(d, src + ".png")):
-            if os.path.exists(cand):
+        for ext in ("", ".jpg", ".png", ".svg", ".jpeg", ".mp4", ".mov", ".webm"):
+            cand = os.path.join(d, src + ext)
+            if os.path.isfile(cand):
                 return cand
     raise SceneError(f"không tìm thấy ảnh '{src}' — tải bằng `make_video.py photo get` vào projects/<slug>/photos/")
 
@@ -436,14 +443,32 @@ def photo_path(src):
 def _photo(src):
     path = photo_path(src)
     if path not in _PHOTO_CACHE:
-        from PIL import Image
-        with Image.open(path) as im:
-            wh = im.size
-        with open(path, "rb") as f:
-            data = base64.b64encode(f.read()).decode()
-        mime = "image/png" if path.lower().endswith(".png") else "image/jpeg"
+        if path.lower().endswith(".svg"):
+            import re as _re
+            raw = open(path, encoding="utf-8").read()
+            m = _re.search(r'viewBox="([^"]+)"', raw)
+            if m:
+                wh = tuple(float(v) for v in _re.split(r"[\s,]+", m.group(1).strip())[2:4])
+            else:
+                wh = (float(_re.search(r'width="([\d.]+)', raw).group(1)), float(_re.search(r'height="([\d.]+)', raw).group(1)))
+            mime = "image/svg+xml"
+            data = base64.b64encode(raw.encode("utf-8")).decode()
+        else:
+            from PIL import Image
+            with Image.open(path) as im:
+                wh = im.size
+            with open(path, "rb") as f:
+                data = base64.b64encode(f.read()).decode()
+            mime = "image/png" if path.lower().endswith(".png") else "image/jpeg"
         _PHOTO_CACHE[path] = (f"data:{mime};base64,{data}", wh)
     return _PHOTO_CACHE[path]
+
+
+def logo_image(src, cx, cy, w, h):
+    """Logo nhãn hiệu: giữ nguyên tỉ lệ, không viền, không chỉnh sửa màu."""
+    uri, _ = _photo(src)
+    return (f'<image href="{uri}" x="{cx - w / 2:.1f}" y="{cy - h / 2:.1f}" width="{w:.1f}" height="{h:.1f}" '
+            f'preserveAspectRatio="xMidYMid meet"/>')
 
 
 def photo_size(src):
@@ -457,6 +482,10 @@ def photo_credit(src):
         return ""
     with open(base, "r", encoding="utf-8") as f:
         m = json.load(f)
+    if m.get("license") in ("pexels", "legal-doc") or m.get("kind") in ("video", "doc", "logo"):
+        from core.footage import short_credit
+        return "" if m.get("kind") == "logo" else ("Nguồn: " + short_credit(m) if m.get("license") == "pexels"
+                                                   else short_credit(m))
     lic = {"cc0": "CC0", "pdm": "Public Domain", "by": "CC BY", "by-sa": "CC BY-SA"}.get(m.get("license"), m.get("license", ""))
     if m.get("license") in ("by", "by-sa") and m.get("license_version"):
         lic += " " + m["license_version"]
@@ -509,6 +538,29 @@ def _photo_frame(pen, spec):
         out.append(f'<text x="{W - 120}" y="{H - 226}" text-anchor="end" font-family="{FONT_FAMILY}" font-size="22" '
                    f'fill="#FFFFFF">{escape_xml(credit)}</text>')
     return "".join(out)
+
+
+def _video_still(spec):
+    """Khung hình đại diện của clip (preview/validate). Khi dựng video, build.video_shot phát clip thật."""
+    import hashlib
+    import subprocess
+    src = photo_path(spec.get("src"))
+    if not src.lower().endswith((".mp4", ".mov", ".webm", ".m4v")):
+        raise SceneError(f"video '{spec.get('src')}' không phải file video")
+    from core.audio import FFMPEG
+    cache = os.path.join(os.path.dirname(src), ".stills")
+    os.makedirs(cache, exist_ok=True)
+    key = hashlib.sha1(f"{src}|{spec.get('start', 0)}".encode()).hexdigest()[:12]
+    jpg = os.path.join(cache, key + ".jpg")
+    if not os.path.exists(jpg):
+        subprocess.run([FFMPEG, "-v", "error", "-y", "-ss", str(float(spec.get("start", 0)) + 0.5), "-i", src, "-frames:v", "1",
+                        "-vf", f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}", jpg], check=True)
+    with open(jpg, "rb") as f:
+        uri = "data:image/jpeg;base64," + base64.b64encode(f.read()).decode()
+    from .cards import video_overlay
+    ov = dict(spec)
+    ov.setdefault("credit", photo_credit(spec["src"]))
+    return f'<image href="{uri}" x="0" y="0" width="{W}" height="{H}"/>' + video_overlay(ov, W, H)
 
 
 def _brand_card(pen, spec):

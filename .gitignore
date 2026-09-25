@@ -32,3 +32,5 @@ h2dev_pipeline/media/
 h2dev_pipeline/doodle/assets/**/*.png
 h2dev_pipeline/doodle/assets/*.png
 h2dev_pipeline/cache/
+h2dev_pipeline/brands/*/footage/
+h2dev_pipeline/projects/*/footage/

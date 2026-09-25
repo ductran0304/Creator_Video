@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- wall -->
+  <rect x="0" y="0" width="1920" height="830" fill="#F4F7FF"/>
+
+  <!-- floor -->
+  <rect x="0" y="830" width="1920" height="250" fill="#EDEFF6"/>
+  <path d="M -10,828 C 220,824 460,831 700,827 C 940,823 1180,830 1420,827 C 1660,824 1820,830 1930,827 L 1930,834 C 1820,837 1660,831 1420,834 C 1180,837 940,830 700,834 C 460,837 220,830 -10,834 Z"
+        fill="#D8DCE8"/>
+  <g stroke="#D8DCE8" stroke-width="3">
+    <line x1="0" y1="890" x2="1920" y2="888"/>
+    <line x1="0" y1="950" x2="1920" y2="952"/>
+    <line x1="0" y1="1012" x2="1920" y2="1010"/>
+  </g>
+
+  <!-- ============ LEFT: teller counter with glass partition ============ -->
+  <g>
+    <!-- glass partition -->
+    <path d="M 60,708 C 58,600 58,500 62,410 C 130,404 200,404 264,410 C 268,500 268,600 266,706 C 200,700 130,700 60,708 Z"
+          fill="#00C2A8" fill-opacity="0.22" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <line x1="163" y1="408" x2="163" y2="706" stroke="#141414" stroke-width="4"/>
+    <!-- number display screen, blank -->
+    <rect x="90" y="440" width="150" height="70" rx="8" fill="#101A3D" stroke="#141414" stroke-width="6"/>
+    <rect x="104" y="452" width="122" height="46" rx="4" fill="#FFC93C"/>
+
+    <!-- counter -->
+    <rect x="40" y="758" width="16" height="70" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <rect x="270" y="758" width="16" height="70" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 24,706 C 110,700 210,700 300,706 C 302,724 302,738 300,750 C 210,756 110,756 24,750 C 22,738 22,724 24,706 Z"
+          fill="#101A3D" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M 24,706 C 110,700 210,700 300,706 L 300,718 C 210,712 110,712 24,718 Z" fill="#D2B488"/>
+  </g>
+
+  <!-- potted plant near counter -->
+  <g>
+    <path d="M 320,760 C 320,730 340,706 356,706 C 372,706 392,730 392,760 L 320,760 Z" fill="#00857A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M 312,760 L 400,760 L 392,822 L 320,822 Z" fill="#D2B488" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+
+  <!-- ============ RIGHT: waiting chairs ============ -->
+  <g>
+    <!-- bench seat -->
+    <rect x="1640" y="712" width="260" height="34" rx="8" fill="#FF5C7A" stroke="#141414" stroke-width="6"/>
+    <rect x="1650" y="746" width="14" height="76" fill="#141414"/>
+    <rect x="1732" y="746" width="14" height="76" fill="#141414"/>
+    <rect x="1814" y="746" width="14" height="76" fill="#141414"/>
+    <rect x="1876" y="746" width="14" height="76" fill="#141414"/>
+    <!-- backrest -->
+    <path d="M 1642,712 C 1640,660 1642,622 1650,596 C 1730,590 1810,590 1888,596 C 1896,622 1898,660 1896,712 C 1810,706 1728,706 1642,712 Z"
+          fill="#FF5C7A" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <line x1="1766" y1="596" x2="1766" y2="712" stroke="#141414" stroke-width="4"/>
+  </g>
+
+  <!-- small potted plant, far right -->
+  <g>
+    <path d="M 1900,758 C 1900,728 1920,704 1936,704 C 1952,704 1972,728 1972,758 L 1900,758 Z" fill="#00857A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M 1892,758 L 1980,758 L 1972,820 L 1900,820 Z" fill="#D2B488" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+</svg>

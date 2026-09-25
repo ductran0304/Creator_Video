@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- sky -->
+  <rect x="0" y="0" width="1920" height="820" fill="#BFE3F2"/>
+
+  <!-- concrete yard -->
+  <rect x="0" y="820" width="1920" height="260" fill="#D8D2C4"/>
+  <path d="M -10,818 C 220,814 460,821 700,817 C 940,813 1180,820 1420,817 C 1660,814 1820,820 1930,817 L 1930,824 C 1820,827 1660,821 1420,824 C 1180,827 940,820 700,824 C 460,827 220,820 -10,824 Z"
+        fill="#C4BCA8"/>
+  <g stroke="#C4BCA8" stroke-width="3">
+    <line x1="0" y1="890" x2="1920" y2="888"/>
+    <line x1="0" y1="960" x2="1920" y2="962"/>
+    <line x1="0" y1="1030" x2="1920" y2="1028"/>
+  </g>
+
+  <!-- ============ LEFT: single room, motorbike parked ============ -->
+  <g>
+    <rect x="30" y="470" width="270" height="360" fill="#F5F1E6" stroke="#141414" stroke-width="7"/>
+    <!-- corrugated roof overhang -->
+    <path d="M 10,470 L 320,470 L 320,440 L 10,440 Z" fill="#5A5A5E" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <g stroke="#141414" stroke-width="3">
+      <line x1="30" y1="440" x2="30" y2="470"/>
+      <line x1="70" y1="440" x2="70" y2="470"/>
+      <line x1="110" y1="440" x2="110" y2="470"/>
+      <line x1="150" y1="440" x2="150" y2="470"/>
+      <line x1="190" y1="440" x2="190" y2="470"/>
+      <line x1="230" y1="440" x2="230" y2="470"/>
+      <line x1="270" y1="440" x2="270" y2="470"/>
+    </g>
+    <!-- door -->
+    <rect x="110" y="600" width="110" height="228" rx="4" fill="#00857A" stroke="#141414" stroke-width="7"/>
+    <line x1="165" y1="600" x2="165" y2="828" stroke="#141414" stroke-width="4"/>
+    <circle cx="196" cy="716" r="5" fill="#141414"/>
+    <!-- small window -->
+    <rect x="46" y="560" width="46" height="46" rx="4" fill="#7FB5D5" stroke="#141414" stroke-width="6"/>
+  </g>
+
+  <!-- motorbike beside the room -->
+  <g>
+    <circle cx="356" cy="806" r="42" fill="none" stroke="#141414" stroke-width="8"/>
+    <circle cx="486" cy="806" r="42" fill="none" stroke="#141414" stroke-width="8"/>
+    <path d="M 356,806 C 366,760 392,742 424,742 C 440,742 452,750 456,764 L 486,806"
+          fill="none" stroke="#141414" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 356,806 L 400,760" stroke="#141414" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 400,704 C 388,700 380,704 376,714" fill="none" stroke="#141414" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 396,742 C 396,724 396,712 400,704" fill="none" stroke="#141414" stroke-width="8" stroke-linecap="round"/>
+    <rect x="404" y="726" width="70" height="26" rx="10" fill="#FF5C7A" stroke="#141414" stroke-width="7"/>
+  </g>
+
+  <!-- ============ RIGHT: two room doors + clothesline ============ -->
+  <g>
+    <rect x="1620" y="470" width="280" height="360" fill="#F5F1E6" stroke="#141414" stroke-width="7"/>
+    <path d="M 1600,470 L 1910,470 L 1910,440 L 1600,440 Z" fill="#5A5A5E" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <g stroke="#141414" stroke-width="3">
+      <line x1="1620" y1="440" x2="1620" y2="470"/>
+      <line x1="1660" y1="440" x2="1660" y2="470"/>
+      <line x1="1700" y1="440" x2="1700" y2="470"/>
+      <line x1="1740" y1="440" x2="1740" y2="470"/>
+      <line x1="1780" y1="440" x2="1780" y2="470"/>
+      <line x1="1820" y1="440" x2="1820" y2="470"/>
+      <line x1="1860" y1="440" x2="1860" y2="470"/>
+      <line x1="1900" y1="440" x2="1900" y2="470"/>
+    </g>
+    <!-- door 1 -->
+    <rect x="1642" y="602" width="96" height="226" rx="4" fill="#FF5C7A" stroke="#141414" stroke-width="7"/>
+    <line x1="1690" y1="602" x2="1690" y2="828" stroke="#141414" stroke-width="4"/>
+    <circle cx="1718" cy="718" r="5" fill="#141414"/>
+    <!-- door 2 -->
+    <rect x="1762" y="602" width="96" height="226" rx="4" fill="#FFC93C" stroke="#141414" stroke-width="7"/>
+    <line x1="1810" y1="602" x2="1810" y2="828" stroke="#141414" stroke-width="4"/>
+    <circle cx="1838" cy="718" r="5" fill="#141414"/>
+  </g>
+
+  <!-- clothesline with hanging clothes, right side -->
+  <g>
+    <line x1="1580" y1="330" x2="1900" y2="360" stroke="#141414" stroke-width="4"/>
+    <rect x="1610" y="330" width="50" height="60" rx="6" fill="#00C2A8" stroke="#141414" stroke-width="6"/>
+    <path d="M 1690,338 L 1730,340 L 1726,404 L 1694,402 Z" fill="#101A3D" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <rect x="1770" y="346" width="46" height="58" rx="6" fill="#FF5C7A" stroke="#141414" stroke-width="6"/>
+  </g>
+</svg>

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- wall -->
+  <rect x="0" y="0" width="1920" height="830" fill="#F4F7FF"/>
+
+  <!-- floor -->
+  <rect x="0" y="830" width="1920" height="250" fill="#EDEFF6"/>
+  <path d="M -10,828 C 220,824 460,831 700,827 C 940,823 1180,830 1420,827 C 1660,824 1820,830 1930,827 L 1930,834 C 1820,837 1660,831 1420,834 C 1180,837 940,830 700,834 C 460,837 220,830 -10,834 Z"
+        fill="#D8DCE8"/>
+  <g stroke="#D8DCE8" stroke-width="3">
+    <line x1="0" y1="890" x2="1920" y2="888"/>
+    <line x1="0" y1="950" x2="1920" y2="952"/>
+    <line x1="0" y1="1012" x2="1920" y2="1010"/>
+  </g>
+
+  <!-- ============ LEFT: desk + monitor + whiteboard ============ -->
+  <g>
+    <!-- whiteboard -->
+    <path d="M 60,268 C 140,262 240,262 320,268 C 322,330 322,392 320,438 C 240,444 140,444 60,438 C 58,392 58,330 60,268 Z"
+          fill="#FFFFFF" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <!-- simple bar chart, no text -->
+    <rect x="90" y="380" width="26" height="46" fill="#00C2A8" stroke="#141414" stroke-width="4"/>
+    <rect x="130" y="350" width="26" height="76" fill="#FF5C7A" stroke="#141414" stroke-width="4"/>
+    <rect x="170" y="360" width="26" height="66" fill="#FFC93C" stroke="#141414" stroke-width="4"/>
+    <rect x="210" y="330" width="26" height="96" fill="#101A3D" stroke="#141414" stroke-width="4"/>
+    <rect x="250" y="366" width="26" height="60" fill="#00857A" stroke="#141414" stroke-width="4"/>
+    <polyline points="98,360 143,320 183,332 223,300 263,336" fill="none" stroke="#141414" stroke-width="4"/>
+
+    <!-- desk -->
+    <rect x="52" y="758" width="16" height="72" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <rect x="300" y="758" width="16" height="72" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 36,736 C 130,730 240,730 332,736 C 334,748 334,756 332,762 C 240,768 130,768 36,762 C 34,756 34,748 36,736 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+
+    <!-- monitor -->
+    <rect x="150" y="562" width="14" height="30" fill="#5A5A5E" stroke="#141414" stroke-width="5"/>
+    <path d="M 118,660 C 118,672 200,672 200,660 L 200,666 C 200,674 118,674 118,666 Z" fill="#5A5A5E" stroke="#141414" stroke-width="5"/>
+    <rect x="98" y="576" width="164" height="108" rx="10" fill="#101A3D" stroke="#141414" stroke-width="7"/>
+    <rect x="114" y="590" width="132" height="80" rx="4" fill="#F4F7FF"/>
+
+    <!-- keyboard -->
+    <rect x="110" y="700" width="120" height="26" rx="6" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+  </g>
+
+  <!-- potted plant, left edge -->
+  <g>
+    <path d="M 20,760 C 20,730 40,706 56,706 C 72,706 92,730 92,760 L 20,760 Z" fill="#00857A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M 56,706 C 48,680 30,668 10,662 C 30,694 40,706 56,706 Z" fill="#00857A" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M 56,706 C 64,680 82,668 102,662 C 82,694 72,706 56,706 Z" fill="#00857A" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M 12,760 L 100,760 L 92,822 L 20,822 Z" fill="#D2B488" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+
+  <!-- ============ RIGHT: filing cabinet + plant ============ -->
+  <g>
+    <path d="M 1650,762 C 1648,600 1648,440 1652,268 C 1712,262 1780,262 1836,268 C 1840,440 1840,600 1838,760 C 1780,754 1712,754 1650,762 Z"
+          fill="#101A3D" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <rect x="1666" y="298" width="158" height="120" rx="6" fill="#101A3D" stroke="#141414" stroke-width="6"/>
+    <rect x="1728" y="348" width="34" height="14" rx="4" fill="#FFC93C" stroke="#141414" stroke-width="4"/>
+    <rect x="1666" y="440" width="158" height="120" rx="6" fill="#101A3D" stroke="#141414" stroke-width="6"/>
+    <rect x="1728" y="490" width="34" height="14" rx="4" fill="#FF5C7A" stroke="#141414" stroke-width="4"/>
+    <rect x="1666" y="582" width="158" height="120" rx="6" fill="#101A3D" stroke="#141414" stroke-width="6"/>
+    <rect x="1728" y="632" width="34" height="14" rx="4" fill="#00C2A8" stroke="#141414" stroke-width="4"/>
+  </g>
+
+  <g>
+    <path d="M 1856,760 C 1856,724 1878,696 1896,696 C 1914,696 1936,724 1936,760 L 1856,760 Z" fill="#00857A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M 1848,760 L 1944,760 L 1936,824 L 1856,824 Z" fill="#D2B488" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+</svg>

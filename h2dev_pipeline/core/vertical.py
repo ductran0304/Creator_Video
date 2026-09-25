@@ -163,7 +163,8 @@ def timeline(plan, durations, bounds, cfg):
         sfx = _line_sfx(states_cache[id(sc)], li, 1) if segs[-1]["lines"] else []
         segs[-1]["lines"].append({"text": ln["text"], "sub": sub, "start": t, "end": t + d, "audio_index": k,
                                   "reveal": bool(ln.get("show")) and bool(segs[-1]["lines"]),
-                                  "speaker": ln.get("speaker"), "nosub": False, "sfx": sfx,
+                                  "speaker": ln.get("speaker"), "nosub": False, "fx": ln.get("fx"),
+                                  "sfx": sfx + list(ln.get("sfx") or []),
                                   "wt": word_times(sub, ln["text"], t, d, bounds[k])})
         refs[-1].append((sc, li))
         t += d + line_gap

@@ -108,6 +108,37 @@ của ý đang kể** mà không vật có sẵn nào thay được (vd video v�
 
 Viết file bằng công cụ Write. JSON gọn: mỗi element một dòng.
 
+## Bước 3b — Kế hoạch footage (hình ảnh thật, bắt buộc với thương hiệu)
+
+Hình doodle và thẻ lặp lại nhiều thì video nhàm. Trước khi chốt scenes.json, lập danh sách footage cho từng cảnh:
+- **Tên riêng → logo** (Shopee, TikTok Shop, Zalo, ngân hàng, eTax Mobile...): phần tử `logo` trong cảnh hoặc khung
+  `logo_row`. Logo lưu một lần ở thư viện dùng chung (`--shared`) để các video sau dùng lại.
+- **Mỗi văn bản pháp luật → `doc_page`**: ảnh trang thật từ PDF (vanban.chinhphu.vn / datafiles.chinhphu.vn),
+  khoanh đúng điều khoản; câu đầu `step: 0` (toàn trang), câu sau `step: 1` (camera zoom vào vùng khoanh).
+  PDF có lớp chữ: `--find "cụm từ"` trả sẵn toạ độ; PDF scan: Read ảnh trang rồi tự đặt `highlight [x,y,w,h]` (0..1).
+- **Hành động đời thường → `video`** (clip Pexels 3–8 giây, làm `cut`): quét QR, đếm tiền, đóng gói, xưởng may,
+  dãy trọ, chợ... Tìm bằng từ khoá tiếng Anh. Hoặc ảnh thật (`photo`, `media_card`).
+- **Thao tác trên ứng dụng → `phone_screen`** (màn hình vẽ mô phỏng, KHÔNG chụp tài khoản thật).
+- **Câu đùa → meme** (1–2 lần/video, đúng DNA hài nhẹ): `meme_expect` (Kỳ vọng vs Thực tế), `meme_choice`
+  (lắc đầu/gật đầu), `meme_pov`, `meme_twist` (con dấu PLOT TWIST); câu thoại thêm `"fx": "shake"` để rung,
+  `"sfx": ["ting"|"boom"|"scratch"|"crickets"]` cho âm thanh meme.
+- Đổi nền theo bối cảnh (xưởng may, văn phòng công ty, kho online, dãy trọ, chợ, ngân hàng...) và nhân vật
+  (`director_male`, `director_female`, `packer`, `shipper`...) — không để một nền lặp 3 cảnh liền.
+
+Lệnh:
+```
+MV footage search "packing online orders" --kind video        # Pexels (mặc định), bảng xem trước cache/footage_search/last.png
+MV footage search "Shopee" --kind logo                        # Wikimedia
+MV footage search "vietnam market" --kind photo --source openverse
+MV footage get <slug> <số> --name dong_goi [--shared]
+MV footage pdf <slug> <url.pdf> --page 4 --name doc_nd117_p4 --title "Nghị định 117/2025/NĐ-CP, trang 4"
+```
+Read bảng xem trước trước khi chọn — chọn đúng ý câu thoại, không chọn cho có. Giấy phép chỉ nhận: Pexels, CC0,
+Public Domain, CC BY (BY-SA với --allow-sa). KHÔNG dùng: meme có người thật/nhân vật có bản quyền, GIF GIPHY/Tenor,
+clip cắt từ TV/YouTube/TikTok người khác, ảnh CC-NC/CC-ND, ảnh người nhận diện được trong ngữ cảnh tiêu cực,
+quốc huy/con dấu. Mô tả video tự ghi nguồn footage và câu miễn trừ nhãn hiệu. Mục tiêu: ≥ 30% số câu có footage
+thật (`validate` báo tỷ lệ).
+
 ## Bước 4 — Kiểm tra và sửa đến khi sạch
 
 ```

@@ -287,6 +287,39 @@ def validate(project, kb=None, cfg=None):
     if n < smin or n > smax:
         warnings.append(f"{n} cảnh — khuyến nghị {smin}–{smax} cảnh")
 
+    # độ đa dạng hình ảnh: nền lặp, kiểu thẻ lặp, tỷ lệ footage thật (ảnh, video, văn bản, logo)
+    FOOT = {"photo", "video", "doc_page", "logo_row", "media_card"}
+    run_bg, last_bg, run_fr, last_fr, n_foot, n_lines = 0, None, 0, None, 0, 0
+    for si, sc in enumerate(scenes, 1):
+        if not isinstance(sc, dict) or sc.get("_auto_outro"):
+            continue
+        bg = sc.get("bg") if sc.get("frame", "scene") == "scene" else None
+        run_bg = run_bg + 1 if (bg and bg == last_bg) else 1
+        last_bg = bg
+        if bg and run_bg == 3:
+            warnings.append(f"Cảnh {si}: nền '{bg}' lặp 3 cảnh liền — đổi nền hoặc chèn footage thật")
+        try:
+            states = line_states(sc)
+        except Exception:  # noqa: BLE001 — lỗi cấu trúc đã báo ở trên
+            continue
+        for li, st in enumerate(states, 1):
+            fr = st["spec"].get("frame", "scene")
+            n_lines += 1
+            els = st["spec"].get("elements", []) if fr == "scene" else []
+            vis = st["visible"]
+            has = fr in FOOT or any(el.get("type") in ("photo", "logo") for i, el in enumerate(els)
+                                    if vis is None or i in vis)
+            n_foot += bool(has)
+            key = fr if (fr != "scene" and st["cut"]) else None  # thẻ hiện dần trong cùng cảnh là chủ ý, không tính lặp
+            run_fr = run_fr + 1 if (key and key == last_fr) else (1 if key else 0)
+            last_fr = key
+            if key and run_fr == 4:
+                warnings.append(f"Cảnh {si}, câu {li}: kiểu khung '{fr}' lặp 4 câu liền — xen video/ảnh thật, meme hoặc cảnh doodle")
+    target = cfg.get("footage_min_ratio")
+    if target and n_lines and n_foot / n_lines < target:
+        warnings.append(f"Footage thật chỉ {n_foot}/{n_lines} câu ({n_foot / n_lines:.0%}) < mục tiêu {target:.0%} — "
+                        "thêm video/ảnh (footage search), trang văn bản (doc_page), logo khi nhắc tên riêng")
+
     # bản dọc 9:16 (mục "short")
     from .vertical import check as check_short
     s_err, s_warn, s_secs = check_short(project, wpm)
@@ -294,5 +327,6 @@ def validate(project, kb=None, cfg=None):
     warnings += s_warn
 
     stats = {"scenes": n, "lines": len(all_text), "words": total_words,
-             "est_minutes": round(total_words / wpm, 1), "language": lang, "short_seconds": round(s_secs)}
+             "est_minutes": round(total_words / wpm, 1), "language": lang, "short_seconds": round(s_secs),
+             "footage_ratio": round(n_foot / n_lines, 2) if n_lines else 0}
     return errors, warnings, stats

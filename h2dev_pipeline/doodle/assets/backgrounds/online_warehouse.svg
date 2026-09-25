@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- wall -->
+  <rect x="0" y="0" width="1920" height="830" fill="#F4F7FF"/>
+
+  <!-- floor -->
+  <rect x="0" y="830" width="1920" height="250" fill="#EDEFF6"/>
+  <path d="M -10,828 C 220,824 460,831 700,827 C 940,823 1180,830 1420,827 C 1660,824 1820,830 1930,827 L 1930,834 C 1820,837 1660,831 1420,834 C 1180,837 940,830 700,834 C 460,837 220,830 -10,834 Z"
+        fill="#D8DCE8"/>
+  <g stroke="#D8DCE8" stroke-width="3">
+    <line x1="0" y1="890" x2="1920" y2="888"/>
+    <line x1="0" y1="950" x2="1920" y2="952"/>
+    <line x1="0" y1="1012" x2="1920" y2="1010"/>
+  </g>
+
+  <!-- ============ LEFT: racking with carton boxes ============ -->
+  <g>
+    <path d="M 20,760 C 20,560 20,400 22,260 C 90,255 170,255 250,262 C 252,400 252,560 250,758 C 170,752 90,754 20,760 Z"
+          fill="#8A8A8A" fill-opacity="0.25" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <line x1="24" y1="400" x2="246" y2="396" stroke="#141414" stroke-width="6"/>
+    <line x1="24" y1="580" x2="246" y2="580" stroke="#141414" stroke-width="6"/>
+
+    <!-- top row boxes -->
+    <rect x="32" y="290" width="88" height="78" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 32,329 L 120,329 M 76,290 L 76,368" stroke="#8B5A2B" stroke-width="4"/>
+    <rect x="130" y="278" width="100" height="90" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 130,323 L 230,323 M 180,278 L 180,368" stroke="#8B5A2B" stroke-width="4"/>
+    <ellipse cx="212" cy="300" rx="16" ry="9" fill="#FF5C7A" stroke="#141414" stroke-width="4"/>
+
+    <!-- mid row boxes -->
+    <rect x="34" y="440" width="96" height="84" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 34,482 L 130,482 M 82,440 L 82,524" stroke="#8B5A2B" stroke-width="4"/>
+    <rect x="140" y="450" width="90" height="74" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 140,487 L 230,487 M 185,450 L 185,524" stroke="#8B5A2B" stroke-width="4"/>
+    <ellipse cx="164" cy="466" rx="14" ry="8" fill="#00C2A8" stroke="#141414" stroke-width="4"/>
+
+    <!-- bottom row boxes -->
+    <rect x="30" y="608" width="100" height="90" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 30,653 L 130,653 M 80,608 L 80,698" stroke="#8B5A2B" stroke-width="4"/>
+    <ellipse cx="55" cy="628" rx="14" ry="8" fill="#FFC93C" stroke="#141414" stroke-width="4"/>
+    <rect x="138" y="618" width="94" height="80" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 138,658 L 232,658 M 185,618 L 185,698" stroke="#8B5A2B" stroke-width="4"/>
+  </g>
+
+  <!-- packing table with tape roll, foreground left corner -->
+  <g>
+    <rect x="46" y="756" width="14" height="72" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <rect x="198" y="756" width="14" height="72" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 30,736 C 100,730 160,730 226,736 C 228,748 228,754 226,760 C 160,766 100,766 30,760 C 28,754 28,748 30,736 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <circle cx="176" cy="700" r="26" fill="#FFC93C" stroke="#141414" stroke-width="6"/>
+    <circle cx="176" cy="700" r="10" fill="#EDEFF6" stroke="#141414" stroke-width="4"/>
+    <rect x="60" y="696" width="70" height="30" rx="6" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+  </g>
+
+  <!-- ============ RIGHT: racking with carton boxes ============ -->
+  <g>
+    <path d="M 1670,760 C 1668,560 1668,400 1670,260 C 1750,255 1830,255 1898,262 C 1900,400 1900,560 1898,758 C 1830,752 1750,754 1670,760 Z"
+          fill="#8A8A8A" fill-opacity="0.25" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <line x1="1674" y1="400" x2="1896" y2="396" stroke="#141414" stroke-width="6"/>
+    <line x1="1674" y1="580" x2="1896" y2="580" stroke="#141414" stroke-width="6"/>
+
+    <!-- top row -->
+    <rect x="1682" y="284" width="100" height="88" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 1682,328 L 1782,328 M 1732,284 L 1732,372" stroke="#8B5A2B" stroke-width="4"/>
+    <rect x="1792" y="296" width="90" height="76" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 1792,334 L 1882,334 M 1837,296 L 1837,372" stroke="#8B5A2B" stroke-width="4"/>
+    <ellipse cx="1712" cy="304" rx="16" ry="9" fill="#00857A" stroke="#141414" stroke-width="4"/>
+
+    <!-- mid row -->
+    <rect x="1684" y="446" width="94" height="80" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 1684,486 L 1778,486 M 1730,446 L 1730,526" stroke="#8B5A2B" stroke-width="4"/>
+    <rect x="1790" y="452" width="98" height="78" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 1790,491 L 1888,491 M 1838,452 L 1838,530" stroke="#8B5A2B" stroke-width="4"/>
+    <ellipse cx="1858" cy="470" rx="14" ry="8" fill="#FF5C7A" stroke="#141414" stroke-width="4"/>
+
+    <!-- bottom row -->
+    <rect x="1680" y="614" width="98" height="88" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 1680,658 L 1778,658 M 1728,614 L 1728,702" stroke="#8B5A2B" stroke-width="4"/>
+    <rect x="1788" y="624" width="96" height="78" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+    <path d="M 1788,663 L 1884,663 M 1835,624 L 1835,702" stroke="#8B5A2B" stroke-width="4"/>
+    <ellipse cx="1810" cy="640" rx="14" ry="8" fill="#FFC93C" stroke="#141414" stroke-width="4"/>
+  </g>
+
+  <!-- packing bag, foreground right corner -->
+  <g>
+    <path d="M 1700,762 C 1698,730 1706,706 1724,700 C 1742,694 1762,706 1762,730 C 1762,742 1758,752 1752,762 Z"
+          fill="#FF5C7A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M 1712,700 C 1712,684 1746,684 1746,700" fill="none" stroke="#141414" stroke-width="5"/>
+  </g>
+</svg>

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- sky -->
+  <rect x="0" y="0" width="1920" height="820" fill="#BFE3F2"/>
+
+  <!-- ground -->
+  <rect x="0" y="820" width="1920" height="260" fill="#D8D2C4"/>
+  <path d="M -10,818 C 220,814 460,821 700,817 C 940,813 1180,820 1420,817 C 1660,814 1820,820 1930,817 L 1930,824 C 1820,827 1660,821 1420,824 C 1180,827 940,820 700,824 C 460,827 220,820 -10,824 Z"
+        fill="#C4BCA8"/>
+  <g stroke="#C4BCA8" stroke-width="3">
+    <line x1="0" y1="890" x2="1920" y2="888"/>
+    <line x1="0" y1="960" x2="1920" y2="962"/>
+    <line x1="0" y1="1030" x2="1920" y2="1028"/>
+  </g>
+
+  <!-- ============ LEFT: produce stall with striped awning ============ -->
+  <g>
+    <!-- awning poles -->
+    <line x1="60" y1="380" x2="60" y2="760" stroke="#8B5A2B" stroke-width="10"/>
+    <line x1="320" y1="360" x2="320" y2="760" stroke="#8B5A2B" stroke-width="10"/>
+    <!-- striped awning -->
+    <path d="M 30,380 C 130,368 250,368 350,362 L 350,300 C 250,306 130,306 30,318 Z"
+          fill="#FF5C7A" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <g fill="#FFFFFF">
+      <path d="M 66,376 L 106,373 L 106,312 L 66,317 Z"/>
+      <path d="M 146,371 L 186,369 L 186,309 L 146,313 Z"/>
+      <path d="M 226,369 L 266,367 L 266,307 L 226,309 Z"/>
+      <path d="M 306,365 L 346,363 L 346,303 L 306,305 Z"/>
+    </g>
+    <path d="M 30,380 C 130,368 250,368 350,362 L 350,300 C 250,306 130,306 30,318 Z"
+          fill="none" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <!-- stall table -->
+    <path d="M 40,720 C 130,714 240,714 330,720 C 332,732 332,740 330,746 C 240,752 130,752 40,746 C 38,740 38,732 40,720 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <rect x="52" y="746" width="14" height="80" fill="#8B5A2B" stroke="#141414" stroke-width="6"/>
+    <rect x="304" y="746" width="14" height="80" fill="#8B5A2B" stroke="#141414" stroke-width="6"/>
+    <!-- baskets of produce on table -->
+    <path d="M 60,680 C 58,700 62,712 72,718 C 92,724 116,724 134,718 C 144,712 148,700 146,680 Z" fill="#D2B488" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="80" cy="676" r="14" fill="#F58220" stroke="#141414" stroke-width="4"/>
+    <circle cx="104" cy="668" r="14" fill="#F58220" stroke="#141414" stroke-width="4"/>
+    <circle cx="126" cy="676" r="14" fill="#F58220" stroke="#141414" stroke-width="4"/>
+    <path d="M 168,684 C 166,702 170,712 180,718 C 198,724 220,724 236,718 C 246,712 250,702 248,684 Z" fill="#D2B488" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="188" cy="680" r="13" fill="#4E9A45" stroke="#141414" stroke-width="4"/>
+    <circle cx="210" cy="674" r="13" fill="#4E9A45" stroke="#141414" stroke-width="4"/>
+    <circle cx="230" cy="680" r="13" fill="#4E9A45" stroke="#141414" stroke-width="4"/>
+    <!-- stacked baskets on ground -->
+    <path d="M 20,824 C 18,846 24,858 36,862 C 54,868 74,868 90,862 C 100,858 104,846 102,824 Z" fill="#D2B488" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+
+  <!-- ============ RIGHT: stall with hanging bananas + balance scale ============ -->
+  <g>
+    <line x1="1600" y1="360" x2="1600" y2="760" stroke="#8B5A2B" stroke-width="10"/>
+    <line x1="1860" y1="380" x2="1860" y2="760" stroke="#8B5A2B" stroke-width="10"/>
+    <path d="M 1570,362 C 1670,368 1790,368 1890,380 L 1890,318 C 1790,306 1670,306 1570,300 Z"
+          fill="#FFC93C" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <g fill="#FFFFFF">
+      <path d="M 1614,317 L 1654,313 L 1654,373 L 1614,376 Z"/>
+      <path d="M 1694,309 L 1734,309 L 1734,369 L 1694,371 Z"/>
+      <path d="M 1774,307 L 1814,309 L 1814,367 L 1774,369 Z"/>
+    </g>
+    <path d="M 1570,362 C 1670,368 1790,368 1890,380 L 1890,318 C 1790,306 1670,306 1570,300 Z"
+          fill="none" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+
+    <!-- balance scale on a stand -->
+    <line x1="1696" y1="470" x2="1696" y2="700" stroke="#141414" stroke-width="8"/>
+    <line x1="1636" y1="500" x2="1756" y2="500" stroke="#141414" stroke-width="8"/>
+    <line x1="1646" y1="500" x2="1636" y2="548" stroke="#141414" stroke-width="5"/>
+    <line x1="1706" y1="500" x2="1716" y2="548" stroke="#141414" stroke-width="5"/>
+    <ellipse cx="1636" cy="556" rx="34" ry="10" fill="#8A8A8A" stroke="#141414" stroke-width="5"/>
+    <ellipse cx="1716" cy="556" rx="34" ry="10" fill="#8A8A8A" stroke="#141414" stroke-width="5"/>
+    <rect x="1666" y="680" width="60" height="20" rx="4" fill="#D2B488" stroke="#141414" stroke-width="6"/>
+
+    <!-- table with produce -->
+    <path d="M 1780,720 C 1810,714 1850,714 1882,720 C 1884,732 1884,740 1882,746 C 1850,752 1810,752 1780,746 C 1778,740 1778,732 1780,720 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <rect x="1788" y="746" width="12" height="78" fill="#8B5A2B" stroke="#141414" stroke-width="6"/>
+    <rect x="1864" y="746" width="12" height="78" fill="#8B5A2B" stroke="#141414" stroke-width="6"/>
+    <circle cx="1812" cy="700" r="14" fill="#F58220" stroke="#141414" stroke-width="4"/>
+    <circle cx="1836" cy="694" r="14" fill="#F58220" stroke="#141414" stroke-width="4"/>
+    <circle cx="1858" cy="700" r="14" fill="#F58220" stroke="#141414" stroke-width="4"/>
+  </g>
+</svg>

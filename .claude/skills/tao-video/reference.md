@@ -46,6 +46,23 @@ và bản dọc vẽ lại đúng ô nên không bị cắt chữ. Chữ `*...*`
 | `media_card` | `src`, `title`, `caption` | ảnh thực tế trong thẻ bo góc (thay cho ảnh tràn màn hình khi ảnh không sát ý) |
 | `map` | `title`, `pins[{lat, lon, label}]`, `zoom {lat, lon, z}` | bản đồ thế giới doodle; `step` = số ghim đã hiện; camera zoom vào vùng |
 
+### Khung footage và meme
+
+| frame / element | trường | ghi chú |
+|---|---|---|
+| `video` | `src`, `start` (giây), `speed`, `caption` | clip thật (footage --kind video), phát đúng từng hình, lặp tới-lui nếu câu dài hơn clip; hợp làm `cut` |
+| `doc_page` | `src`, `highlight [[x,y,w,h]]`, `kicker`, `title`, `caption` | trang văn bản thật; `step` 0 toàn trang, 1.. zoom vào vùng khoanh thứ n |
+| `logo_row` | `title`, `logos [{src, label}]` (2–5) | logo nhãn hiệu, hiện dần theo step, tự có dòng miễn trừ |
+| element `logo` | `src`, `x`, `y`, `w` | logo đặt trong cảnh doodle (không viền, không nghiêng); dùng được làm `focus` |
+| `phone_screen` | `app`, `title`, `items[]`, `button`, `side_title`, `note` | màn hình ứng dụng vẽ mô phỏng; `step` = bước đang bấm |
+| `meme_expect` | `title`, `left`/`right` `{title, text, character{variant,pose,expression,extras}}` | Kỳ vọng vs Thực tế (SFX scratch) |
+| `meme_choice` | `title`, `no`, `yes`, `character{variant}` | lắc đầu / gật đầu (vẽ lại bằng nhân vật thương hiệu) |
+| `meme_pov` | `text`, `character{...}` | POV: … |
+| `meme_twist` | `text` (mặc định PLOT TWIST), `sub` | con dấu đóng xuống (SFX boom) |
+
+Trường câu thoại: `"fx": "shake"` (rung + đẩy nhanh 0,45s), `"sfx": ["ting"]` thêm âm thanh (ting, boom, scratch,
+crickets, whoosh, ding, thud, paper, pop).
+
 Dùng như cảnh chính (cảnh riêng, các câu có `step`) hoặc như `cut` của một câu:
 ```json
 {"chapter": "Tóm tắt", "frame": "checklist", "title": "*4 việc* cần nhớ",

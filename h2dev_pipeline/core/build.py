@@ -36,7 +36,11 @@ SCENE_FADE_S = 0.3    # chuyển cảnh: hoà hình cảnh trước sang cảnh 
 DRAW_S = 0.75         # thời gian "vẽ tay" một thành phần mới
 LEAD_IN, TAIL = 0.5, 1.5
 CARD_SFX = {"stat_cards": "paper", "ledger": "paper", "compare": "paper", "document": "paper", "media_card": "paper",
-            "checklist": "ding", "map": "pop", "headline": "thud", "deadline": "thud", "concept_text": "thud"}
+            "checklist": "ding", "map": "pop", "headline": "thud", "deadline": "thud", "concept_text": "thud",
+            "logo_row": "pop", "doc_page": "paper", "phone_screen": "pop", "meme_expect": "scratch", "meme_choice": "pop",
+            "meme_pov": "pop", "meme_twist": "boom"}
+MEME_FRAMES = {"meme_expect", "meme_choice", "meme_pov", "meme_twist"}
+SHAKE_S = 0.45       # hiệu ứng rung kiểu meme (fx: "shake")
 
 
 def _log_time(log, label, t0):
@@ -72,7 +76,10 @@ def _line_sfx(states, i, si):
     out = []
     frame = st["spec"].get("frame", "scene")
     if st["cut"] and not (prev and prev["cut"] and prev["spec"] == st["spec"]):
-        out.append("thud" if frame in ("concept_text", "headline", "deadline", "stat_cards") else "whoosh")
+        if frame in MEME_FRAMES or frame in ("logo_row", "phone_screen"):
+            out.append(CARD_SFX[frame])
+        else:
+            out.append("thud" if frame in ("concept_text", "headline", "deadline", "stat_cards") else "whoosh")
     elif not st["cut"] and "_step" in st["spec"] and (not prev or prev["spec"].get("_step") != st["spec"]["_step"]):
         if i or si == 0:
             out.append(CARD_SFX.get(frame, "pop"))
@@ -95,9 +102,9 @@ def build_timeline(project, durations, cfg, bounds=None):
             d = durations[k]
             sub = ln.get("sub") or ln["text"]
             lines.append({"text": ln["text"], "sub": sub, "start": t, "end": t + d, "audio_index": k,
-                          "reveal": bool(ln.get("show")), "speaker": ln.get("speaker"),
+                          "reveal": bool(ln.get("show")), "speaker": ln.get("speaker"), "fx": ln.get("fx"),
                           "wt": word_times(sub, ln["text"], t, d, bounds[k] if bounds else None),
-                          "sfx": _line_sfx(states, li, si),
+                          "sfx": _line_sfx(states, li, si) + list(ln.get("sfx") or []),
                           "nosub": bool(sc.get("_auto_outro"))})  # màn kết đã có chữ, không cần phụ đề
             t += d
             k += 1
@@ -154,6 +161,11 @@ def render_state(st, cache_dir, size=None, draw=False, scene=None):
     elif frame == "map" and _map_view(st["spec"]):
         view = _map_view(st["spec"])
         res = max(HIRES, view[2] * 1.02)
+    elif frame == "doc_page":
+        from doodle.cards import doc_view
+        dv = doc_view(st["spec"], *(size if native else (W, H)))
+        if dv:
+            view, res = dv, max(HIRES, dv[2] * 1.02)
     p = os.path.join(cache_dir, hashlib.sha1(f"{res:.3f}|{svg}".encode()).hexdigest()[:16] + ".png")
     if not os.path.exists(p):
         with open(p, "wb") as f:
@@ -176,8 +188,42 @@ def render_state(st, cache_dir, size=None, draw=False, scene=None):
         if bs:
             draw_box = (min(b["x0"] for b in bs), min(b["top"] for b in bs), max(b["x1"] for b in bs),
                         max(b["bottom"] for b in bs))
-    return {"path": p, "view": view, "cut": st["cut"], "reveal": st["reveal"], "fit": fit, "draw": draw_box,
+    shot = {"path": p, "view": view, "cut": st["cut"], "reveal": st["reveal"], "fit": fit, "draw": draw_box,
             "native": native, "frame": frame}
+    if frame == "video":
+        shot.update(video_shot(st["spec"], cache_dir))
+        shot["fit"] = "cover" if size else None
+        shot["native"] = False
+    return shot
+
+
+VIDEO_FPS = 24
+
+
+def video_shot(spec, cache_dir):
+    """Khung video B-roll: tách clip thành ảnh (24 hình/giây, 16:9 hi-res) + lớp phủ chú thích/nguồn trong suốt."""
+    from doodle.scene import photo_path, photo_credit
+    from doodle.cards import video_overlay
+    src = photo_path(spec["src"])
+    start, dur = float(spec.get("start", 0)), float(spec.get("max_seconds", 12))
+    tw, th = int(W * HIRES), int(H * HIRES)
+    key = hashlib.sha1(f"{src}|{os.path.getmtime(src)}|{start}|{dur}|{tw}".encode()).hexdigest()[:14]
+    d = os.path.join(cache_dir, "video_" + key)
+    if not os.path.isdir(d) or not os.listdir(d):
+        os.makedirs(d, exist_ok=True)
+        subprocess.run([A.FFMPEG, "-v", "error", "-y", "-ss", str(start), "-t", str(dur), "-i", src, "-an", "-vf",
+                        f"scale={tw}:{th}:force_original_aspect_ratio=increase,crop={tw}:{th},fps={VIDEO_FPS}",
+                        "-q:v", "3", os.path.join(d, "%05d.jpg")], check=True)
+    frames = sorted(os.path.join(d, f) for f in os.listdir(d) if f.endswith(".jpg"))
+    ov = dict(spec)
+    ov.setdefault("credit", photo_credit(spec["src"]))
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">'
+           f'{video_overlay(ov, W, H)}</svg>')
+    op = os.path.join(cache_dir, hashlib.sha1(f"ov|{HIRES}|{svg}".encode()).hexdigest()[:16] + ".png")
+    if not os.path.exists(op):
+        with open(op, "wb") as f:
+            f.write(render_png(svg, HIRES))
+    return {"path": frames[0], "video": frames, "overlay": op, "speed": float(spec.get("speed", 1.0))}
 
 
 def render_shots(project, cache_dir, log, draw=False):
@@ -249,6 +295,27 @@ class FrameMaker:
             self._cache[path] = img
         return img
 
+    def _src(self, si, k, t):
+        """Ảnh nguồn của cú máy k tại thời điểm t (khung video: đúng hình của clip, lặp lại nếu câu dài hơn clip)."""
+        shot = self.shots[si][k]
+        if not shot.get("video"):
+            return self._img(shot["path"])
+        local = max(0.0, t - self.timeline[si]["lines"][k]["start"]) * shot.get("speed", 1.0)
+        frames = shot["video"]
+        n = len(frames)
+        i = int(local * VIDEO_FPS)
+        i = i % (2 * n - 2) if n > 1 else 0  # chạy tới rồi lùi (ping-pong) để không giật khi lặp
+        i = i if i < n else 2 * n - 2 - i
+        img = Image.open(frames[i]).convert("RGB")
+        ov = self._cache.get(shot["overlay"])
+        if ov is None:
+            ov = Image.open(shot["overlay"]).convert("RGBA")
+            if ov.size != img.size:
+                ov = ov.resize(img.size, Image.LANCZOS)
+            self._cache[shot["overlay"]] = ov
+        img.paste(ov, (0, 0), ov)
+        return img
+
     def _base(self, si, t, native=False):
         sc = self.timeline[si]
         u = _ease((t - sc["start"]) / max(0.01, sc["end"] - sc["start"]))
@@ -270,6 +337,13 @@ class FrameMaker:
             a = (t - ln["start"]) / PUNCH_S
             if 0 <= a < 1:
                 z *= 1 + PUNCH * math.sin(math.pi * a)
+        if ln.get("fx") == "shake":  # rung + đẩy nhanh kiểu meme
+            a = (t - ln["start"]) / SHAKE_S
+            if 0 <= a < 1:
+                decay = 1 - a
+                cx += 0.008 * decay * math.sin(t * 95)
+                cy += 0.006 * decay * math.cos(t * 83)
+                z *= 1 + 0.06 * decay
         return (cx, cy, z)
 
     def _camera(self, si, k, t):
@@ -333,21 +407,20 @@ class FrameMaker:
         view = self._camera(si, k, t)
         a_draw = (t - lines[k]["start"]) / DRAW_S
         if shot.get("draw") and k > 0 and 0 <= a_draw < 1:
-            src = self._drawn(self._img(shots[k - 1]["path"]), self._img(shot["path"]), shot["draw"], _ease(a_draw))
+            src = self._drawn(self._src(si, k - 1, t), self._src(si, k, t), shot["draw"], _ease(a_draw))
             return self._render(src, view, shot.get("fit"))
-        cur = self._render(self._img(shot["path"]), view, shot.get("fit"))
+        cur = self._render(self._src(si, k, t), view, shot.get("fit"))
         if k > 0 and shot["path"] != shots[k - 1]["path"]:
             fade = CUT_FADE_S if (shot["cut"] or shots[k - 1]["cut"]) else FADE_S
             a = (t - lines[k]["start"]) / fade
             if a < 1:
-                prev = self._render(self._img(shots[k - 1]["path"]), self._shot_view(si, k - 1, t),
-                                    shots[k - 1].get("fit"))
+                prev = self._render(self._src(si, k - 1, t), self._shot_view(si, k - 1, t), shots[k - 1].get("fit"))
                 cur = Image.blend(prev, cur, _ease(a))
         elif k == 0 and si > 0:  # sang cảnh mới: hoà hình từ cú máy cuối của cảnh trước
             a = (t - self.timeline[si]["start"]) / SCENE_FADE_S
             if a < 1:
                 ps = self.shots[si - 1]
-                prev = self._render(self._img(ps[-1]["path"]), self._shot_view(si - 1, len(ps) - 1, t),
+                prev = self._render(self._src(si - 1, len(ps) - 1, t), self._shot_view(si - 1, len(ps) - 1, t),
                                     ps[-1].get("fit"))
                 cur = Image.blend(prev, cur, _ease(a))
         return cur
@@ -577,14 +650,17 @@ def _sfx(name, cfg, base_dir):
         if key:
             path = _asset(cfg, base_dir, *key)
         gen = {"page": A.default_page_flip, "pop": A.default_pop, "whoosh": A.sfx_whoosh, "ding": A.sfx_ding,
-               "thud": A.sfx_thud, "paper": A.sfx_paper, "scribble": A.sfx_scribble}[name]
+               "thud": A.sfx_thud, "paper": A.sfx_paper, "scribble": A.sfx_scribble, "boom": A.sfx_boom,
+               "scratch": A.sfx_scratch, "crickets": A.sfx_crickets, "ting": A.sfx_ting}[name]
         _SFX[name] = A.decode(path) if path else gen()
     return _SFX[name]
 
 
 SFX_GAIN = {"page": ("sfx_volume", 0.25), "pop": ("sfx_reveal_volume", 0.15), "whoosh": ("sfx_whoosh_volume", 0.22),
             "ding": ("sfx_ding_volume", 0.2), "thud": ("sfx_thud_volume", 0.35), "paper": ("sfx_paper_volume", 0.3),
-            "scribble": ("sfx_scribble_volume", 0.5)}
+            "scribble": ("sfx_scribble_volume", 0.5), "boom": ("sfx_boom_volume", 0.35),
+            "scratch": ("sfx_scratch_volume", 0.25), "crickets": ("sfx_crickets_volume", 0.3),
+            "ting": ("sfx_ting_volume", 0.3)}
 
 
 def _asset(cfg, base_dir, key, default):

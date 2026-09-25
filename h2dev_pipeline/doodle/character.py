@@ -20,6 +20,10 @@ VARIANTS = {
     "archaeologist": "Nhà khảo cổ — mũ thám hiểm nâu + ba lô",
     "shop_owner": "Chủ hộ kinh doanh / chủ tiệm — tóc bob đen, tạp dề hồng san hô",
     "kttg_accountant": "Kế toán viên KTTG — tóc rẽ ngôi, kính, áo xanh ngọc có thẻ nhân viên",
+    "director_male": "Giám đốc/chủ doanh nghiệp nam — tóc ngắn gọn, vest navy, cà vạt",
+    "director_female": "Giám đốc/chủ doanh nghiệp nữ — tóc búi gọn, vest navy",
+    "packer": "Nhân viên đóng gói hàng online — mũ lưỡi trai xanh, tạp dề nâu",
+    "shipper": "Shipper giao hàng — mũ bảo hiểm cam, áo khoác cam",
 }
 
 EXPRESSIONS = {
@@ -179,6 +183,26 @@ def _hair(pen, variant):
         inner = [_pt(r - 17, a) for a in range(-2, -179, -12)]
         return (pen.poly(outer + inner, "#1E1E24", amp=1.0)
                 + pen.line([_pt(r - 6, -125), _pt(r + 6, -118)], width=3.5, stroke="#F4F7FF"))
+    if variant == "director_male":  # tóc ngắn gọn, mái vuốt nhẹ
+        outer = [_pt(r + 7, a) for a in range(-176, -3, 12)]
+        inner = [_pt(r - 13, a) for a in range(-4, -177, -12)]
+        return pen.poly(outer + inner, "#2A2A30", amp=0.9) + pen.shape(
+            f"M{_pt(r - 4, -150)[0]:.1f},{_pt(r - 4, -150)[1]:.1f} Q0,{-r - 14} {_pt(r - 2, -40)[0]:.1f},{_pt(r - 2, -40)[1]:.1f}",
+            width=3, stroke="#4A4A52")
+    if variant == "director_female":  # tóc ôm đầu + búi sau gáy
+        outer = [_pt(r + 8, a) for a in range(-190, 1, 12)]
+        inner = [_pt(r - 14, a) for a in range(0, -191, -12)]
+        bx, by = _pt(r + 10, -205)
+        return pen.circle(bx, by, 22, "#1E1E24") + pen.poly(outer + inner, "#1E1E24", amp=1.0)
+    if variant == "packer":  # mũ lưỡi trai
+        dome = [(x, y - 8) for x, y in (_pt(r + 3, a) for a in range(-180, 1, 12))]
+        return (pen.poly(dome, "#2F6FDE", amp=1.0)
+                + pen.shape(f"M{r - 10},-24 Q{r + 40},-30 {r + 52},-14 L{r - 6},-14 Z", fill="#2F6FDE", width=4))
+    if variant == "shipper":  # mũ bảo hiểm nửa đầu + kính chắn
+        dome = [(x, y - 14) for x, y in (_pt(r + 10, a) for a in range(-180, 1, 12))]
+        return (pen.poly(dome, "#F58220", amp=1.0)
+                + pen.line([(-r - 6, -22), (r + 6, -22)], width=6, stroke="#101A3D")
+                + pen.shape(f"M{-r + 10},-50 Q0,{-r - 30} {r - 10},-50", width=4, stroke="#FFFFFF"))
     if variant == "archaeologist":
         # mũ thám hiểm đội cao trên trán để không che mắt
         dome = [(x, y - 26) for x, y in (_pt(r + 2, a) for a in range(-180, 1, 12))]
@@ -274,9 +298,14 @@ OUTFITS = {
     "dress": "váy dài (bà cụ)",
     "apron": "tạp dề bán hàng (chủ tiệm)",
     "kttg_shirt": "áo xanh ngọc + dây đeo thẻ KTTG",
+    "suit": "vest navy + sơ mi trắng + cà vạt (giám đốc)",
+    "suit_f": "vest navy + áo trắng cổ chữ V (giám đốc nữ)",
+    "work_apron": "áo thun xanh + tạp dề nâu (nhân viên kho)",
+    "jacket": "áo khoác cam (shipper)",
 }
 DEFAULT_OUTFIT = {"ancient_human": "fur", "archaeologist": "shirt", "elder_grandmother": "dress",
-                  "shop_owner": "apron", "kttg_accountant": "kttg_shirt"}
+                  "shop_owner": "apron", "kttg_accountant": "kttg_shirt", "director_male": "suit",
+                  "director_female": "suit_f", "packer": "work_apron", "shipper": "jacket"}
 
 
 def _outfit(pen, p, kind):
@@ -312,6 +341,22 @@ def _outfit(pen, p, kind):
         out += pen.line([at(6, -12), at(L * 0.5, 0), at(6, 12)], width=4, stroke="#101A3D")
         bx, by = at(L * 0.5, 0)
         return out + pen.rect(bx - 12, by, 24, 30, "#FFC93C", width=3.5, amp=0.5)
+    if kind == "suit":
+        out = pen.poly([at(6, -34), at(6, 34), at(L + 18, 38), at(L + 18, -38)], "#101A3D", amp=1.1)
+        out += pen.poly([at(6, -12), at(6, 12), at(L * 0.55, 0)], "#FFFFFF", width=3, amp=0.4)
+        out += pen.poly([at(12, -4), at(12, 4), at(L * 0.5, 5), at(L * 0.58, 0), at(L * 0.5, -5)], "#FF5C7A", width=3,
+                        amp=0.3)
+        return out
+    if kind == "suit_f":
+        out = pen.poly([at(6, -34), at(6, 34), at(L + 22, 42), at(L + 22, -42)], "#101A3D", amp=1.1)
+        return out + pen.poly([at(6, -14), at(6, 14), at(L * 0.45, 0)], "#FFFFFF", width=3, amp=0.4)
+    if kind == "work_apron":
+        out = pen.poly([at(6, -32), at(6, 32), at(L + 14, 34), at(L + 14, -34)], "#7FB5D5", amp=1.1)
+        return out + pen.poly([at(L * 0.3, -24), at(L * 0.3, 24), at(L + 40, 36), at(L + 40, -36)], "#A0683A", amp=1.1)
+    if kind == "jacket":
+        out = pen.poly([at(6, -34), at(6, 34), at(L + 18, 38), at(L + 18, -38)], "#F58220", amp=1.1)
+        out += pen.line([at(8, 0), at(L + 16, 0)], width=4, stroke="#101A3D")
+        return out + pen.line([at(L * 0.6, -36), at(L * 0.6, 36)], width=5, stroke="#FFFFFF")
     if kind == "dress":
         return pen.poly([at(4, -16), at(4, 16), at(L + 40, 64), at(L + 40, -64)], C["purple_mauve"])
     return ""
