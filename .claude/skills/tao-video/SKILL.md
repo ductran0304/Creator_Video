@@ -24,6 +24,8 @@ Video cho **thương hiệu** (vd KTTG — kế toán thuế): dùng `brands/<t�
 (khán giả, giọng văn, hài hước, cấu trúc, quy tắc pháp lý), ghi `"brand": "<tên>"` trong scenes.json, bỏ qua
 các quy tắc riêng của kênh người tiền sử (ngôi "you", dẫn chứng khảo cổ). Với nội dung pháp lý: đối chiếu mọi
 số hiệu văn bản / mốc ngày / con số bằng WebSearch tại thời điểm làm video và liệt kê căn cứ trong seo.json.
+**Luôn tìm văn bản sửa đổi** ("sửa đổi, bổ sung Nghị định số …", "nâng ngưỡng") trước khi dùng một con số từ nghị định:
+bản gốc có thể đã bị sửa (V9: NĐ 68/2026 ghi 500 triệu nhưng NĐ 141/2026 đã sửa thành 1 tỷ từ 1/1/2026).
 Nếu thương hiệu có `brands/<tên>/topics.md`: đọc để chọn chủ đề (người dùng nói "video số N"/"video tiếp theo" →
 chủ đề `[ ]` đầu tiên trong Hàng đợi), tránh trùng chủ đề đã làm; làm xong thì đánh dấu `[x]` kèm slug và ngày.
 

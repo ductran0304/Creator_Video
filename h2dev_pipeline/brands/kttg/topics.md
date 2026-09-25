@@ -48,6 +48,7 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (Nghị định 252/2026/NĐ-CP Điều 28; video đầu tiên có footage thật: Pexels, trang văn bản, meme)
 - [x] V9 · HK · Cho thuê phòng trọ: khi nào phải nộp thuế? → projects/kttg_cho_thue_phong_tro · 25/09/2026
   (Nghị định 68/2026/NĐ-CP Điều 3, 4, 8; Luật Thuế TNCN 109/2025 khoản 4 Điều 7 — góc 'vách đá' GTGT 5% trên toàn bộ doanh thu)
+  ⚠ 26/09/2026: LÀM LẠI — bản đầu dùng ngưỡng 500 triệu đã lỗi thời; NĐ 141/2026 (hiệu lực 1/1/2026) nâng lên 1 tỷ. Bản mới: 55/56 phòng, 50,8 triệu. Nếu đã đăng bản cũ thì gỡ/thay.
 - [x] V10 · KT · Lãi trên sổ nhưng không có tiền: vì sao? → projects/kttg_lai_tren_so_khong_co_tien · 25/09/2026
   (Nghị định 320/2025/NĐ-CP Điều 8: doanh thu tính thuế không phân biệt đã thu tiền; ví dụ xưởng may 5 chỗ tiền kẹt)
 - [x] V11 · TL · Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu → projects/kttg_thanh_lap_cong_ty_30_ngay · 25/09/2026
@@ -67,7 +68,7 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
 - [x] V18 · HD · Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn? → projects/kttg_chu_ky_so_het_han · 26/09/2026
   (NĐ 23/2025 Điều 7 khoản 3 tối đa 3 năm, Điều 15; bước cập nhật chứng thư trên thuế/hoá đơn là khuyến nghị KTTG)
 - [x] V19 · BC · Lịch thuế tháng 1/2027: 2 hạn nộp trước Tết → projects/kttg_lich_thue_thang_1_2027 · 26/09/2026
-  (NĐ 252/2026 Điều 10, NĐ 68/2026 Điều 8; 31/1/2027 là Chủ nhật — chưa đối chiếu quy định lùi hạn khi trùng ngày nghỉ, video chỉ khuyên nộp trước 29/1; đăng đầu tháng 1/2027)
+  (⚠ đã sửa ngưỡng thông báo doanh thu 500 triệu → 1 tỷ theo NĐ 141/2026; NĐ 252/2026 Điều 10, NĐ 68/2026 Điều 8; 31/1/2027 là Chủ nhật — chưa đối chiếu quy định lùi hạn khi trùng ngày nghỉ, video chỉ khuyên nộp trước 29/1; đăng đầu tháng 1/2027)
 - [x] V20 · KT ★ · Một trang, năm con số: báo cáo KTTG gửi anh chị mỗi tháng → projects/kttg_bao_cao_mot_trang · 26/09/2026
   (video niềm tin, số liệu giả định; KTTG cần xác nhận đúng 5 con số và cách gửi báo cáo thật)
 - [x] V21 · QT · Lịch quyết toán năm 2026: đếm ngược đến 31/3/2027 → projects/kttg_lich_quyet_toan_31_3 · 26/09/2026
@@ -78,6 +79,10 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (NĐ 253/2026 Điều 51; NĐ 252/2026 Điều 10 khoản 5)
 - [x] V24 · TC · Đọc báo cáo tài chính trong 5 phút: 3 dòng → projects/kttg_doc_bctc_5_phut · 26/09/2026
   (Luật Kế toán Điều 29; 3 dòng là cách đọc KTTG khuyến nghị, số liệu minh hoạ)
+- [x] V25 · QT · Đăng ký người phụ thuộc: giảm thuế thế nào? → projects/kttg_dang_ky_nguoi_phu_thuoc · 26/09/2026
+  (Luật TNCN 109/2025 Điều 10; NĐ 253/2026 Điều 47–49, 51 — khoản mới trừ y tế ≤ 23 triệu, giáo dục ≤ 24 triệu)
+- [x] V26 · TG ★ · Làm kế toán qua Zalo diễn ra thế nào? → projects/kttg_ke_toan_qua_zalo · 26/09/2026
+  (video niềm tin — KTTG cần xác nhận quy trình thật)
 
 Độ phủ sau 22 video: HK 5 · BC 3 · HD 2 · QT 3 · KT 2 · TL 1 · TG 1 · SS 2 · LD 2 · TC 1 — đã phủ đủ 10 dịch vụ → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -89,8 +94,16 @@ Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
 
 Tháng 2–3/2027 (mùa quyết toán):
-- [ ] QT3 · Đăng ký người phụ thuộc: giảm thuế thế nào?
-- [ ] TG6 ★ · Không cần mang hồ sơ đi đâu: làm kế toán qua Zalo diễn ra thế nào?
+
+- [ ] TG7 · Công ty doanh thu đến 1 tỷ được miễn thuế TNDN: NĐ 141/2026 (Điều 2) — mới, nên làm sớm
+
+Đợt bổ sung (tự chọn 26/09/2026, ưu tiên chủ đề phổ biến, căn cứ đã có sẵn trong thư viện):
+- [ ] HK3 · 6 con số chủ hộ kinh doanh hay nhớ nhầm
+- [ ] TL2 · Hộ kinh doanh hay công ty: khi nào nên chuyển lên doanh nghiệp?
+- [ ] LD3 · Hợp đồng thử việc, thời vụ, cộng tác viên: đóng gì, khấu trừ gì?
+- [ ] SS4 · Tài khoản công ty và tài khoản giám đốc: tách thế nào cho đúng?
+- [ ] HD1 · Xuất hoá đơn sai: điều chỉnh hay thay thế?
+- [ ] BC1 · Khai thuế GTGT theo tháng hay theo quý: công ty anh chị thuộc loại nào?
 
 ## Chủ đề theo dịch vụ
 
@@ -102,7 +115,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | TG3 ★ | Thuê kế toán dịch vụ: 500k, 900k hay 1,1 triệu — gói nào hợp với anh chị? | Minh bạch bảng giá theo loại hình | Bảng giá + tư vấn 45 phút | D + S | [ ] |
 | TG4 ★ | Khi nào nên thuê kế toán dịch vụ, khi nào nên tuyển kế toán nội bộ? | So sánh chi phí, rủi ro nghỉ việc | Tư vấn 45 phút | D + S | [ ] |
 | TG5 | Kế toán nghỉ ngang: bàn giao sổ sách thế nào cho khỏi mất dấu? | Nối V8: hộp thư thuế không ai mở | Trọn gói + soát xét | D + QA | [ ] |
-| TG6 ★ | Không cần mang hồ sơ đi đâu: làm kế toán qua Zalo diễn ra thế nào? | Hậu trường một tháng làm việc với KTTG | Quy trình KTTG, phản hồi 24 giờ | D + S | [ ] |
+| TG6 ★ | Không cần mang hồ sơ đi đâu: làm kế toán qua Zalo diễn ra thế nào? | Hậu trường một tháng làm việc với KTTG | Quy trình KTTG, phản hồi 24 giờ | D + S | [x] V26 |
 
 ### BC — Báo cáo thuế hằng tháng, hằng quý
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
@@ -124,7 +137,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | HK5 | Bán qua Facebook, Zalo (không qua sàn): kê khai thế nào? | Nhóm dễ bỏ sót nhất, nối V7 | Chuyển đổi hộ kê khai | D + S | [ ] |
 | HK6 | Livestream bán hàng: doanh thu tính từ lúc nào? | Tiền cọc, hoàn hàng, phí sàn | Chuyển đổi hộ kê khai | S + QA | [ ] |
 | HK7 | Cho thuê mặt bằng: bên thuê hay bên cho thuê khai thuế? | Hợp đồng ghi "giá đã gồm thuế", nối V9 | Chuyển đổi hộ kê khai | D + S | [ ] |
-| HK8 | Hộ doanh thu trên 3 tỷ: tính thuế trên lợi nhuận, cần sổ sách gì? | NĐ 68/2026 Điều 4 khoản 5: đổi cách tính | Chuyển đổi hộ kê khai / lên công ty | D + QA | [ ] |
+| HK8 | Hộ doanh thu trên 3 tỷ: tính thuế trên lợi nhuận, cần sổ sách gì? | NĐ 68/2026 Điều 4 khoản 5 (kiểm NĐ 141/2026) | Chuyển đổi hộ kê khai / lên công ty | D + QA | [ ] |
 
 ### TL — Thành lập doanh nghiệp & hộ kinh doanh
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
@@ -141,7 +154,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 |---|---|---|---|---|---|
 | QT1 | Lịch quyết toán cuối năm: đếm ngược đến 31/3 | Thẻ deadline, việc từng tuần | Quyết toán | L + 3 S | [x] V21 |
 | QT2 | Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế? | Mùa tháng 3–4, công nhân KCN | Quyết toán (cá nhân, DN khai thay) | D + QA + S | [x] V23 |
-| QT3 | Đăng ký người phụ thuộc: giảm thuế thế nào? | Con cái, cha mẹ già | Quyết toán + tiền lương | S + QA | [ ] |
+| QT3 | Đăng ký người phụ thuộc: giảm thuế thế nào? | Con cái, cha mẹ già | Quyết toán + tiền lương | S + QA | [x] V25 |
 | QT4 | Công tác phí, tiếp khách, quà Tết: làm sao để được trừ? | Mùa cuối năm, nối V5 | Quyết toán | D + S | [x] V17 |
 | QT5 | Xe ô tô công ty: chi phí nào được trừ, chi phí nào không? | Câu hỏi của gần như mọi giám đốc | Quyết toán | D + QA | [ ] |
 | QT6 | Tiền điện, nước, thuê nhà đứng tên giám đốc: có được tính chi phí? | Tình huống phổ biến ở công ty nhỏ | Quyết toán | D + QA | [ ] |

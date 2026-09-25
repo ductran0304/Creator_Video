@@ -24,7 +24,7 @@ Hệ quả cho KTTG: **câu đầu tiên phải chứa ngay mâu thuẫn, con s�
    "Trong vài phút tới", "Kế Toán Tinh Gọn sẽ…". Câu hứa hẹn ("video này nói rõ…") chỉ đặt sau giây 15–20.
 4. **Nói với một người cụ thể.** "Anh chị có dãy trọ…", "Nếu công ty anh chị mới có giấy phép…" — người xem phải
    nhận ra mình trong 3 giây.
-5. **Một con số đắt, không phải ba.** Chọn con số gây chênh lệch lớn nhất (27 phòng: 0 đồng / 28 phòng: 25 triệu).
+5. **Một con số đắt, không phải ba.** Chọn con số gây chênh lệch lớn nhất (55 phòng: 0 đồng / 56 phòng: hơn 50 triệu).
 6. **Hình đầu tiên là hình mạnh nhất** (thẻ con số, meme, clip thật) — không mở bằng cảnh doodle đứng yên.
    Câu 1 nên có `cut` hoặc `fx`.
 7. **Không doạ, không bịa.** Hook phải đúng với nội dung và văn bản; cảm xúc là "à, hoá ra vậy", không phải
@@ -36,7 +36,7 @@ Mẫu gốc xưng "tôi" → đổi thành câu hỏi thật của khách, "Kế
 
 ### 3.1 Tò mò (khoảng trống thông tin)
 Mẫu: "Lý do thực sự…" · "Điều không ai nói với anh chị về…" · "Đây là những gì xảy ra khi…" · "Cách nhanh nhất để…"
-- "Điều không ai nói với chủ trọ: phòng thứ hai mươi tám có thể đắt nhất cả dãy."
+- "Điều không ai nói với chủ trọ: phòng thứ năm mươi sáu có thể đắt nhất cả dãy."
 - "Lý do thực sự công ty có lãi mà không có tiền trả lương, không nằm ở doanh thu."
 
 ### 3.2 Dễ liên tưởng (người xem thấy chính mình)
@@ -52,7 +52,7 @@ Mẫu: "Mọi người đều nói…, nhưng thực tế…" · "Đừng tin v�
 ### 3.4 Kết quả / chứng minh (con số, tình huống thật ẩn danh)
 Mẫu: "Sai lầm này đã khiến… mất…" · "Bài học lớn nhất sau…" · "Chỉ một … đã…"
 - "Một hoá đơn sáu triệu trả tiền mặt đã khiến công ty mất khoản chi phí được trừ."
-- "Kế Toán Tinh Gọn gặp nhiều chủ trọ vượt ngưỡng chỉ bốn triệu, và nộp thêm hơn hai mươi lăm triệu tiền thuế."
+- "Kế Toán Tinh Gọn gặp nhiều chủ trọ vượt ngưỡng chỉ tám triệu, và nộp thêm hơn năm mươi triệu tiền thuế."
   (chỉ dùng khi đúng là tình huống KTTG đã gặp; không thì chuyển sang "Giả sử…")
 
 ### 3.5 Kêu gọi hành động (lưu, gửi, làm trước khi…)
@@ -78,8 +78,8 @@ Mẫu: "Hãy tưởng tượng nếu…" · "Chuyện gì xảy ra nếu…" · 
 
 | Nhịp | Nội dung | Ví dụ V9 (cho thuê phòng trọ) |
 |---|---|---|
-| 0–4s | **Hook**: mâu thuẫn/con số | "Hai mươi bảy phòng trọ: không đồng tiền thuế. Thêm một phòng: hơn hai mươi lăm triệu." |
-| 4–9s | Cụ thể hoá: ai, con số, căn cứ | "Cùng giá một triệu rưỡi một tháng, chỉ vượt ngưỡng năm trăm triệu đúng bốn triệu." |
+| 0–4s | **Hook**: mâu thuẫn/con số | "Năm mươi lăm phòng trọ: không đồng tiền thuế. Thêm một phòng: hơn năm mươi triệu." |
+| 4–9s | Cụ thể hoá: ai, con số, căn cứ | "Cùng giá một triệu rưỡi một tháng, chỉ vượt ngưỡng một tỷ đúng tám triệu." |
 | 9–15s | Khoảng trống tò mò / nhận diện | "Vì sao chênh nhiều vậy? Và dãy trọ của anh chị đang ở bên nào?" |
 | 15–25s | Bối cảnh (lúc này mới dựng cảnh) + hứa hẹn ngắn | cảnh dãy trọ, rồi "Cùng tính cho rõ, từng phòng một." |
 
@@ -106,7 +106,7 @@ B-roll cho câu 2–4, không làm câu 1.
 - 3 tiêu đề trong `seo.json` phải thuộc **3 công thức khác nhau** để thử A/B (YouTube Studio → Test & compare).
 
 **Công thức**
-1. *Từ khoá: mâu thuẫn bằng con số* — "Cho thuê phòng trọ: thêm 1 phòng, thuế tăng 25 triệu?"
+1. *Từ khoá: mâu thuẫn bằng con số* — "Cho thuê phòng trọ: thêm 1 phòng, thuế tăng 50 triệu?"
 2. *Câu hỏi của khách* — "Công ty có lãi, sao không có tiền trả lương?"
 3. *Phản biện* — "Doanh thu dưới 1 tỷ không phải làm gì? Sai rồi (2026)"
 4. *N điều + kết quả* — "7 việc sau khi có giấy phép, để khỏi bị phạt năm đầu"
@@ -118,7 +118,7 @@ B-roll cho câu 2–4, không làm câu 1.
 |---|---|---|
 | V2 | Doanh thu dưới 1 tỷ: có thật là không phải làm gì? | Doanh thu dưới 1 tỷ vẫn phải làm 4 việc này (2026) |
 | V8 | Nợ thuế bao nhiêu thì giám đốc bị tạm hoãn xuất cảnh? (2026) | Tạm hoãn xuất cảnh vì nợ thuế: công ty nợ, giám đốc bị giữ |
-| V9 | Cho thuê phòng trọ 2026: khi nào phải nộp thuế? Ngưỡng 500 triệu | Cho thuê phòng trọ: thêm 1 phòng, thuế tăng 25 triệu? |
+| V9 | Cho thuê phòng trọ 2026: khi nào phải nộp thuế? Ngưỡng 500 triệu | Cho thuê phòng trọ: thêm 1 phòng, thuế tăng 50 triệu? (đã làm lại theo ngưỡng 1 tỷ) |
 | V10 | Lãi trên sổ nhưng không có tiền: vì sao? 5 chỗ tiền lãi đang nằm | Công ty có lãi, sao không có tiền trả lương? |
 | V11 | Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu (2026) | Có giấy phép kinh doanh rồi: 7 việc đừng để quá 30 ngày |
 
@@ -130,6 +130,8 @@ B-roll cho câu 2–4, không làm câu 1.
 - Cover bản dọc: dòng hook + một thẻ con số, đọc được khi thu nhỏ còn 1/4.
 
 ## 9. Kiểm tra nhanh trước khi dựng
+
+- [ ] **Mọi ngưỡng, mức, tỷ lệ đã tra văn bản sửa đổi mới nhất** (bài học V9: NĐ 68/2026 bị NĐ 141/2026 sửa 500 triệu → 1 tỷ; luôn tìm "sửa đổi Nghị định số …" trước khi dùng con số).
 
 - [ ] Câu 1 video dài ≤ 16 từ, có con số/mâu thuẫn, không chào, không báo trước.
 - [ ] Câu hứa hẹn ("video này…") nằm sau giây 15.
