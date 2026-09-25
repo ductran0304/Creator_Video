@@ -1,0 +1,10 @@
+{
+ "desc": "thẻ lên máy bay có hình máy bay nhỏ và mã vạch",
+ "w": 90.0,
+ "h": 45.0,
+ "anchor": "center",
+ "grip": [
+  -60.0,
+  0.0
+ ]
+}

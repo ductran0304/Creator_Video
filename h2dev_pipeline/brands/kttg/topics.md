@@ -20,6 +20,8 @@ Skill `/tao-video` đọc file này khi làm video cho brand `kttg`:
 - [x] V6 · A3 · Khách chuyển khoản vào tài khoản cá nhân: có bị tính doanh thu không? → projects/kttg_chuyen_khoan_tai_khoan_ca_nhan · 25/09/2026
 - [x] V7 · A7 · Bán trên Shopee, TikTok Shop: sàn đã trừ thuế, anh chị còn phải làm gì? → projects/kttg_ban_hang_san_tmdt · 25/09/2026
   (chưa có hướng dẫn chi tiết cho shop ≤ 1 tỷ đã bị sàn khấu trừ — cập nhật video khi Cục Thuế hướng dẫn)
+- [x] V8 · B26 · Nợ thuế bao nhiêu thì giám đốc bị tạm hoãn xuất cảnh? → projects/kttg_tam_hoan_xuat_canh_no_thue · 25/09/2026
+  (Nghị định 252/2026/NĐ-CP Điều 28; video đầu tiên có footage thật: Pexels, trang văn bản, meme)
 
 ## Hàng đợi (thứ tự đề xuất)
 
@@ -27,7 +29,6 @@ Tháng 10–11/2026 (quanh năm, nỗi đau rõ, dễ ra khách hỏi dịch v�
 - [ ] A10 · Cho thuê phòng trọ công nhân: khi nào phải nộp thuế?
 - [ ] B27 · Lãi trên sổ nhưng không có tiền: vì sao?
 - [ ] A12 · Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu
-- [ ] B26 · Giám đốc bị tạm hoãn xuất cảnh vì nợ thuế: chuyện có thật
 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
 - [ ] A24 · Đối chiếu công nợ cuối năm: làm sớm đỡ rối
@@ -172,7 +173,7 @@ Tạo niềm tin (đăng khi kênh đã có ~10 video):
 |---|---|---|---|---|
 | B24 | Có thông báo kiểm tra thuế: 7 việc cần làm ngay | Trấn an, không doạ | D + S | [ ] |
 | B25 | Vì sao công ty bị đưa vào danh sách rủi ro cao? | Các dấu hiệu cơ quan thuế hay chú ý | D + HĐ | [ ] |
-| B26 | Giám đốc bị tạm hoãn xuất cảnh vì nợ thuế: chuyện có thật | Luật Quản lý thuế 2025, hiệu lực 1/7/2026 | D + S | [ ] |
+| B26 | Giám đốc bị tạm hoãn xuất cảnh vì nợ thuế: chuyện có thật | Luật Quản lý thuế 2025, hiệu lực 1/7/2026 | D + S | [x] V8 |
 
 ### B.8 Quản trị dòng tiền và tăng trưởng
 | # | Chủ đề | Góc / hook | Định dạng | Trạng thái |

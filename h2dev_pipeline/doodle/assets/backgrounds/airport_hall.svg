@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- wall -->
+  <rect x="0" y="0" width="1920" height="830" fill="#EEF4FA"/>
+
+  <!-- floor -->
+  <rect x="0" y="830" width="1920" height="250" fill="#E7EDF6"/>
+  <path d="M -10,828 C 220,824 460,831 700,827 C 940,823 1180,830 1420,827 C 1660,824 1820,830 1930,827 L 1930,834 C 1820,837 1660,831 1420,834 C 1180,837 940,830 700,834 C 460,837 220,830 -10,834 Z"
+        fill="#D3DCEA"/>
+  <g stroke="#D3DCEA" stroke-width="3">
+    <line x1="0" y1="892" x2="1920" y2="890"/>
+    <line x1="0" y1="956" x2="1920" y2="958"/>
+    <line x1="0" y1="1020" x2="1920" y2="1018"/>
+    <line x1="260" y1="830" x2="230" y2="1080"/>
+    <line x1="620" y1="830" x2="610" y2="1080"/>
+    <line x1="1000" y1="830" x2="1000" y2="1080"/>
+    <line x1="1360" y1="830" x2="1370" y2="1080"/>
+  </g>
+
+  <!-- ============ LEFT: floor-to-ceiling window onto the tarmac ============ -->
+  <g>
+    <path d="M 44,832 C 42,650 42,470 46,300 C 150,292 260,292 366,300 C 370,470 370,650 368,832 Z"
+          fill="#141414"/>
+    <path d="M 60,824 C 58,650 58,478 62,314 C 152,307 258,307 352,314 C 356,478 356,650 354,824 Z"
+          fill="#C7E4F2"/>
+    <!-- tarmac ground inside window -->
+    <path d="M 60,750 C 152,742 260,742 354,750 L 354,824 L 60,824 Z" fill="#AEC6CF"/>
+    <!-- small doodle airplane through the glass -->
+    <g transform="translate(150,620) rotate(-8)">
+      <path d="M -70,4 L 52,-6 C 66,-7 66,7 52,6 L -70,10 Z" fill="#FFFFFF" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M -14,-2 L 6,-38 L 20,-38 L 10,-2 Z" fill="#FFFFFF" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M -14,8 L 4,34 L 18,34 L 6,8 Z" fill="#FFFFFF" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M 46,-4 L 66,-14 L 66,4 Z" fill="#FFFFFF" stroke="#141414" stroke-width="4" stroke-linejoin="round"/>
+    </g>
+    <!-- window mullions -->
+    <line x1="207" y1="310" x2="207" y2="824" stroke="#141414" stroke-width="5"/>
+    <line x1="61" y1="500" x2="355" y2="497" stroke="#141414" stroke-width="4"/>
+  </g>
+
+  <!-- ============ TOP RIGHT: departures board ============ -->
+  <g>
+    <path d="M 1460,150 C 1600,144 1770,144 1898,150 C 1902,190 1902,236 1898,278 C 1770,284 1600,284 1460,278 C 1456,236 1456,190 1460,150 Z"
+          fill="#141414"/>
+    <path d="M 1474,158 C 1608,153 1766,153 1888,158 C 1891,192 1891,234 1888,270 C 1766,275 1608,275 1474,270 C 1471,234 1471,192 1474,158 Z"
+          fill="#101A3D"/>
+    <g fill="#F4C430">
+      <rect x="1492" y="176" width="150" height="12" rx="4"/>
+      <rect x="1492" y="200" width="110" height="10" rx="4"/>
+      <rect x="1492" y="222" width="130" height="10" rx="4"/>
+      <rect x="1492" y="244" width="90" height="10" rx="4"/>
+    </g>
+    <g fill="#7FB5D5">
+      <rect x="1700" y="200" width="60" height="10" rx="4"/>
+      <rect x="1700" y="222" width="70" height="10" rx="4"/>
+      <rect x="1700" y="244" width="50" height="10" rx="4"/>
+    </g>
+  </g>
+
+  <!-- ============ RIGHT: passport control booths ============ -->
+  <g>
+    <!-- booth 1 -->
+    <g>
+      <line x1="1508" y1="510" x2="1508" y2="464" stroke="#141414" stroke-width="6"/>
+      <circle cx="1508" cy="452" r="14" fill="#4E9A45" stroke="#141414" stroke-width="5"/>
+      <path d="M 1450,524 C 1448,624 1448,724 1450,828 C 1500,834 1550,834 1600,828 C 1602,724 1602,624 1600,524 C 1550,518 1500,518 1450,524 Z"
+            fill="#F4F7FF" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M 1462,536 C 1460,610 1460,684 1462,756 C 1500,760 1550,760 1588,756 C 1590,684 1590,610 1588,536 C 1550,531 1500,531 1462,536 Z"
+            fill="#ABD3E5" fill-opacity="0.55" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+      <rect x="1500" y="700" width="50" height="60" rx="6" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    </g>
+    <!-- booth 2 -->
+    <g>
+      <line x1="1678" y1="510" x2="1678" y2="464" stroke="#141414" stroke-width="6"/>
+      <circle cx="1678" cy="452" r="14" fill="#4E9A45" stroke="#141414" stroke-width="5"/>
+      <path d="M 1620,524 C 1618,624 1618,724 1620,828 C 1670,834 1720,834 1770,828 C 1772,724 1772,624 1770,524 C 1720,518 1670,518 1620,524 Z"
+            fill="#F4F7FF" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M 1632,536 C 1630,610 1630,684 1632,756 C 1670,760 1720,760 1758,756 C 1760,684 1760,610 1758,536 C 1720,531 1670,531 1632,536 Z"
+            fill="#ABD3E5" fill-opacity="0.55" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+      <rect x="1670" y="700" width="50" height="60" rx="6" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    </g>
+    <!-- booth 3, partial at edge -->
+    <g>
+      <line x1="1846" y1="510" x2="1846" y2="464" stroke="#141414" stroke-width="6"/>
+      <circle cx="1846" cy="452" r="14" fill="#4E9A45" stroke="#141414" stroke-width="5"/>
+      <path d="M 1790,524 C 1788,624 1788,724 1790,828 C 1836,834 1882,834 1920,828 L 1920,524 C 1882,518 1836,518 1790,524 Z"
+            fill="#F4F7FF" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M 1802,536 C 1800,610 1800,684 1802,756 C 1836,760 1880,760 1912,756 L 1912,536 C 1880,531 1836,531 1802,536 Z"
+            fill="#ABD3E5" fill-opacity="0.55" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

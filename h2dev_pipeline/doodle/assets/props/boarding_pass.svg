@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-90 -22.5 180 45" width="180" height="45">
+<g>
+  <path d="M -86,-18 C -30,-21 30,-21 86,-18 C 89,-6 89,6 86,18 C 30,21 -30,21 -86,18 C -89,6 -89,-6 -86,-18 Z"
+        fill="#FFFFFF" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- teal stub band with plane icon -->
+  <path d="M -86,-18 C -60,-20 -34,-20 -12,-19 C -13,-6 -13,6 -12,19 C -34,20 -60,20 -86,18 C -89,6 -89,-6 -86,-18 Z"
+        fill="#2BB3A3"/>
+  <g transform="translate(-49,0) rotate(-18)">
+    <path d="M -18,2 L 15,-2 C 20,-2.4 20,2.4 15,2 L -18,3 Z" fill="#FFFFFF"/>
+    <path d="M -3,-1 L 4,-13 L 9,-13 L 5,-1 Z" fill="#FFFFFF"/>
+    <path d="M -3,3 L 3,14 L 8,14 L 4,3 Z" fill="#FFFFFF"/>
+    <path d="M 13,-1 L 20,-5 L 20,1 Z" fill="#FFFFFF"/>
+  </g>
+
+  <!-- perforation between stub and main body -->
+  <line x1="-12" y1="-19" x2="-12" y2="19" stroke="#141414" stroke-width="2.5" stroke-dasharray="3,3"/>
+
+  <!-- info lines -->
+  <g stroke="#141414" fill="none" stroke-width="2.5" stroke-linecap="round">
+    <line x1="-2" y1="-11" x2="26" y2="-11"/>
+    <line x1="-2" y1="-4" x2="34" y2="-4"/>
+    <line x1="-2" y1="3" x2="20" y2="3"/>
+    <line x1="-2" y1="10" x2="30" y2="10"/>
+  </g>
+
+  <!-- ticket stub perforation on right -->
+  <line x1="50" y1="-19" x2="50" y2="19" stroke="#141414" stroke-width="2.5" stroke-dasharray="3,3"/>
+
+  <!-- barcode -->
+  <g fill="#141414">
+    <rect x="58" y="-14" width="2.2" height="28"/>
+    <rect x="63" y="-14" width="1.2" height="28"/>
+    <rect x="67" y="-14" width="3" height="28"/>
+    <rect x="73" y="-14" width="1.2" height="28"/>
+    <rect x="77" y="-14" width="2.2" height="28"/>
+    <rect x="82" y="-14" width="1.2" height="28"/>
+  </g>
+</g>
+</svg>
