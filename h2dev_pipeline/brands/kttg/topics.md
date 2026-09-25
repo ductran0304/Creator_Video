@@ -52,13 +52,14 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (Nghị định 320/2025/NĐ-CP Điều 8: doanh thu tính thuế không phân biệt đã thu tiền; ví dụ xưởng may 5 chỗ tiền kẹt)
 - [x] V11 · TL · Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu → projects/kttg_thanh_lap_cong_ty_30_ngay · 25/09/2026
   (Nghị quyết 198/2025/QH15 Điều 10 khoản 4, 7: miễn TNDN 3 năm, bỏ môn bài; NĐ 252/2026 Điều 8 khoản 4, Điều 10)
+- [x] V12 · TG · Công ty chưa có doanh thu: mỗi tháng vẫn phải làm gì? → projects/kttg_cong_ty_chua_co_doanh_thu · 25/09/2026
+  (NĐ 252/2026 Điều 10, Điều 11 khoản 4, 6, 7; NĐ 320/2025 Điều 7 chuyển lỗ 5 năm; video đầu tiên theo hooks.md, footage Pixabay)
 
-Độ phủ sau 11 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 — **chưa có**: TG, SS, TC, LD → hàng đợi dưới đây ưu tiên các nhóm này.
+Độ phủ sau 12 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 — **chưa có**: SS, TC, LD → hàng đợi dưới đây ưu tiên các nhóm này.
 
 ## Hàng đợi (thứ tự đề xuất)
 
 Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký hợp đồng):
-- [ ] TG1 · Công ty chưa có doanh thu: mỗi tháng vẫn phải làm gì?
 - [ ] SS1 · 5 dấu hiệu sổ sách công ty đang "có vấn đề"
 - [ ] LD1 · Tuyển nhân viên đầu tiên: 5 thủ tục lao động, BHXH phải làm
 - [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị?
@@ -84,7 +85,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 ### TG — Kế toán trọn gói
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
-| TG1 | Công ty chưa có doanh thu: mỗi tháng vẫn phải làm gì? | Nối V3: không phát sinh vẫn phải nộp tờ khai | Gói Cơ bản 500k | S + QA | [ ] |
+| TG1 | Công ty chưa có doanh thu: mỗi tháng vẫn phải làm gì? | Nối V3: không phát sinh vẫn phải nộp tờ khai | Gói Cơ bản 500k | S + QA | [x] V12 |
 | TG2 | Giám đốc tự làm kế toán được không? | Trung thực: làm được phần nào, rủi ro phần nào | Trọn gói, một đầu mối | D + QA | [ ] |
 | TG3 ★ | Thuê kế toán dịch vụ: 500k, 900k hay 1,1 triệu — gói nào hợp với anh chị? | Minh bạch bảng giá theo loại hình | Bảng giá + tư vấn 45 phút | D + S | [ ] |
 | TG4 ★ | Khi nào nên thuê kế toán dịch vụ, khi nào nên tuyển kế toán nội bộ? | So sánh chi phí, rủi ro nghỉ việc | Tư vấn 45 phút | D + S | [ ] |
