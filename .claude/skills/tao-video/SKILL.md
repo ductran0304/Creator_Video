@@ -24,6 +24,8 @@ Video cho **thương hiệu** (vd KTTG — kế toán thuế): dùng `brands/<t�
 (khán giả, giọng văn, hài hước, cấu trúc, quy tắc pháp lý), ghi `"brand": "<tên>"` trong scenes.json, bỏ qua
 các quy tắc riêng của kênh người tiền sử (ngôi "you", dẫn chứng khảo cổ). Với nội dung pháp lý: đối chiếu mọi
 số hiệu văn bản / mốc ngày / con số bằng WebSearch tại thời điểm làm video và liệt kê căn cứ trong seo.json.
+Nếu thương hiệu có `brands/<tên>/topics.md`: đọc để chọn chủ đề (người dùng nói "video số N"/"video tiếp theo" →
+chủ đề `[ ]` đầu tiên trong Hàng đợi), tránh trùng chủ đề đã làm; làm xong thì đánh dấu `[x]` kèm slug và ngày.
 
 1. Đọc `brands/h2dev/knowledge_base.json`: `content_dna` (hook, nhịp câu, mạch truyện, luật dẫn chứng, luật hài, kết), `viral_topic_angles`, `visual_style_dna`, `seo_dna`.
 2. Đọc phần viết kịch bản trong `brands/h2dev/master_prompt.md` (STAGE 1–2) để bắt đúng giọng văn.
