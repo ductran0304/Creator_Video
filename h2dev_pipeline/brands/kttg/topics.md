@@ -83,6 +83,10 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (Luật TNCN 109/2025 Điều 10; NĐ 253/2026 Điều 47–49, 51 — khoản mới trừ y tế ≤ 23 triệu, giáo dục ≤ 24 triệu)
 - [x] V26 · TG ★ · Làm kế toán qua Zalo diễn ra thế nào? → projects/kttg_ke_toan_qua_zalo · 26/09/2026
   (video niềm tin — KTTG cần xác nhận quy trình thật)
+- [x] V27 · TG · Công ty doanh thu đến 1 tỷ: miễn thuế TNDN từ 2026 → projects/kttg_doanh_thu_1_ty_mien_tndn · 26/09/2026
+  (NĐ 141/2026 Điều 2, 3, 4)
+- [x] V28 · HK · 6 con số chủ hộ kinh doanh hay nhớ nhầm (2026) → projects/kttg_6_con_so_ho_kinh_doanh · 26/09/2026
+  (NĐ 141/2026; Luật TNCN 109/2025 Điều 7; NĐ 68/2026 Điều 4, 8)
 
 Độ phủ sau 22 video: HK 5 · BC 3 · HD 2 · QT 3 · KT 2 · TL 1 · TG 1 · SS 2 · LD 2 · TC 1 — đã phủ đủ 10 dịch vụ → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -95,10 +99,8 @@ Tháng 12/2026 – 1/2027 (cuối năm, Tết):
 
 Tháng 2–3/2027 (mùa quyết toán):
 
-- [ ] TG7 · Công ty doanh thu đến 1 tỷ được miễn thuế TNDN: NĐ 141/2026 (Điều 2) — mới, nên làm sớm
 
 Đợt bổ sung (tự chọn 26/09/2026, ưu tiên chủ đề phổ biến, căn cứ đã có sẵn trong thư viện):
-- [ ] HK3 · 6 con số chủ hộ kinh doanh hay nhớ nhầm
 - [ ] TL2 · Hộ kinh doanh hay công ty: khi nào nên chuyển lên doanh nghiệp?
 - [ ] LD3 · Hợp đồng thử việc, thời vụ, cộng tác viên: đóng gì, khấu trừ gì?
 - [ ] SS4 · Tài khoản công ty và tài khoản giám đốc: tách thế nào cho đúng?
@@ -132,7 +134,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 |---|---|---|---|---|---|
 | HK1 | Ghi sổ doanh thu mỗi tối: 10 phút là đủ | Cầm tay chỉ việc, có sổ mẫu (tra đúng mẫu sổ hiện hành) | Chuyển đổi hộ kê khai | D + S | [ ] |
 | HK2 | Kiểm kê hàng tồn: đếm sao cho đúng? | "Đếm từng thùng mì, đừng ước chừng" | Chuyển đổi hộ kê khai | D + QA | [ ] |
-| HK3 | 6 con số chủ hộ kinh doanh hay nhớ nhầm | Câu đố 500 triệu, 1 tỷ, 3 tỷ, 31/1... | Chuyển đổi hộ kê khai | D + 3 S | [ ] |
+| HK3 | 6 con số chủ hộ kinh doanh hay nhớ nhầm | Câu đố 500 triệu, 1 tỷ, 3 tỷ, 31/1... | Chuyển đổi hộ kê khai | D + 3 S | [x] V28 |
 | HK4 | Mở thêm cửa hàng thứ hai: cần làm những gì? | Địa điểm kinh doanh, hoá đơn, kê khai | Chuyển đổi hộ kê khai | D + S | [ ] |
 | HK5 | Bán qua Facebook, Zalo (không qua sàn): kê khai thế nào? | Nhóm dễ bỏ sót nhất, nối V7 | Chuyển đổi hộ kê khai | D + S | [ ] |
 | HK6 | Livestream bán hàng: doanh thu tính từ lúc nào? | Tiền cọc, hoàn hàng, phí sàn | Chuyển đổi hộ kê khai | S + QA | [ ] |
