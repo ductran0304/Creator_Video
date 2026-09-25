@@ -68,6 +68,10 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (NĐ 23/2025 Điều 7 khoản 3 tối đa 3 năm, Điều 15; bước cập nhật chứng thư trên thuế/hoá đơn là khuyến nghị KTTG)
 - [x] V19 · BC · Lịch thuế tháng 1/2027: 2 hạn nộp trước Tết → projects/kttg_lich_thue_thang_1_2027 · 26/09/2026
   (NĐ 252/2026 Điều 10, NĐ 68/2026 Điều 8; 31/1/2027 là Chủ nhật — chưa đối chiếu quy định lùi hạn khi trùng ngày nghỉ, video chỉ khuyên nộp trước 29/1; đăng đầu tháng 1/2027)
+- [x] V20 · KT ★ · Một trang, năm con số: báo cáo KTTG gửi anh chị mỗi tháng → projects/kttg_bao_cao_mot_trang · 26/09/2026
+  (video niềm tin, số liệu giả định; KTTG cần xác nhận đúng 5 con số và cách gửi báo cáo thật)
+- [x] V21 · QT · Lịch quyết toán năm 2026: đếm ngược đến 31/3/2027 → projects/kttg_lich_quyet_toan_31_3 · 26/09/2026
+  (NĐ 252/2026 Điều 10 khoản 5; Tết 6/2/2027; mốc 26/3 là khuyến nghị; đăng đầu tháng 2/2027)
 
 Độ phủ sau 15 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 2 · LD 1 — **chưa có**: TC → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -77,10 +81,8 @@ Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký 
 - [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị? (chờ KTTG xác nhận giá, phạm vi từng gói)
 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
-- [ ] KT3 ★ · Một trang, năm con số: báo cáo KTTG gửi anh chị mỗi tháng
 
 Tháng 2–3/2027 (mùa quyết toán):
-- [ ] QT1 · Lịch quyết toán cuối năm: đếm ngược đến 31/3
 - [ ] TC1 · Báo cáo tài chính và quyết toán thuế năm: hạn cuối tháng 3
 - [ ] QT2 · Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế?
 - [ ] TC2 · Đọc báo cáo tài chính trong 5 phút: giám đốc cần nhìn 3 dòng nào?
@@ -134,7 +136,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 ### QT — Quyết toán thuế cuối năm
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
-| QT1 | Lịch quyết toán cuối năm: đếm ngược đến 31/3 | Thẻ deadline, việc từng tuần | Quyết toán | L + 3 S | [ ] |
+| QT1 | Lịch quyết toán cuối năm: đếm ngược đến 31/3 | Thẻ deadline, việc từng tuần | Quyết toán | L + 3 S | [x] V21 |
 | QT2 | Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế? | Mùa tháng 3–4, công nhân KCN | Quyết toán (cá nhân, DN khai thay) | D + QA + S | [ ] |
 | QT3 | Đăng ký người phụ thuộc: giảm thuế thế nào? | Con cái, cha mẹ già | Quyết toán + tiền lương | S + QA | [ ] |
 | QT4 | Công tác phí, tiếp khách, quà Tết: làm sao để được trừ? | Mùa cuối năm, nối V5 | Quyết toán | D + S | [x] V17 |
@@ -188,7 +190,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 |---|---|---|---|---|---|
 | KT1 | Kế toán trưởng part-time là gì, công ty nào cần? | Có kế toán viên nhưng thiếu người kiểm soát | KT part-time | D + S | [ ] |
 | KT2 | 5 con số giám đốc nên xem mỗi tháng | Nối V10: lãi, tiền, công nợ, tồn kho, thuế | KT part-time | D + S | [ ] |
-| KT3 ★ | Một trang, năm con số: báo cáo KTTG gửi anh chị mỗi tháng | Mở thử một báo cáo mẫu (số liệu giả định) | Trọn gói / KT part-time | D + S | [ ] |
+| KT3 ★ | Một trang, năm con số: báo cáo KTTG gửi anh chị mỗi tháng | Mở thử một báo cáo mẫu (số liệu giả định) | Trọn gói / KT part-time | D + S | [x] V20 |
 | KT4 | Doanh nghiệp FDI năm đầu ở Bình Dương: lịch báo cáo cần nhớ | Cân nhắc phụ đề tiếng Anh (`sub`) | KT part-time (FDI) | D + L | [ ] |
 | KT5 | Giao dịch liên kết: khi nào phải lập hồ sơ? | Ví dụ công ty mẹ – con | KT part-time (FDI) | D | [ ] |
 | KT6 | Chuyển lợi nhuận về nước: các bước cần có | Nối V8 (NĐ 252 Điều 27 khoản 6) | KT part-time (FDI) | D + S | [ ] |
