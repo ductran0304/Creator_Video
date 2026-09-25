@@ -62,6 +62,8 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (Luật Kế toán Điều 40; không nêu tỷ lệ dự phòng vì TT 48/2019 có thể đã bị thay bởi TT 20/2026 — cần kiểm)
 - [x] V16 · LD · Thưởng Tết cho nhân viên: tính thuế TNCN thế nào? → projects/kttg_thuong_tet_thue_tncn · 26/09/2026
   (Luật Thuế TNCN 109/2025 Điều 3, 8, 9, 10; NĐ 252/2026 Điều 10 khoản 5 hạn tự quyết toán cuối tháng 4)
+- [x] V17 · QT · Công tác phí, tiếp khách, quà Tết: làm sao để được trừ? → projects/kttg_cong_tac_phi_tiep_khach_qua_tet · 26/09/2026
+  (NĐ 320/2025 Điều 9 điểm c, c1, c2 — nhân viên trả hộ; Điều 10 khoản 4 điểm d phúc lợi ≤ 1 tháng lương)
 
 Độ phủ sau 15 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 2 · LD 1 — **chưa có**: TC → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -71,7 +73,6 @@ Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký 
 - [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị? (chờ KTTG xác nhận giá, phạm vi từng gói)
 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
-- [ ] QT4 · Công tác phí, tiếp khách, quà Tết: làm sao để được trừ?
 - [ ] HD3 · Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn?
 - [ ] BC4 · Lịch thuế tháng 1: thông báo doanh thu hạn 31/1 (L, nối V9)
 - [ ] KT3 ★ · Một trang, năm con số: báo cáo KTTG gửi anh chị mỗi tháng
@@ -134,7 +135,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | QT1 | Lịch quyết toán cuối năm: đếm ngược đến 31/3 | Thẻ deadline, việc từng tuần | Quyết toán | L + 3 S | [ ] |
 | QT2 | Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế? | Mùa tháng 3–4, công nhân KCN | Quyết toán (cá nhân, DN khai thay) | D + QA + S | [ ] |
 | QT3 | Đăng ký người phụ thuộc: giảm thuế thế nào? | Con cái, cha mẹ già | Quyết toán + tiền lương | S + QA | [ ] |
-| QT4 | Công tác phí, tiếp khách, quà Tết: làm sao để được trừ? | Mùa cuối năm, nối V5 | Quyết toán | D + S | [ ] |
+| QT4 | Công tác phí, tiếp khách, quà Tết: làm sao để được trừ? | Mùa cuối năm, nối V5 | Quyết toán | D + S | [x] V17 |
 | QT5 | Xe ô tô công ty: chi phí nào được trừ, chi phí nào không? | Câu hỏi của gần như mọi giám đốc | Quyết toán | D + QA | [ ] |
 | QT6 | Tiền điện, nước, thuê nhà đứng tên giám đốc: có được tính chi phí? | Tình huống phổ biến ở công ty nhỏ | Quyết toán | D + QA | [ ] |
 | QT7 | Ưu đãi thuế cho doanh nghiệp nhỏ: anh chị có đang bỏ sót? | Kiểm tra nhanh điều kiện | Quyết toán | D + QA | [ ] |
