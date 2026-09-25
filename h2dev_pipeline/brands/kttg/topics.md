@@ -66,6 +66,8 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (NĐ 320/2025 Điều 9 điểm c, c1, c2 — nhân viên trả hộ; Điều 10 khoản 4 điểm d phúc lợi ≤ 1 tháng lương)
 - [x] V18 · HD · Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn? → projects/kttg_chu_ky_so_het_han · 26/09/2026
   (NĐ 23/2025 Điều 7 khoản 3 tối đa 3 năm, Điều 15; bước cập nhật chứng thư trên thuế/hoá đơn là khuyến nghị KTTG)
+- [x] V19 · BC · Lịch thuế tháng 1/2027: 2 hạn nộp trước Tết → projects/kttg_lich_thue_thang_1_2027 · 26/09/2026
+  (NĐ 252/2026 Điều 10, NĐ 68/2026 Điều 8; 31/1/2027 là Chủ nhật — chưa đối chiếu quy định lùi hạn khi trùng ngày nghỉ, video chỉ khuyên nộp trước 29/1; đăng đầu tháng 1/2027)
 
 Độ phủ sau 15 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 2 · LD 1 — **chưa có**: TC → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -75,7 +77,6 @@ Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký 
 - [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị? (chờ KTTG xác nhận giá, phạm vi từng gói)
 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
-- [ ] BC4 · Lịch thuế tháng 1: thông báo doanh thu hạn 31/1 (L, nối V9)
 - [ ] KT3 ★ · Một trang, năm con số: báo cáo KTTG gửi anh chị mỗi tháng
 
 Tháng 2–3/2027 (mùa quyết toán):
@@ -104,7 +105,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | BC1 | Khai thuế GTGT theo tháng hay theo quý: công ty anh chị thuộc loại nào? | Ngưỡng doanh thu, cách chuyển đổi | Báo cáo thuế định kỳ | D + S | [ ] |
 | BC2 | Tạm nộp thuế TNDN theo quý: thiếu bao nhiêu thì bị tính tiền chậm nộp? | Nối V3 (0,03%/ngày), V10 (để riêng tiền thuế) | Báo cáo thuế định kỳ | D + S | [ ] |
 | BC3 | Hoá đơn đầu vào bị bỏ sót: kê khai bổ sung thế nào? | Thuế GTGT được khấu trừ nằm quên trong ngăn kéo | Báo cáo thuế định kỳ | D + S | [ ] |
-| BC4 | Lịch thuế tháng này (series, mỗi tháng một tập) | Các hạn nộp trong tháng, thẻ deadline | Báo cáo thuế định kỳ | L | [ ] |
+| BC4 | Lịch thuế tháng này (series, mỗi tháng một tập) | Các hạn nộp trong tháng, thẻ deadline | Báo cáo thuế định kỳ | L | [x] V19 (tháng 1/2027) |
 | BC5 | Hoàn thuế GTGT: khi nào được, hồ sơ cần gì? | Dòng tiền bị "kẹt" ở cơ quan thuế | Báo cáo thuế + KT part-time | D | [ ] |
 | BC6 | Tự phát hiện khai sai: khai bổ sung trước khi bị kiểm tra đỡ bao nhiêu? | So sánh phạt khi tự sửa và khi bị phát hiện | Báo cáo thuế + soát xét | D + QA | [ ] |
 
