@@ -103,6 +103,27 @@ def scene_states(scene):
     return states
 
 
+def line_states(scene):
+    """Một "cú máy" cho mỗi câu thoại: list[dict(spec, visible, seed, focus, cut, reveal)].
+    - câu có `cut` (một cảnh riêng, B-roll) → hiện cảnh đó rồi quay lại cảnh chính ở câu sau;
+    - câu có `focus` (id element) → camera đẩy vào cận cảnh element đó;
+    - `reveal` = câu làm hình thay đổi (show/change) → có cú zoom nhẹ."""
+    base = scene_states(scene)
+    seed = scene_seed(scene)
+    out = []
+    for i, ln in enumerate(scene.get("lines", [])):
+        spec, visible = base[i]
+        cut = ln.get("cut")
+        if isinstance(cut, dict):
+            cut_spec = {k: v for k, v in cut.items() if k not in SCENE_DOC_KEYS}
+            out.append({"spec": cut_spec, "visible": None, "seed": zlib.crc32(json.dumps(cut_spec, sort_keys=True).encode()),
+                        "focus": ln.get("focus"), "cut": True, "reveal": False})
+        else:
+            out.append({"spec": spec, "visible": visible, "seed": seed, "focus": ln.get("focus"), "cut": False,
+                        "reveal": bool(ln.get("show") or ln.get("change"))})
+    return out
+
+
 def final_state(scene):
     states = scene_states(scene)
     return states[-1] if states else (scene_spec(scene), None)
@@ -110,6 +131,15 @@ def final_state(scene):
 
 def words(text):
     return len(re.findall(r"\w+(?:['’]\w+)?", text))
+
+
+def _still_warn(warnings, tag, secs, a, b, max_still):
+    """Nhiều câu liền không đổi hình: ngưỡng max_still. Một câu dài: hình không đổi giữa câu được (camera vẫn
+    trôi) nên ngưỡng rộng hơn và gợi ý tách câu."""
+    if a == b and secs > max_still + 3:
+        warnings.append(f"{tag}, câu {a}: một câu dài ~{secs:.0f}s trên cùng một hình — tách làm 2 câu để đổi hình giữa chừng")
+    elif a != b and secs > max_still:
+        warnings.append(f"{tag}: hình đứng yên ~{secs:.0f}s (câu {a}–{b}) — thêm show/change/focus/cut để hình đổi mỗi 3–5s")
 
 
 def validate(project, kb=None, cfg=None):
@@ -166,8 +196,6 @@ def validate(project, kb=None, cfg=None):
         secs = scene_words / wpm * 60
         if len(lines) > 8:
             warnings.append(f"{tag}: {len(lines)} câu — cảnh quá dài, nên tách thành 2 cảnh")
-        if lines and secs > 35:
-            warnings.append(f"{tag}: ~{secs:.0f}s cho một hình — nên tách cảnh hoặc dùng show/change để hình thay đổi")
 
         # thử vẽ mọi trạng thái (chỉ dựng SVG, không raster) để bắt lỗi tên/bố cục
         try:
@@ -188,6 +216,37 @@ def validate(project, kb=None, cfg=None):
             if el.get("type") == "label" and len(el.get("text", "")) > 60:
                 warnings.append(f"{tag}: chữ trên hình quá dài ({len(el['text'])} ký tự) — nên ngắn gọn, IN HOA")
 
+        # B-roll (cut) và camera (focus): vẽ thử từng cú máy
+        for li, ln in enumerate(lines, 1):
+            if not (ln.get("cut") or ln.get("focus")):
+                continue
+            try:
+                st = line_states(sc)[li - 1]
+                boxes, w = {}, []
+                scene_svg(st["spec"], w, st["visible"], st["seed"], boxes)
+                if st["cut"]:
+                    warnings.extend(f"{tag}, câu {li} (cut): {m}" for m in w)
+                if st["focus"] and st["focus"] not in boxes:
+                    where = "cảnh cut" if st["cut"] else "cảnh"
+                    errors.append(f"{tag}, câu {li}: focus '{st['focus']}' không phải id nhân vật/đồ vật trong {where}")
+            except SceneError as e:
+                errors.append(f"{tag}, câu {li} (cut): {e}")
+            except (KeyError, TypeError, ValueError, IndexError) as e:
+                errors.append(f"{tag}, câu {li}: cut/focus sai cấu trúc ({type(e).__name__}: {e})")
+
+        # nhịp hình: cứ vài giây phải có thay đổi (show/change/focus/cut, hoặc thoát khỏi focus/cut)
+        max_still = cfg.get("max_still_seconds", 7)
+        still, first = 0.0, 1
+        for li, ln in enumerate(lines, 1):
+            prev = lines[li - 2] if li > 1 else {}
+            changed = li == 1 or any(ln.get(k) for k in ("show", "change", "cut", "focus")) or \
+                any(prev.get(k) for k in ("cut", "focus"))
+            if changed and li > 1:
+                _still_warn(warnings, tag, still, first, li - 1, max_still)
+                still, first = 0.0, li
+            still += words(ln.get("text", "")) / wpm * 60 if isinstance(ln, dict) else 0
+        _still_warn(warnings, tag, still, first, len(lines), max_still)
+
     # quy tắc nội dung theo DNA kênh
     joined = " ".join(all_text)
     wmin = cfg.get("script_word_count_min", 1500)
@@ -207,8 +266,9 @@ def validate(project, kb=None, cfg=None):
         if len(names) < cfg.get("min_evidence_count", 3):
             warnings.append(f"Chỉ thấy ~{len(names)} tên riêng — cần ≥3 nhà nghiên cứu/nghiên cứu/di chỉ có thật")
     n = len(scenes)
-    if n < 20 or n > 45:
-        warnings.append(f"{n} cảnh — khuyến nghị 25–40 cảnh cho video 7–12 phút")
+    smin, smax = cfg.get("scene_count_min", 20), cfg.get("scene_count_max", 45)
+    if n < smin or n > smax:
+        warnings.append(f"{n} cảnh — khuyến nghị {smin}–{smax} cảnh")
 
     stats = {"scenes": n, "lines": len(all_text), "words": total_words,
              "est_minutes": round(total_words / wpm, 1), "language": lang}

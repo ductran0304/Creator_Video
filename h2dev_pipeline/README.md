@@ -49,6 +49,9 @@ make_video.bat preview ten_du_an --scene 3                 # các bước hiện
 make_video.bat thumbnail ten_du_an                         # vẽ thử thumbnail từ seo.json
 make_video.bat build ten_du_an --draft                     # bản nháp 960x540 (rất nhanh)
 make_video.bat build ten_du_an                             # bản chuẩn 1080p 24fps
+make_video.bat build ten_du_an --subs                      # in phụ đề lên hình
+make_video.bat asset new ten_vat --w 60 --h 120 --desc "..." # đăng ký asset mới (rồi nhờ doodle-illustrator vẽ)
+make_video.bat asset check ten_vat                         # kiểm tra asset + xem trong cảnh thật
 make_video.bat vocab                                       # danh sách tên hợp lệ (nền, tư thế, đồ vật...)
 ```
 Project mẫu hoàn chỉnh: [`examples/demo_sleep/`](examples/demo_sleep/) — chạy thử bằng
@@ -80,6 +83,7 @@ Mỗi cảnh là một hình, chứa các câu thoại; mỗi câu có thể là
 }
 ```
 - `show`: hiện thêm thành phần từ câu này; `change`: đổi thuộc tính (biểu cảm, tư thế...) từ câu này.
+- `sub` (tuỳ chọn): chữ phụ đề khác lời đọc, vd bản dịch tiếng Anh cho video lời Việt.
 - Frame: `scene`, `concept_text` (chữ to), `split` (so sánh), `timeline`, `stats`.
 - Neo vị trí: `attach` (đứng sát vật khác), `above` (đặt trên đầu), label `on` (chữ trên thân vật).
 - Tra cứu đầy đủ: [`.claude/skills/tao-video/reference.md`](../.claude/skills/tao-video/reference.md) và `make_video.bat vocab`.
@@ -97,6 +101,7 @@ Mỗi cảnh là một hình, chứa các câu thoại; mỗi câu có thể là
 | `bg_music_path`, `bg_music_volume` | File và âm lượng nhạc nền (nhân vào biên độ gốc) | `bg_music.mp3`, `0.05` |
 | `sfx_enabled`, `sfx_path`, `sfx_volume` | Tiếng lật trang khi chuyển cảnh | `true`, `sfx_page.wav`, `0.25` |
 | `sfx_reveal_path`, `sfx_reveal_volume` | Tiếng "pop" khi hiện thành phần mới | `sfx_pop.wav`, `0.15` |
+| `burn_subtitles` | In phụ đề lên hình cho mọi video (từng video: `"burn_subtitles"` trong scenes.json, hoặc `build --subs`) | `false` |
 | `line_gap`, `scene_gap` | Khoảng nghỉ (giây) giữa các câu / các cảnh | `0.25`, `0.6` |
 | `fps`, `crf` | Khung hình/giây và chất lượng x264 của bản chuẩn | `24`, `20` |
 | `script_word_count_min/max`, `min_evidence_count` | Ngưỡng cảnh báo của `validate` | `1500`, `2400`, `3` |
@@ -122,6 +127,8 @@ Xoá thư mục `cache/` nếu muốn dựng lại từ đầu.
 ## Mở rộng bộ vẽ
 
 - Xem trước toàn bộ thư viện: `.venv\Scripts\python -m doodle.catalog <thư_mục_ra>`.
-- Thêm đồ vật: viết một hàm trong `doodle/props.py` với decorator `@prop(name, w, h, desc, ...)`.
-- Thêm nền: thêm hàm và mô tả vào `doodle/backgrounds.py`.
+- Thêm đồ vật / nền **không cần code**: `make_video.bat asset new ...` tạo file metadata `.json`, rồi vẽ file `.svg`
+  cùng tên theo [quy chuẩn asset](doodle/assets/README.md) — trong Claude Code, agent `doodle-illustrator`
+  (Sonnet, `.claude/agents/`) vẽ và tự kiểm tra; skill `/tao-video` tự gọi agent này khi thiếu hình.
+- Kiểm tra: `make_video.bat asset check <tên>` (lỗi kỹ thuật + ảnh asset đặt trong cảnh thật cạnh nhân vật).
 - Tên mới tự xuất hiện trong `make_video.py vocab`, nên skill dùng được ngay.

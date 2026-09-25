@@ -41,6 +41,17 @@ def load_config():
     return {}
 
 
+def load(project_arg):
+    """Đọc project + áp dụng thương hiệu (màu, font, giọng, màn kết) nếu scenes.json có "brand"."""
+    from core.brand import activate
+    d = resolve_project_dir(project_arg, BASE_DIR)
+    project = load_project(d)
+    brand, cfg = activate(project, BASE_DIR, load_config())
+    from doodle import scene as ds
+    ds.PHOTO_DIRS[:] = [os.path.join(d, "photos")] + ([os.path.join(brand["_dir"], "photos")] if brand else [])
+    return d, project, cfg
+
+
 def cmd_init(a):
     d = os.path.join(BASE_DIR, "projects", a.slug)
     path = os.path.join(d, "scenes.json")
@@ -55,9 +66,8 @@ def cmd_init(a):
 
 
 def cmd_validate(a):
-    d = resolve_project_dir(a.project, BASE_DIR)
-    project = load_project(d)
-    errors, warnings, stats = validate(project, cfg=load_config())
+    d, project, cfg = load(a.project)
+    errors, warnings, stats = validate(project, cfg=cfg)
     if a.json:
         print(json.dumps({"ok": not errors, "errors": errors, "warnings": warnings, "stats": stats},
                          ensure_ascii=False, indent=1))
@@ -75,9 +85,8 @@ def cmd_validate(a):
 
 def cmd_preview(a):
     from core.preview import preview_all, preview_scene_steps
-    d = resolve_project_dir(a.project, BASE_DIR)
-    project = load_project(d)
-    errors, _, _ = validate(project, cfg=load_config())
+    d, project, cfg = load(a.project)
+    errors, _, _ = validate(project, cfg=cfg)
     if errors:
         for e in errors:
             print(f"[LỖI] {e}")
@@ -93,8 +102,8 @@ def cmd_preview(a):
 
 def cmd_build(a):
     from core.build import build
-    d = resolve_project_dir(a.project, BASE_DIR)
-    build(load_project(d), d, load_config(), BASE_DIR, draft=a.draft)
+    d, project, cfg = load(a.project)
+    build(project, d, cfg, BASE_DIR, draft=a.draft, subs=True if a.subs else None)
     return 0
 
 
@@ -109,7 +118,24 @@ def cmd_thumbnail(a):
         seo = json.load(f)
     out = os.path.join(d, "preview")
     os.makedirs(out, exist_ok=True)
-    print(write_thumbnail(load_project(d), seo, out))
+    _, project, _ = load(a.project)
+    print(write_thumbnail(project, seo, out))
+    return 0
+
+
+def cmd_photo(a):
+    from core import photos
+    if a.photo_cmd == "search":
+        results, sheet = photos.search(BASE_DIR, a.query, a.n, a.allow_sa)
+        for i, r in enumerate(results, 1):
+            print(f"{i:2d}. [{photos.LICENSE_NAMES.get(r['license'], r['license'])}] {r.get('title') or ''} — "
+                  f"{r.get('creator') or '?'} ({r.get('source')}, {r.get('width')}x{r.get('height')})")
+        print(f"[i] Bảng xem trước: {sheet}")
+        return 0
+    d = resolve_project_dir(a.project, BASE_DIR)
+    jpg, meta = photos.get(BASE_DIR, d, a.idx, a.name)
+    print(f"[✓] {jpg}")
+    print(f"    {photos.credit_line(meta)}")
     return 0
 
 
@@ -139,10 +165,23 @@ def main():
     p = sub.add_parser("build")
     p.add_argument("project")
     p.add_argument("--draft", action="store_true", help="bản nháp 960x540, 12fps — dựng rất nhanh để kiểm tra")
+    p.add_argument("--subs", action="store_true", help="in phụ đề lên hình (ghi đè burn_subtitles)")
     p.set_defaults(fn=cmd_build)
     p = sub.add_parser("thumbnail")
     p.add_argument("project")
     p.set_defaults(fn=cmd_thumbnail)
+    p = sub.add_parser("photo", help="tìm/tải ảnh thực tế có giấy phép tự do (Openverse)")
+    ps = p.add_subparsers(dest="photo_cmd", required=True)
+    q = ps.add_parser("search")
+    q.add_argument("query")
+    q.add_argument("--n", type=int, default=12)
+    q.add_argument("--allow-sa", action="store_true", help="cho phép cả CC BY-SA")
+    q.set_defaults(fn=cmd_photo)
+    g = ps.add_parser("get")
+    g.add_argument("project")
+    g.add_argument("idx", type=int, help="số thứ tự trong lần search gần nhất")
+    g.add_argument("--name", required=True)
+    g.set_defaults(fn=cmd_photo)
     from core.assets_cli import add_parser as add_asset_parser
     add_asset_parser(sub, BASE_DIR)
     p = sub.add_parser("vocab")

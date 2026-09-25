@@ -31,3 +31,4 @@ h2dev_pipeline/examples/*/cache/
 h2dev_pipeline/examples/*/output/
 h2dev_pipeline/doodle/assets/**/*.png
 h2dev_pipeline/doodle/assets/*.png
+h2dev_pipeline/cache/

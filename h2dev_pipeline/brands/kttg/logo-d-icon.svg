@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Kế Toán Tinh Gọn">
+  <circle cx="32" cy="32" r="30" fill="#101A3D"/>
+  <circle cx="32" cy="32" r="25.4" fill="none" stroke="#00C2A8" stroke-width="1.5"/>
+  <circle cx="32" cy="32" r="27.8" fill="none" stroke="#00C2A8" stroke-width="0.8"
+          stroke-opacity=".55" stroke-dasharray="2.2 4"/>
+  <text x="32" y="36.6" text-anchor="middle" font-family="Be Vietnam Pro, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="14.2"
+        font-weight="800" letter-spacing="0.5" fill="#FFFFFF">KTTG</text>
+  <path d="M23.6 43.2 H40.4" stroke="#FFC93C" stroke-width="2.1" stroke-linecap="round"/>
+</svg>

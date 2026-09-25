@@ -1,0 +1,11 @@
+{
+ "desc": "tờ lịch treo tường có ô ngày khoanh đỏ (hạn nộp)",
+ "w": 70.0,
+ "h": 150.0,
+ "anchor": "center",
+ "label_box": [
+  0.0,
+  10.0,
+  110.0
+ ]
+}

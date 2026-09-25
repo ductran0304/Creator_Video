@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-75 -85 150 85" width="150" height="85">
+<g>
+  <path d="M -68,0 C -72,-30 -66,-55 -45,-70 C -22,-83 22,-83 45,-70 C 66,-55 72,-30 68,0 Z" fill="#F4C430" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+
+  <path d="M -34,-6 L -34,-22 L -22,-30 L -10,-22 L -10,-6 L -22,2 Z" fill="none" stroke="#C99A1E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M -10,-6 L -10,-22 L 2,-30 L 14,-22 L 14,-6 L 2,2 Z" fill="none" stroke="#C99A1E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 14,-6 L 14,-22 L 26,-30 L 38,-22 L 38,-6 L 26,2 Z" fill="none" stroke="#C99A1E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M -22,-30 L -22,-46 L -10,-54 L 2,-46 L 2,-30 L -10,-22 Z" fill="none" stroke="#C99A1E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 2,-30 L 2,-46 L 14,-54 L 26,-46 L 26,-30 L 14,-22 Z" fill="none" stroke="#C99A1E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M -46,-16 L -46,-32 L -34,-40 L -22,-32 L -22,-16 L -34,-8 Z" fill="none" stroke="#C99A1E" stroke-width="4" stroke-linejoin="round"/>
+
+  <circle cx="-22" cy="-14" r="4" fill="#E0A31E"/>
+  <circle cx="14" cy="-14" r="4" fill="#E0A31E"/>
+  <circle cx="2" cy="-38" r="4" fill="#E0A31E"/>
+
+  <path d="M 12,-20 C 16,-12 19,-6 15,0 C 11,-6 9,-13 12,-20 Z" fill="#F4C430" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+</g>
+</svg>

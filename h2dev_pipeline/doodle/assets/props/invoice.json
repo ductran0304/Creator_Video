@@ -1,0 +1,15 @@
+{
+ "desc": "tờ hóa đơn điện tử in ra (có mã QR, dòng kẻ)",
+ "w": 60.0,
+ "h": 150.0,
+ "anchor": "bottom",
+ "grip": [
+  0.0,
+  -40.0
+ ],
+ "label_box": [
+  0.0,
+  -95.0,
+  90.0
+ ]
+}

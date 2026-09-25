@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-45 -80 90 80" width="90" height="80">
+<g>
+  <path d="M -40,-2 C -42,-30 -41,-56 -38,-77 C -12,-79 12,-79 38,-77 C 41,-56 42,-30 40,-2 C 12,-4 -12,-4 -40,-2 Z"
+        fill="#101A3D" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+
+  <!-- screen -->
+  <path d="M -32,-64 C -10,-66 10,-66 32,-64 C 33,-58 33,-52 32,-46 C 10,-48 -10,-48 -32,-46 C -33,-52 -33,-58 -32,-64 Z"
+        fill="#D8D8D8" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M -26,-56 L 22,-57" stroke="#8A8A8A" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- keys grid, 3 columns x 4 rows -->
+  <g fill="#F4F7FF" stroke="#141414" stroke-width="3.5">
+    <circle cx="-22" cy="-33" r="7"/>
+    <circle cx="0" cy="-33" r="7"/>
+    <circle cx="22" cy="-33" r="7"/>
+    <circle cx="-22" cy="-15" r="7"/>
+    <circle cx="0" cy="-15" r="7"/>
+    <circle cx="22" cy="-15" r="7"/>
+    <circle cx="-22" cy="3" r="7"/>
+    <circle cx="0" cy="3" r="7"/>
+  </g>
+  <circle cx="22" cy="3" r="7" fill="#FFC93C" stroke="#141414" stroke-width="3.5"/>
+</g>
+</svg>

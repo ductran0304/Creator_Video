@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-70 -75 140 150" width="140" height="150">
+<g>
+  <!-- spiral binding rings -->
+  <g fill="none" stroke="#141414" stroke-width="5">
+    <circle cx="-42" cy="-68" r="8"/>
+    <circle cx="-14" cy="-70" r="8"/>
+    <circle cx="14" cy="-70" r="8"/>
+    <circle cx="42" cy="-68" r="8"/>
+  </g>
+
+  <!-- backing board -->
+  <path d="M -64,-56 C -30,-60 30,-60 64,-56 C 66,-14 66,32 64,70 C 30,72 -30,72 -64,70 C -66,32 -66,-14 -64,-56 Z"
+        fill="#FFFFFF" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+
+  <!-- coral header band -->
+  <path d="M -64,-56 C -30,-60 30,-60 64,-56 C 65,-42 65,-30 64,-18 C 30,-21 -30,-21 -64,-18 C -65,-30 -65,-42 -64,-56 Z"
+        fill="#FF5C7A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- day-grid lines (kept simple, plain center for label overlay) -->
+  <g stroke="#BDBDBD" stroke-width="3" stroke-linecap="round">
+    <path d="M -64,-4 L 64,-3"/>
+    <path d="M -64,16 L 64,17"/>
+    <path d="M -64,36 L 64,37"/>
+    <path d="M -64,56 L 64,57"/>
+    <path d="M -32,-18 L -33,70"/>
+    <path d="M 0,-18 L 0,71"/>
+    <path d="M 32,-18 L 33,70"/>
+  </g>
+
+  <!-- one date circled in bold red (deadline) -->
+  <ellipse cx="18" cy="26" rx="17" ry="13" fill="none" stroke="#E0302B" stroke-width="6"/>
+
+  <!-- label_area (0,10,110) kept plain: no extra marks placed here -->
+</g>
+</svg>

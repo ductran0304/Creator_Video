@@ -1,0 +1,11 @@
+{
+ "desc": "chiếc răng hàm to kiểu hoạt hình (có thể viết chữ lên thân răng)",
+ "w": 95.0,
+ "h": 190.0,
+ "anchor": "bottom",
+ "label_box": [
+  0.0,
+  -120.0,
+  120.0
+ ]
+}

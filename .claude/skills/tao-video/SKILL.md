@@ -9,6 +9,8 @@ description: Tạo trọn một video doodle cho kênh H2Dev (người tiền s�
 - `--vi` / `--en`: ngôn ngữ lời thoại (mặc định: theo ngôn ngữ người dùng đang dùng để yêu cầu; hỏi nếu không rõ).
 - `--ngan`: bản thử ngắn ~250–400 từ, 6–10 cảnh (dùng để thử nhanh).
 - `--nhap`: chỉ dựng bản nháp 960×540 (`build --draft`).
+- `--phude`: in phụ đề lên hình (`"burn_subtitles": true`). Lời Việt mà cần phụ đề tiếng Anh → thêm `sub` (bản dịch)
+  cho từng line.
 
 Toàn bộ công cụ nằm trong `h2dev_pipeline/`. Chạy mọi lệnh từ thư mục đó với Python của venv:
 - Windows: `.venv\Scripts\python.exe` · macOS/Linux: `.venv/bin/python`
@@ -17,6 +19,11 @@ Toàn bộ công cụ nằm trong `h2dev_pipeline/`. Chạy mọi lệnh từ th
 Gọi tắt dưới đây: `MV = <python> make_video.py`.
 
 ## Bước 1 — Nạp DNA kênh (bắt buộc, trước khi viết chữ nào)
+
+Video cho **thương hiệu** (vd KTTG — kế toán thuế): dùng `brands/<tên>/brand.json` → `content_dna` làm DNA
+(khán giả, giọng văn, hài hước, cấu trúc, quy tắc pháp lý), ghi `"brand": "<tên>"` trong scenes.json, bỏ qua
+các quy tắc riêng của kênh người tiền sử (ngôi "you", dẫn chứng khảo cổ). Với nội dung pháp lý: đối chiếu mọi
+số hiệu văn bản / mốc ngày / con số bằng WebSearch tại thời điểm làm video và liệt kê căn cứ trong seo.json.
 
 1. Đọc `h2dev_knowledge_base.json`: `content_dna` (hook, nhịp câu, mạch truyện, luật dẫn chứng, luật hài, kết), `viral_topic_angles`, `visual_style_dna`, `seo_dna`.
 2. Đọc phần viết kịch bản trong `../ancient_humans_master_prompt.md` (STAGE 1–2) để bắt đúng giọng văn.
@@ -29,6 +36,13 @@ Gọi tắt dưới đây: `MV = <python> make_video.py`.
 - Dàn ý theo `narrative_arc`: Hook (2nd person, giác quan) → Reframe (số liệu hiện đại) → Evidence stack → Reconstruct → Counterintuitive twist → Modern mirror → Echo closing (câu cuối vọng lại câu đầu).
 - **Dẫn chứng:** ghi ra ≥3 nhà nghiên cứu / nghiên cứu / di chỉ CÓ THẬT mà bạn chắc chắn (tên, năm, phát hiện chính). Không chắc thì bỏ, tuyệt đối không bịa tên hay con số. Số liệu trong khung `stats` phải có nguồn thật.
 - Chia dàn ý thành 4–7 chapter.
+- **Cold open (hook 20–30 giây đầu) — bắt buộc**, đứng TRƯỚC phần hook giác quan của `content_dna`:
+  1. Mở bằng khoảnh khắc cụ thể, gây sốc nhất trong cả câu chuyện (một người, một nơi, một con số) — câu đầu
+     tiên phải có hình ảnh mạnh ("Fourteen thousand years ago… someone pushed a sharp stone into his tooth").
+  2. 1–2 câu cực ngắn tăng kịch tính ("No numbing. No painkiller." / "And somehow, it worked.").
+  3. Hứa hẹn điều người xem sẽ biết ("This is the story of how…") + một câu "móc" bí ẩn dẫn tới bước ngoặt
+     của video ("And why… their teeth were healthier than yours.").
+  4. 6 câu đầu = 6 cú máy khác nhau (focus + cut). Sau cold open mới vào hook giác quan ngôi thứ 2.
 - Nói với người dùng 2–4 dòng: tiêu đề, góc tiếp cận, các nguồn dẫn chứng chính — rồi làm tiếp, không cần chờ (trừ khi họ yêu cầu duyệt trước).
 
 Nếu đầu vào là **file kịch bản có sẵn**: giữ NGUYÊN lời thoại (chỉ tách câu/cảnh, bỏ timestamp hoặc chú thích), phần việc còn lại là thiết kế hình.
@@ -75,7 +89,11 @@ của ý đang kể** mà không vật có sẵn nào thay được (vd video v�
 - Con số / thuật ngữ quan trọng → `concept_text`. So sánh xưa–nay → `split`. Mốc thời gian → `timeline`. Số liệu → `stats`. Phủ định → `red_x`. Suy nghĩ/tưởng tượng → `thought`.
 - `you_main` (tóc cam) là "bạn"; `ancient_human` là tổ tiên; `archaeologist` khi nói về nhà nghiên cứu/khai quật.
 - Nền theo cảm xúc (`backgrounds`). Đừng để cùng frame hoặc cùng bg quá 3 cảnh liền nhau.
-- Giữ cảnh, làm nó sống bằng `show` / `change` (đổi biểu cảm, thêm một vật) thay vì cảnh mới mỗi câu — cứ ~8–10 giây nên có một thay đổi.
+- **Nhịp hình (B-roll): cứ 3–5 giây một thay đổi.** Mỗi câu nên là một "cú máy" khác câu trước:
+  `focus` (camera đẩy vào vật/nhân vật đang được nhắc), `cut` (chèn một hình minh hoạ riêng cho câu đó — con số,
+  vật cận cảnh, so sánh, cảnh tưởng tượng — rồi quay lại), hoặc `show`/`change`. Cảnh chính giữ bối cảnh;
+  B-roll minh hoạ đúng từ khoá của câu. `validate` cảnh báo khi hình đứng yên quá 7 giây.
+- Câu dài > 10 giây thì tách đôi để đổi hình giữa chừng.
 - Dùng neo `attach` / `above` / label `on` thay vì đoán toạ độ `x` cho các vật liên quan nhau.
 - Chữ trên hình: IN HOA, ≤ 5 từ, cùng ngôn ngữ với lời thoại.
 - Gắn `"chapter": "..."` vào cảnh mở đầu mỗi chapter (cảnh 1 luôn có chapter).

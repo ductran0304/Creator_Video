@@ -23,7 +23,7 @@ def _key(*parts):
     return hashlib.sha1("\x1f".join(parts).encode("utf-8")).hexdigest()[:16]
 
 
-async def _edge_one(text, voice, rate, path, sem, retries=3):
+async def _edge_one(text, voice, rate, path, sem, retries=5):
     async with sem:
         for attempt in range(retries):
             try:
@@ -50,7 +50,7 @@ def _omnivoice_one(text, path, cfg):
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
-def synthesize(texts, cache_dir, project, cfg, log=print, concurrency=5):
+def synthesize(texts, cache_dir, project, cfg, log=print, concurrency=4):
     """texts: list câu thoại → list đường dẫn audio tương ứng (theo thứ tự)."""
     os.makedirs(cache_dir, exist_ok=True)
     use_omni = cfg.get("use_omnivoice", False)
@@ -80,10 +80,18 @@ def synthesize(texts, cache_dir, project, cfg, log=print, concurrency=5):
 
         async def one(t, p):
             nonlocal done
-            await _edge_one(t, voice, rate, p, sem)
+            await _edge_one(t, voice, rate, p, sem, retries=2)
             done += 1
             if done % 10 == 0 or done == len(todo):
                 log(f"  [TTS] {done}/{len(todo)}")
-        await asyncio.gather(*(one(t, p) for t, p in todo))
+        results = await asyncio.gather(*(one(t, p) for t, p in todo), return_exceptions=True)
+        failed = [(t, p) for (t, p), r in zip(todo, results) if isinstance(r, Exception)]
+        if failed:
+            # edge-tts hay chập chờn khi gửi dồn ("No audio was received"): thử lại lần lượt từng câu, nghỉ lâu hơn
+            log(f"  [TTS] {len(failed)} câu lỗi tạm thời — thử lại lần lượt...")
+            one_by_one = asyncio.Semaphore(1)
+            for t, p in failed:
+                await asyncio.sleep(1.5)
+                await _edge_one(t, voice, rate, p, one_by_one, retries=6)
     asyncio.run(run())
     return paths

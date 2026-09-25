@@ -18,6 +18,8 @@ VARIANTS = {
     "modern_neutral": "Người hiện đại trung tính — đầu trọc",
     "elder_grandmother": "Bà cụ — tóc bạc búi + váy tím",
     "archaeologist": "Nhà khảo cổ — mũ thám hiểm nâu + ba lô",
+    "shop_owner": "Chủ hộ kinh doanh / chủ tiệm — tóc bob đen, tạp dề hồng san hô",
+    "kttg_accountant": "Kế toán viên KTTG — tóc rẽ ngôi, kính, áo xanh ngọc có thẻ nhân viên",
 }
 
 EXPRESSIONS = {
@@ -167,6 +169,16 @@ def _hair(pen, variant):
         outer = [_pt(r + 7, a) for a in range(-174, -5, 12)]
         inner = [_pt(r - 16, a) for a in range(-8, -175, -12)]
         return pen.circle(0, -r - 18, 26, C["hair_gray"]) + pen.poly(outer + inner, C["hair_gray"], amp=1.4)
+    if variant == "shop_owner":
+        outer = [_pt(r + 9, a) for a in range(-196, 17, 12)]
+        inner = [_pt(r - 14, a) for a in range(16, -197, -12)]
+        inner = [(x, max(y, -r * 0.55)) if -150 < math.degrees(math.atan2(y, x)) < -30 else (x, y) for x, y in inner]
+        return pen.poly(outer + inner, "#1E1E24", amp=1.2)
+    if variant == "kttg_accountant":
+        outer = [_pt(r + 8, a) for a in range(-178, -1, 12)]
+        inner = [_pt(r - 17, a) for a in range(-2, -179, -12)]
+        return (pen.poly(outer + inner, "#1E1E24", amp=1.0)
+                + pen.line([_pt(r - 6, -125), _pt(r + 6, -118)], width=3.5, stroke="#F4F7FF"))
     if variant == "archaeologist":
         # mũ thám hiểm đội cao trên trán để không che mắt
         dome = [(x, y - 26) for x, y in (_pt(r + 2, a) for a in range(-180, 1, 12))]
@@ -232,6 +244,10 @@ def _head(pen, cx, cy, tilt, variant, expression):
     face = _face(pen, expression)
     if tilt <= -60:  # nằm: tóc xoay theo đầu, mặt giữ thẳng để vẫn đọc được biểu cảm
         face = f'<g transform="rotate({-tilt})">{face}</g>'
+    if variant == "kttg_accountant":  # kính gọng tròn
+        glasses = "".join(pen.circle(sx * 22, -4, 16, "none", width=4, amp=0.4) for sx in (-1, 1))
+        glasses += pen.line([(-6, -6), (6, -6)], width=4)
+        face = face + (f'<g transform="rotate({-tilt})">{glasses}</g>' if tilt <= -60 else glasses)
     body = pen.circle(0, 0, HEAD_R, C["white"]) + face + hair
     return f'<g transform="translate({cx:.1f},{cy:.1f}) rotate({tilt})">{body}</g>'
 
@@ -256,8 +272,11 @@ OUTFITS = {
     "fur": "áo da thú tiền sử",
     "shirt": "áo sơ mi kaki (nhà thám hiểm)",
     "dress": "váy dài (bà cụ)",
+    "apron": "tạp dề bán hàng (chủ tiệm)",
+    "kttg_shirt": "áo xanh ngọc + dây đeo thẻ KTTG",
 }
-DEFAULT_OUTFIT = {"ancient_human": "fur", "archaeologist": "shirt", "elder_grandmother": "dress"}
+DEFAULT_OUTFIT = {"ancient_human": "fur", "archaeologist": "shirt", "elder_grandmother": "dress",
+                  "shop_owner": "apron", "kttg_accountant": "kttg_shirt"}
 
 
 def _outfit(pen, p, kind):
@@ -284,6 +303,15 @@ def _outfit(pen, p, kind):
     if kind == "shirt":
         out = pen.poly([at(6, -30), at(6, 30), at(L + 18, 34), at(L + 18, -34)], "#C8B27A", amp=1.2)
         return out + pen.line([at(10, 0), at(L + 10, 0)], width=3)
+    if kind == "apron":
+        out = pen.poly([at(L * 0.18, -26), at(L * 0.18, 26), at(L + 46, 40), at(L + 46, -40)], "#FF5C7A", amp=1.2)
+        out += pen.line([at(4, -18), at(L * 0.2, -22)], width=4) + pen.line([at(4, 18), at(L * 0.2, 22)], width=4)
+        return out + pen.rect(*at(L * 0.62, -16), 32, 22, "#FFD1DA", width=3.5, amp=0.5)
+    if kind == "kttg_shirt":
+        out = pen.poly([at(6, -32), at(6, 32), at(L + 16, 36), at(L + 16, -36)], "#00C2A8", amp=1.2)
+        out += pen.line([at(6, -12), at(L * 0.5, 0), at(6, 12)], width=4, stroke="#101A3D")
+        bx, by = at(L * 0.5, 0)
+        return out + pen.rect(bx - 12, by, 24, 30, "#FFC93C", width=3.5, amp=0.5)
     if kind == "dress":
         return pen.poly([at(4, -16), at(4, 16), at(L + 40, 64), at(L + 40, -64)], C["purple_mauve"])
     return ""

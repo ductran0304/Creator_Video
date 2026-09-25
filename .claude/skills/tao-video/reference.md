@@ -14,6 +14,10 @@ Tên hợp lệ luôn lấy từ `make_video.py vocab`. File này giải thích 
 ```
 `voice` tuỳ chọn (mặc định theo ngôn ngữ). Trường chỉ dành cho kịch bản: `lines`, `chapter`, `note`.
 
+**Phụ đề in trên hình:** `"burn_subtitles": true` ở gốc scenes.json (hoặc `build --subs`, hoặc `burn_subtitles`
+trong config.json làm mặc định). Phụ đề = lời thoại; muốn phụ đề khác ngôn ngữ lời đọc (vd lời Việt, phụ đề
+Anh) thì thêm `"sub": "English text"` vào từng line — `sub` cũng được ghi vào file `.srt`.
+
 ## Các frame
 
 | frame | trường | ghi chú |
@@ -55,6 +59,22 @@ Bỏ `y` → đứng trên mặt đất của nền. Prop trên trời (`sky_pro
 ```
 `change` có thể đổi mọi trường của element (pose, expression, x, holding, text...) và giữ nguyên cho các câu sau.
 
+## Cú máy theo câu: `focus` và `cut` (B-roll)
+
+```json
+{"text": "One of his molars had a large cavity.", "focus": "t"},
+{"text": "No numbing. No painkiller.", "cut": {"frame": "concept_text", "text": "NO NUMBING"}},
+{"text": "Under the microscope…", "cut": {"frame": "scene", "bg": "neutral_default", "elements": [
+   {"type": "prop", "name": "tooth", "x": 0.5, "scale": 2.6, "cracked": true},
+   {"type": "label", "text": "TINY SCRATCHES", "y": 0.14}]}}
+```
+- `focus`: id nhân vật/đồ vật (của cảnh, hoặc của `cut` nếu dùng cùng) → camera đẩy vào cận cảnh (zoom ≤ 1.9),
+  lướt mượt từ cú máy trước. Chỉ dùng trong frame `scene`.
+- `cut`: một cảnh hoàn chỉnh bất kỳ frame (scene, concept_text, split, timeline, stats) chỉ cho câu đó; câu sau
+  tự quay lại cảnh chính (giữ nguyên các show/change đã có). Chuyển cảnh nhanh (0,12s).
+- Câu có `show`/`change` được một cú zoom nhẹ ("punch") để người xem chú ý thứ vừa hiện.
+- Kiểm tra: `MV preview <slug> --scene N` vẽ đúng từng cú máy (có nhãn [focus]/[cut]).
+
 ## Bố cục đẹp
 
 - Nhân vật chính to, rõ: `scale` 1.1–1.4 khi cảnh chỉ có 1–2 nhân vật; nhỏ hơn (0.8–0.9) chỉ khi đông người.
@@ -63,6 +83,27 @@ Bỏ `y` → đứng trên mặt đất của nền. Prop trên trời (`sky_pro
 - Đặt tâm điểm lệch theo quy tắc 1/3 (x ≈ 0.33 hoặc 0.66), vật phụ ở phía đối diện hoặc sát mép (x 0.08–0.15,
   0.85–0.92, có thể tràn nhẹ ra ngoài khung).
 - Nền đã có chi tiết ở đường chân trời và tiền cảnh — không cần thêm quá nhiều vật nhỏ.
+
+## Ảnh thực tế (B-roll có thật)
+
+```
+MV photo search "point of sale" --n 12      # Openverse; chỉ CC0 / Public Domain / CC BY (thêm --allow-sa nếu cần)
+MV photo get <slug> 6 --name pos_receipt    # → projects/<slug>/photos/pos_receipt.jpg + .json (tác giả, giấy phép)
+```
+Read `cache/photo_search/last.png` để chọn ảnh (ô có đánh số). Dùng trong kịch bản:
+- khung toàn màn hình (hợp làm `cut`): `{"frame": "photo", "src": "pos_receipt", "caption": "Máy tính tiền in hoá đơn tại quầy"}`
+- ảnh dán polaroid trong cảnh doodle: `{"type": "photo", "src": "shop_interior", "x": 0.7, "y": 0.45, "w": 0.35, "caption": "..."}`
+
+Ghi nguồn tự động: dòng nhỏ trên hình + mục "Nguồn ảnh" trong mô tả YouTube.
+Quy tắc: không dùng ảnh lấy người nhận diện được làm chủ thể (giấy phép ảnh không thay cho quyền hình ảnh cá nhân);
+ưu tiên ảnh đồ vật, cửa hàng, quang cảnh; tìm từ khoá tiếng Anh (Openverse ít ảnh gắn tiếng Việt); mỗi video 2–5 ảnh là đủ.
+
+## Thương hiệu
+
+`"brand": "<tên>"` ở gốc scenes.json → áp dụng `brands/<tên>/brand.json`: màu, font (vd KTTG dùng font nghiêm chỉnh,
+không nghiêng), giọng, phụ đề, logo góc, màn kết tự động, ngưỡng độ dài. Đọc `content_dna` trong brand.json
+(giọng văn, hài hước, quy tắc pháp lý) thay cho DNA kênh doodle khi viết kịch bản cho thương hiệu đó.
+Label `"color": "red"` = màu nhấn/cảnh báo của thương hiệu; `"width": 0.5` giới hạn bề ngang chữ.
 
 ## Bẫy hay gặp
 

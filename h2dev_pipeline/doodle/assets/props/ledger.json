@@ -1,0 +1,15 @@
+{
+ "desc": "sổ sách kế toán bìa cứng mở ra, có cột số",
+ "w": 80.0,
+ "h": 110.0,
+ "anchor": "bottom",
+ "grip": [
+  0.0,
+  -30.0
+ ],
+ "label_box": [
+  0.0,
+  -60.0,
+  110.0
+ ]
+}

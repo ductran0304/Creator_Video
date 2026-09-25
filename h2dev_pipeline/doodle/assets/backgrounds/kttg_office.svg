@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- wall -->
+  <rect x="0" y="0" width="1920" height="840" fill="#F4F7FF"/>
+
+  <!-- wood floor -->
+  <rect x="0" y="840" width="1920" height="240" fill="#E8D9BD"/>
+  <path d="M -10,838 C 220,834 460,841 700,837 C 940,833 1180,840 1420,837 C 1660,834 1820,840 1930,837 L 1930,844 C 1820,847 1660,841 1420,844 C 1180,847 940,840 700,844 C 460,847 220,840 -10,844 Z"
+        fill="#D2B488"/>
+  <g stroke="#D2B488" stroke-width="3">
+    <line x1="0" y1="900" x2="1920" y2="898"/>
+    <line x1="0" y1="960" x2="1920" y2="962"/>
+    <line x1="0" y1="1020" x2="1920" y2="1018"/>
+  </g>
+  <g stroke="#D2B488" stroke-width="3">
+    <line x1="140" y1="860" x2="140" y2="1075"/>
+    <line x1="1780" y1="860" x2="1780" y2="1075"/>
+  </g>
+
+  <!-- ============ LEFT: big window with blue sky ============ -->
+  <g>
+    <path d="M 60,780 C 58,600 58,440 62,270 C 160,262 260,262 350,270 C 354,440 354,600 352,782 C 260,776 160,776 60,780 Z"
+          fill="#F4F7FF" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M 84,758 C 82,600 82,440 86,296 C 160,290 252,290 328,296 C 332,440 332,600 330,760 C 252,754 160,754 84,758 Z"
+          fill="#00C2A8" fill-opacity="0.28" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <!-- soft distant hill through the window, kept flat/simple -->
+    <path d="M 84,700 C 130,680 170,690 210,676 C 250,662 290,678 330,668 L 330,760 C 252,754 160,754 84,758 Z" fill="#00857A" fill-opacity="0.35"/>
+    <!-- window cross bars -->
+    <line x1="207" y1="296" x2="207" y2="758" stroke="#141414" stroke-width="6"/>
+    <line x1="86" y1="528" x2="330" y2="527" stroke="#141414" stroke-width="6"/>
+  </g>
+
+  <!-- small potted plant near window base, left edge -->
+  <g>
+    <path d="M 30,838 L 40,780 C 46,764 74,764 80,780 L 90,838 Z" fill="#00857A" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M 20,838 L 100,838 L 92,882 L 28,882 Z" fill="#D2B488" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+    <line x1="28" y1="882" x2="92" y2="882" stroke="#8B5A2B" stroke-width="4"/>
+  </g>
+
+  <!-- ============ RIGHT: file shelf with colored binders ============ -->
+  <g>
+    <path d="M 1580,760 C 1578,570 1578,400 1582,264 C 1670,257 1770,257 1856,264 C 1860,400 1860,570 1858,762 C 1770,756 1670,754 1580,760 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <line x1="1584" y1="380" x2="1854" y2="378" stroke="#141414" stroke-width="6"/>
+    <line x1="1584" y1="500" x2="1854" y2="500" stroke="#141414" stroke-width="6"/>
+    <line x1="1584" y1="620" x2="1854" y2="620" stroke="#141414" stroke-width="6"/>
+
+    <!-- top shelf: standing binders -->
+    <rect x="1596" y="298" width="34" height="78" rx="3" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="1634" y="290" width="34" height="86" rx="3" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    <rect x="1672" y="302" width="34" height="74" rx="3" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <rect x="1710" y="294" width="34" height="82" rx="3" fill="#00857A" stroke="#141414" stroke-width="5"/>
+    <rect x="1748" y="300" width="34" height="76" rx="3" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="1786" y="292" width="34" height="84" rx="3" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+
+    <!-- 2nd shelf: standing binders -->
+    <rect x="1596" y="418" width="34" height="78" rx="3" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    <rect x="1634" y="424" width="34" height="72" rx="3" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="1672" y="416" width="34" height="80" rx="3" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="1710" y="422" width="34" height="74" rx="3" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <rect x="1748" y="414" width="34" height="82" rx="3" fill="#00857A" stroke="#141414" stroke-width="5"/>
+    <rect x="1786" y="420" width="34" height="76" rx="3" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+
+    <!-- 3rd shelf: flat stacked folders -->
+    <rect x="1596" y="562" width="80" height="20" rx="3" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <rect x="1596" y="582" width="80" height="20" rx="3" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="1690" y="562" width="80" height="20" rx="3" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="1690" y="582" width="80" height="20" rx="3" fill="#00857A" stroke="#141414" stroke-width="5"/>
+    <rect x="1784" y="562" width="60" height="20" rx="3" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    <rect x="1784" y="582" width="60" height="20" rx="3" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+
+    <!-- 4th shelf: boxes -->
+    <rect x="1600" y="640" width="70" height="70" rx="4" fill="#00C2A8" stroke="#141414" stroke-width="6"/>
+    <rect x="1682" y="640" width="70" height="70" rx="4" fill="#101A3D" stroke="#141414" stroke-width="6"/>
+    <rect x="1764" y="640" width="70" height="70" rx="4" fill="#FFC93C" stroke="#141414" stroke-width="6"/>
+  </g>
+</svg>

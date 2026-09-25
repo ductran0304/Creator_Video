@@ -2,6 +2,7 @@
 và trả về (svg, ground_y, sky_color)."""
 from . import assets
 from .palette import C
+from .theme import T
 
 BACKGROUNDS_DESC = {
     "neutral_default": "Nền kem trơn — mặc định, khung chữ, trung tính",
@@ -27,7 +28,7 @@ def _ground(pen, x, w, top, bottom, color):
 
 
 def neutral_default(pen, x, y, w, h):
-    return _sky(x, y, w, h, C["cream"]), y + h * 0.88, C["cream"]
+    return _sky(x, y, w, h, T["paper"]), y + h * 0.88, T["paper"]
 
 
 def neutral_modern(pen, x, y, w, h):

@@ -1,0 +1,10 @@
+{
+ "desc": "thẻ ngân hàng / tài khoản kinh doanh riêng",
+ "w": 60.0,
+ "h": 40.0,
+ "anchor": "center",
+ "grip": [
+  -45.0,
+  0.0
+ ]
+}

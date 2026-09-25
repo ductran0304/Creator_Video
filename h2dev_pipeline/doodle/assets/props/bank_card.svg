@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -20 120 40" width="120" height="40">
+<g>
+  <path d="M -58,-16 C -20,-19 20,-19 58,-16 C 60,-6 60,6 58,16 C 20,19 -20,19 -58,16 C -60,6 -60,-6 -58,-16 Z"
+        fill="#00C2A8" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- navy stripe near grip end -->
+  <path d="M -58,-16 C -46,-17 -38,-17 -32,-16 C -33,-2 -33,10 -32,16 C -38,17 -46,17 -58,16 C -60,6 -60,-6 -58,-16 Z"
+        fill="#101A3D" stroke="#141414" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- gold chip -->
+  <rect x="-10" y="-9" width="16" height="12" rx="3" fill="#FFC93C" stroke="#141414" stroke-width="4"/>
+  <path d="M -10,-3 L 6,-3" stroke="#141414" stroke-width="2"/>
+  <path d="M -2,-9 L -2,3" stroke="#141414" stroke-width="2"/>
+
+  <!-- number dots -->
+  <g fill="#FFFFFF">
+    <circle cx="14" cy="6" r="2.6"/>
+    <circle cx="22" cy="6" r="2.6"/>
+    <circle cx="30" cy="6" r="2.6"/>
+    <circle cx="38" cy="6" r="2.6"/>
+  </g>
+</g>
+</svg>

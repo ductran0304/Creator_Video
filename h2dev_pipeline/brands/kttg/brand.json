@@ -1,0 +1,59 @@
+{
+  "name": "Kế Toán Tinh Gọn",
+  "short": "KTTG",
+  "language": "vi",
+  "voice": "vi-VN-NamMinhNeural",
+  "voice_rate": "+4%",
+  "burn_subtitles": true,
+  "script_word_count_min": 650,
+  "script_word_count_max": 1400,
+  "theme": {
+    "title": "#101A3D",
+    "label": "#00857A",
+    "alert": "#FF5C7A",
+    "paper": "#F4F7FF",
+    "highlight": "#FFC93C",
+    "font_family": "Be Vietnam Pro, Segoe UI, Arial, sans-serif",
+    "font_weight": 700,
+    "handwritten": false,
+    "font_file_candidates": [
+      "fonts/BeVietnamPro-Bold.ttf",
+      "C:/Windows/Fonts/segoeuib.ttf",
+      "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
+    ]
+  },
+  "fonts": [
+    "fonts/*.ttf",
+    "C:/Windows/Fonts/segoeui.ttf",
+    "C:/Windows/Fonts/segoeuib.ttf",
+    "/System/Library/Fonts/Supplemental/Arial.ttf",
+    "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
+  ],
+  "watermark": {
+    "logo": "logo-d-icon.svg",
+    "height": 84,
+    "margin": 26,
+    "opacity": 0.9
+  },
+  "outro": {
+    "logo": "logo-d-ngang-nen-toi.svg",
+    "headline": "Tư vấn miễn phí 45 phút",
+    "card_lines": [
+      "Hotline / Zalo: 0786 030 496",
+      "ketoantinhgon.com"
+    ],
+    "note": "Thông tin tham khảo, cập nhật {updated}. Trường hợp cụ thể vui lòng liên hệ tư vấn.",
+    "voice": "Nếu anh chị cần rà soát tình hình thuế của cơ sở mình, Kế Toán Tinh Gọn tư vấn miễn phí bốn mươi lăm phút. Gọi hoặc nhắn Zalo theo số trên màn hình nhé."
+  },
+  "content_dna": {
+    "audience": "Chủ hộ kinh doanh, doanh nghiệp nhỏ và vừa ở Bình Dương (Bến Cát, Mỹ Phước, Bàu Bàng, Thủ Dầu Một, Long Nguyên): tạp hoá, quán ăn, xưởng gia công, xây dựng, dịch vụ.",
+    "voice": "Xưng 'anh chị', giọng trấn an, thực tế, không doạ dẫm. Nói như một kế toán tận tâm đang ngồi uống trà với chủ tiệm: câu ngắn, ví dụ đời thường, không thuật ngữ khi chưa giải thích. Trung thực về giới hạn (vd không hứa 'không bao giờ bị thanh tra').",
+    "promise": "Chia sẻ nỗi lo, an tâm phát triển. Một người phụ trách xuyên suốt; gửi chứng từ qua Zalo; báo cáo 'một trang, năm con số, một việc cần làm'; phản hồi trong 24 giờ; tư vấn miễn phí 45 phút.",
+    "structure": "Cold open 15–25 giây (con số/mốc ngày gây chú ý + nỗi lo cụ thể + hứa hẹn) → Chuyện gì thay đổi → Anh chị thuộc nhóm nào → Việc cần làm (checklist) → Lỗi hay gặp / rủi ro → KTTG giúp thế nào (1 cảnh, không quảng cáo lố) → màn kết tự động.",
+    "legal_rules": "Mọi con số, mốc ngày, số hiệu văn bản phải đối chiếu nguồn chính thức hoặc báo lớn tại thời điểm làm video và ghi rõ trong lời thoại hoặc chữ trên hình (vd 'Nghị định 141/2026'). Không suy diễn ngoài văn bản; điều nào là lời khuyên của KTTG thì nói rõ là lời khuyên. Kịch bản phải được người có chứng chỉ của KTTG duyệt trước khi đăng.",
+    "length": "4–6 phút cho video dài (650–1400 từ tiếng Việt); Shorts 45–60 giây.",
+    "humor": "Hài hước nhẹ, đời thường, 1–2 câu mỗi chương: ví von với đời sống chủ tiệm (gói cước trọn gói, tăng lương, thùng mì, tiền đi chợ, mùa lo Tết, gửi ảnh cháu qua Zalo). Câu đùa đặt SAU thông tin chính, không thay thế nó. Không đùa về con số, mức phạt, quy định; không chế giễu cơ quan thuế hay khách hàng; không dùng tiếng lóng khó hiểu."
+  },
+  "scene_count_min": 6,
+  "scene_count_max": 30
+}

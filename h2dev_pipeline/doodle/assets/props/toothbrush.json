@@ -1,0 +1,10 @@
+{
+ "desc": "bàn chải đánh răng hiện đại dựng đứng, đầu lông ở trên",
+ "w": 20.0,
+ "h": 160.0,
+ "anchor": "bottom",
+ "grip": [
+  0.0,
+  -45.0
+ ]
+}

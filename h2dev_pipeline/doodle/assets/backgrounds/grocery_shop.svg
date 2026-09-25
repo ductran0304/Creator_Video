@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- wall -->
+  <rect x="0" y="0" width="1920" height="820" fill="#F4F7FF"/>
+
+  <!-- floor -->
+  <rect x="0" y="820" width="1920" height="260" fill="#EDEFF6"/>
+  <path d="M -10,818 C 200,814 420,821 640,817 C 860,813 1080,820 1300,817 C 1520,814 1720,820 1930,817 L 1930,824 C 1720,827 1520,821 1300,824 C 1080,827 860,820 640,824 C 420,827 200,820 -10,824 Z"
+        fill="#D8DCE8"/>
+  <!-- floor tile lines kept toward edges of the walkable strip -->
+  <g stroke="#D8DCE8" stroke-width="3">
+    <line x1="60" y1="860" x2="60" y2="1070"/>
+    <line x1="160" y1="855" x2="160" y2="1075"/>
+    <line x1="1760" y1="855" x2="1760" y2="1075"/>
+    <line x1="1860" y1="860" x2="1860" y2="1070"/>
+    <line x1="0" y1="940" x2="230" y2="940"/>
+    <line x1="1690" y1="940" x2="1920" y2="940"/>
+    <line x1="0" y1="1010" x2="230" y2="1010"/>
+    <line x1="1690" y1="1010" x2="1920" y2="1010"/>
+  </g>
+
+  <!-- ============ LEFT SHELVING UNIT ============ -->
+  <g>
+    <path d="M 20,760 C 20,560 20,400 22,260 C 90,255 170,255 250,262 C 252,400 252,560 250,758 C 170,752 90,754 20,760 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <!-- shelf boards -->
+    <line x1="24" y1="360" x2="246" y2="356" stroke="#141414" stroke-width="6"/>
+    <line x1="24" y1="480" x2="246" y2="478" stroke="#141414" stroke-width="6"/>
+    <line x1="24" y1="600" x2="246" y2="600" stroke="#141414" stroke-width="6"/>
+    <line x1="24" y1="700" x2="246" y2="700" stroke="#141414" stroke-width="6"/>
+
+    <!-- top shelf: boxes -->
+    <rect x="34" y="300" width="48" height="52" rx="4" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="90" y="292" width="48" height="60" rx="4" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <rect x="148" y="304" width="46" height="48" rx="4" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="200" y="296" width="42" height="56" rx="4" fill="#F4C430" stroke="#141414" stroke-width="4"/>
+
+    <!-- 2nd shelf: bottles -->
+    <path d="M 40,420 L 40,472 C 40,478 66,478 66,472 L 66,420 C 66,412 58,410 53,410 C 48,410 40,412 40,420 Z" fill="#00857A" stroke="#141414" stroke-width="5"/>
+    <path d="M 78,410 L 78,472 C 78,478 106,478 106,472 L 106,410 C 106,402 98,400 92,400 C 86,400 78,402 78,410 Z" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <path d="M 120,418 L 120,472 C 120,478 148,478 148,472 L 148,418 C 148,410 140,408 134,408 C 128,408 120,410 120,418 Z" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <ellipse cx="185" cy="450" rx="26" ry="22" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    <ellipse cx="222" cy="455" rx="18" ry="16" fill="#00C2A8" stroke="#141414" stroke-width="4"/>
+
+    <!-- 3rd shelf: instant noodle packs -->
+    <rect x="34" y="540" width="56" height="54" rx="6" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="96" y="540" width="56" height="54" rx="6" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <rect x="158" y="540" width="56" height="54" rx="6" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <path d="M 44,560 L 80,560" stroke="#FFFFFF" stroke-width="4"/>
+    <path d="M 106,560 L 142,560" stroke="#FFFFFF" stroke-width="4"/>
+    <path d="M 168,560 L 204,560" stroke="#FFFFFF" stroke-width="4"/>
+
+    <!-- 4th shelf: cans -->
+    <rect x="40" y="638" width="34" height="46" rx="5" fill="#00857A" stroke="#141414" stroke-width="5"/>
+    <rect x="84" y="638" width="34" height="46" rx="5" fill="#F4C430" stroke="#141414" stroke-width="5"/>
+    <rect x="128" y="638" width="34" height="46" rx="5" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="172" y="638" width="34" height="46" rx="5" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+  </g>
+
+  <!-- small blank signboard above left shelf (kept low enough to avoid quiet title band) -->
+  <g>
+    <path d="M 40,232 C 90,228 160,228 230,232 C 232,250 232,262 230,278 C 160,282 90,282 40,278 C 38,262 38,250 40,232 Z"
+          fill="#101A3D" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+
+  <!-- ============ RIGHT SHELVING UNIT ============ -->
+  <g>
+    <path d="M 1670,758 C 1668,560 1668,400 1670,262 C 1750,255 1830,255 1898,260 C 1900,400 1900,560 1900,760 C 1830,754 1750,752 1670,758 Z"
+          fill="#D2B488" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+    <line x1="1674" y1="360" x2="1896" y2="356" stroke="#141414" stroke-width="6"/>
+    <line x1="1674" y1="480" x2="1896" y2="478" stroke="#141414" stroke-width="6"/>
+    <line x1="1674" y1="600" x2="1896" y2="600" stroke="#141414" stroke-width="6"/>
+    <line x1="1674" y1="700" x2="1896" y2="700" stroke="#141414" stroke-width="6"/>
+
+    <!-- top shelf: boxes -->
+    <rect x="1684" y="296" width="46" height="56" rx="4" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="1738" y="304" width="46" height="48" rx="4" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="1792" y="292" width="46" height="60" rx="4" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <rect x="1846" y="300" width="42" height="52" rx="4" fill="#F4C430" stroke="#141414" stroke-width="4"/>
+
+    <!-- 2nd shelf: jars/bottles -->
+    <ellipse cx="1712" cy="450" rx="24" ry="22" fill="#00857A" stroke="#141414" stroke-width="5"/>
+    <ellipse cx="1756" cy="455" rx="20" ry="18" fill="#101A3D" stroke="#141414" stroke-width="5"/>
+    <path d="M 1800,418 L 1800,472 C 1800,478 1828,478 1828,472 L 1828,418 C 1828,410 1820,408 1814,408 C 1808,408 1800,410 1800,418 Z" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <path d="M 1840,410 L 1840,472 C 1840,478 1868,478 1868,472 L 1868,410 C 1868,402 1860,400 1854,400 C 1848,400 1840,402 1840,410 Z" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+
+    <!-- 3rd shelf: noodle packs -->
+    <rect x="1684" y="540" width="56" height="54" rx="6" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="1746" y="540" width="56" height="54" rx="6" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="1808" y="540" width="56" height="54" rx="6" fill="#FFC93C" stroke="#141414" stroke-width="5"/>
+    <path d="M 1694,560 L 1730,560" stroke="#FFFFFF" stroke-width="4"/>
+    <path d="M 1756,560 L 1792,560" stroke="#FFFFFF" stroke-width="4"/>
+    <path d="M 1818,560 L 1854,560" stroke="#FFFFFF" stroke-width="4"/>
+
+    <!-- 4th shelf: cans -->
+    <rect x="1690" y="638" width="34" height="46" rx="5" fill="#FF5C7A" stroke="#141414" stroke-width="5"/>
+    <rect x="1734" y="638" width="34" height="46" rx="5" fill="#00C2A8" stroke="#141414" stroke-width="5"/>
+    <rect x="1778" y="638" width="34" height="46" rx="5" fill="#F4C430" stroke="#141414" stroke-width="5"/>
+    <rect x="1822" y="638" width="34" height="46" rx="5" fill="#00857A" stroke="#141414" stroke-width="5"/>
+  </g>
+</svg>

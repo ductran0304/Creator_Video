@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from doodle.scene import scene_svg, render_png
 from doodle.text import FONT_PATH
-from .project import scene_states, scene_seed, final_state
+from .project import line_states, scene_seed, final_state
 
 THUMB = (480, 270)
 PER_SHEET = 20  # 4 cột x 5 hàng
@@ -63,12 +63,24 @@ def preview_scene_steps(project, project_dir, n):
     sc = scenes[n - 1]
     out = os.path.join(project_dir, "preview")
     os.makedirs(out, exist_ok=True)
-    seed = scene_seed(sc)
+    from .build import _focus_view
     thumbs = []
-    for k, (spec, visible) in enumerate(scene_states(sc), 1):
-        img = _png_to_img(render_png(scene_svg(spec, None, visible, seed)))
+    for k, st in enumerate(line_states(sc), 1):
+        boxes = {}
+        svg = scene_svg(st["spec"], None, st["visible"], st["seed"], boxes)
+        img = _png_to_img(render_png(svg))
+        tag = ""
+        if st["focus"] in boxes:  # mô phỏng camera cận cảnh
+            cx, cy, z = _focus_view(boxes[st["focus"]])
+            bw, bh = img.width / z, img.height / z
+            x = min(max(img.width * cx, bw / 2), img.width - bw / 2)
+            y = min(max(img.height * cy, bh / 2), img.height - bh / 2)
+            img = img.crop((int(x - bw / 2), int(y - bh / 2), int(x + bw / 2), int(y + bh / 2)))
+            tag = " [focus]"
+        if st["cut"]:
+            tag = " [cut]" + tag
         text = sc["lines"][k - 1]["text"]
-        thumbs.append(_badge(img.resize(THUMB), f"câu {k}: {text[:28]}{'…' if len(text) > 28 else ''}"))
+        thumbs.append(_badge(img.resize(THUMB), f"câu {k}{tag}: {text[:22]}{'…' if len(text) > 22 else ''}"))
     p = os.path.join(out, f"scene_{n:02d}_steps.png")
     _sheet(thumbs, cols=min(4, len(thumbs))).save(p)
     return p
