@@ -7,7 +7,9 @@
                                                                  dựng video dài 16:9 + bản dọc 9:16 + gói đăng tải
                                                                  → projects/<slug>/publish/ (mở PUBLISH.md)
   python make_video.py publish <slug|thư_mục>                     chỉ ghi lại metadata YouTube/Shorts/TikTok/Reels
-  python make_video.py thumbnail <slug|thư_mục>                   vẽ thử thumbnail + cover 9:16 từ seo.json → preview/
+  python make_video.py thumbnail <slug|thư_mục>                   vẽ thử thumbnail + cover 9:16 các bản dọc → preview/
+  python make_video.py stats import <file.csv> [--brand b]        nhập số liệu YouTube Studio (giữ chân, CTR...)
+  python make_video.py stats show [--brand b]                     tóm tắt video tốt/kém để rút kinh nghiệm
   python make_video.py asset new|check ...                        thêm asset mới cho thư viện (xem core/assets_cli.py)
   python make_video.py vocab                                     in danh mục từ vựng bộ vẽ (JSON)
 """
@@ -50,6 +52,8 @@ def load(project_arg):
     d = resolve_project_dir(project_arg, BASE_DIR)
     project = load_project(d)
     brand, cfg = activate(project, BASE_DIR, load_config())
+    from doodle.theme import T
+    T["today"] = project.get("updated")  # khung deadline đếm "Còn N ngày" từ ngày cập nhật của video
     from doodle import scene as ds
     ds.PHOTO_DIRS[:] = [os.path.join(d, "photos")] + ([os.path.join(brand["_dir"], "photos")] if brand else [])
     return d, project, cfg
@@ -119,21 +123,29 @@ def cmd_publish(a):
 
 
 def cmd_thumbnail(a):
+    """Thumbnail 16:9 + cover 9:16 của từng bản dọc (thời lượng ước lượng, không cần đọc giọng)."""
     from core import publish, vertical
-    d, project, _ = load(a.project)
+    d, project, cfg = load(a.project)
     seo = publish.load_seo(d)
     out = os.path.join(d, "preview")
     os.makedirs(out, exist_ok=True)
     print(publish.write_thumbnail(project, seo, os.path.join(out, "thumbnail.png")))
-    from core.project import line_states
-    from doodle.scene import scene_svg, render_png
-    plan = vertical.plan(project)
-    si, li = plan["items"][0]
-    st = line_states(project["scenes"][si])[li]
-    first = os.path.join(out, "_cover_src.png")
-    with open(first, "wb") as f:
-        f.write(render_png(scene_svg(st["spec"], None, st["visible"], st["seed"])))
-    print(publish.write_cover(project, seo, plan, first, os.path.join(out, "cover.png")))
+    for p in vertical.plans(project):
+        n = len(p["items"]) + 1
+        segs, total, refs = vertical.timeline(p, [3.0] * n, [None] * n, cfg)
+        lay = vertical.Layout(project, p, (vertical.VW, vertical.VH), total, segs)
+        shots = vertical.render_shots(p, refs, os.path.join(d, "cache", "frames_v"), lay)
+        name = "cover.png" if p["folder"] == "short" else f"cover_{p['id']}.png"
+        print(publish.write_cover(project, seo, p, shots, segs, os.path.join(out, name)))
+    return 0
+
+
+def cmd_stats(a):
+    from core import stats
+    if a.stats_cmd == "import":
+        print(stats.import_csv(BASE_DIR, a.csv, a.brand))
+    else:
+        print(stats.show(BASE_DIR, a.brand))
     return 0
 
 
@@ -190,6 +202,15 @@ def main():
     p = sub.add_parser("thumbnail")
     p.add_argument("project")
     p.set_defaults(fn=cmd_thumbnail)
+    p = sub.add_parser("stats", help="số liệu YouTube Studio → rút kinh nghiệm cho video sau")
+    ps = p.add_subparsers(dest="stats_cmd", required=True)
+    q = ps.add_parser("import")
+    q.add_argument("csv", help="file 'Table data.csv' xuất từ YouTube Studio → Analytics → Advanced mode")
+    q.add_argument("--brand", default="h2dev")
+    q.set_defaults(fn=cmd_stats)
+    q = ps.add_parser("show")
+    q.add_argument("--brand", default="h2dev")
+    q.set_defaults(fn=cmd_stats)
     p = sub.add_parser("photo", help="tìm/tải ảnh thực tế có giấy phép tự do (Openverse)")
     ps = p.add_subparsers(dest="photo_cmd", required=True)
     q = ps.add_parser("search")

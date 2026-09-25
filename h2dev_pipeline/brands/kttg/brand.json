@@ -20,7 +20,8 @@
       "fonts/BeVietnamPro-Bold.ttf",
       "C:/Windows/Fonts/segoeuib.ttf",
       "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-    ]
+    ],
+    "grid": true
   },
   "fonts": [
     "fonts/*.ttf",
@@ -52,7 +53,8 @@
     "structure": "Cold open 15–25 giây (con số/mốc ngày gây chú ý + nỗi lo cụ thể + hứa hẹn) → Chuyện gì thay đổi → Anh chị thuộc nhóm nào → Việc cần làm (checklist) → Lỗi hay gặp / rủi ro → KTTG giúp thế nào (1 cảnh, không quảng cáo lố) → màn kết tự động.",
     "legal_rules": "Mọi con số, mốc ngày, số hiệu văn bản phải đối chiếu nguồn chính thức hoặc báo lớn tại thời điểm làm video và ghi rõ trong lời thoại hoặc chữ trên hình (vd 'Nghị định 141/2026'). Không suy diễn ngoài văn bản; điều nào là lời khuyên của KTTG thì nói rõ là lời khuyên. Kịch bản phải được người có chứng chỉ của KTTG duyệt trước khi đăng.",
     "length": "4–6 phút cho video dài (650–1400 từ tiếng Việt); Shorts 45–60 giây.",
-    "humor": "Hài hước nhẹ, đời thường, 1–2 câu mỗi chương: ví von với đời sống chủ tiệm (gói cước trọn gói, tăng lương, thùng mì, tiền đi chợ, mùa lo Tết, gửi ảnh cháu qua Zalo). Câu đùa đặt SAU thông tin chính, không thay thế nó. Không đùa về con số, mức phạt, quy định; không chế giễu cơ quan thuế hay khách hàng; không dùng tiếng lóng khó hiểu."
+    "humor": "Hài hước nhẹ, đời thường, 1–2 câu mỗi chương: ví von với đời sống chủ tiệm (gói cước trọn gói, tăng lương, thùng mì, tiền đi chợ, mùa lo Tết, gửi ảnh cháu qua Zalo). Câu đùa đặt SAU thông tin chính, không thay thế nó. Không đùa về con số, mức phạt, quy định; không chế giễu cơ quan thuế hay khách hàng; không dùng tiếng lóng khó hiểu.",
+    "formats": "Định dạng: (1) Video dài 4–8 phút: cold open → chuyện gì thay đổi → nhóm nào → checklist việc cần làm → lỗi hay gặp → KTTG giúp; dùng 1 ẩn dụ xuyên suốt và progress_items khi video có N việc. (2) Short cắt từ video dài: cold open + mốc ngày/con số đắt nhất, 25–45s. (3) 'Hỏi nhanh – đáp gọn' 20–40s viết riêng (shorts[].scenes): chủ tiệm (speaker chu_tiem, giọng HoaiMy) hỏi một câu thật, kế toán KTTG (speaker ke_toan, NamMinh) đáp gọn trong 2–3 ý. (4) 'Lịch thuế tháng này' đầu mỗi tháng: khung deadline + checklist các hạn nộp. (5) 'Lỗi thật – cách sửa': một tình huống ẩn danh → hậu quả → cách xử lý. Mọi căn cứ pháp lý hiện bằng khung document (số hiệu, ngày, cơ quan)."
   },
   "scene_count_min": 6,
   "scene_count_max": 30,
@@ -62,7 +64,8 @@
     "text_color": "#DDE3F5",
     "font_file": "fonts/BeVietnamPro-ExtraBold.ttf",
     "logo": "logo-d-ngang-nen-toi.svg",
-    "footer": "Tư vấn miễn phí · Zalo 0786 030 496"
+    "footer": "Tư vấn miễn phí · Zalo 0786 030 496",
+    "logo_light": "logo-d-ngang.svg"
   },
   "publish": {
     "youtube_category": "Education",

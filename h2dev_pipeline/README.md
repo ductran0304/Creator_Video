@@ -61,6 +61,8 @@ make_video.bat build ten_du_an --subs                      # in phụ đề lên
 make_video.bat asset new ten_vat --w 60 --h 120 --desc "..." # đăng ký asset mới (rồi nhờ doodle-illustrator vẽ)
 make_video.bat asset check ten_vat                         # kiểm tra asset + xem trong cảnh thật
 make_video.bat vocab                                       # danh sách tên hợp lệ (nền, tư thế, đồ vật...)
+make_video.bat stats import "Table data.csv" --brand kttg   # nhập số liệu YouTube Studio (giữ chân, CTR)
+make_video.bat stats show --brand kttg                     # tóm tắt video tốt/kém để rút kinh nghiệm
 ```
 Project mẫu hoàn chỉnh: [`examples/demo_sleep/`](examples/demo_sleep/) — chạy thử bằng
 `make_video.bat build examples/demo_sleep --draft`.
@@ -92,19 +94,27 @@ Mỗi cảnh là một hình, chứa các câu thoại; mỗi câu có thể là
 ```
 - `show`: hiện thêm thành phần từ câu này; `change`: đổi thuộc tính (biểu cảm, tư thế...) từ câu này.
 - `sub` (tuỳ chọn): chữ phụ đề khác lời đọc, vd bản dịch tiếng Anh cho video lời Việt.
-- Frame: `scene`, `concept_text` (chữ to), `split` (so sánh), `timeline`, `stats`.
+- Frame doodle: `scene`, `concept_text` (chữ to), `split` (so sánh), `timeline`, `stats`, `photo`, `map` (bản đồ có ghim).
+- Frame thẻ kiểu báo (tự co giãn cho khung dọc): `headline`, `stat_cards`, `checklist` (tick dần bằng `step`),
+  `document` (văn bản pháp lý), `ledger` (bảng có tag), `deadline` (đếm "Còn N ngày"), `compare`, `media_card`.
+- `speaker` + `voices` (gốc): hỏi–đáp nhiều giọng; `progress_items` + `progress` (cảnh): bảng tiến độ ở góc.
+- Phụ đề karaoke (tô sáng từ đang đọc), chuyển cảnh hoà hình, hiệu ứng vẽ tay có bàn tay cầm bút (kênh doodle),
+  SFX theo ý nghĩa (whoosh/ding/thud/giấy) và nhạc nền tự nhỏ lại khi có lời — tự động khi build.
 - Neo vị trí: `attach` (đứng sát vật khác), `above` (đặt trên đầu), label `on` (chữ trên thân vật).
 - Tra cứu đầy đủ: [`.claude/skills/tao-video/reference.md`](../.claude/skills/tao-video/reference.md) và `make_video.bat vocab`.
 
-### Bản dọc 9:16 (`"short"` trong scenes.json)
+### Bản dọc 9:16 (`"shorts"` trong scenes.json)
 
 ```json
-"short": {"lines": ["1.1-1.4", "3.2-3.4", "4.1"], "hook": "BỎ THUẾ KHOÁN 2026: ANH CHỊ CẦN LÀM GÌ?"}
+"shorts": [
+  {"id": "main", "lines": ["1.1-1.4", "3.2-3.4"], "hook": "Doanh thu *dưới 1 tỷ*: vẫn phải làm *4 việc*"},
+  {"id": "hoi_dap_1", "kicker": "Hỏi nhanh – đáp gọn", "hook": "...", "scenes": [ ...kịch bản riêng 20–40s... ]}
+]
 ```
-`lines` chọn câu từ video dài (`"S"` cả cảnh, `"S.L"` một câu, `"S.L-M"` dải câu; đánh số từ 1) — mặc định cả cảnh 1.
-Bản dọc dùng lại giọng đọc + hình đã cache, tự thêm câu kết (`outro` hoặc `short_outro` của thương hiệu). Bố cục:
-chữ hook to ở trên · khung 16:9 + thanh tiến độ ở giữa · phụ đề to · logo + CTA, tránh vùng nút bấm/caption
-của TikTok/Reels. Nên 30–60 giây (`validate` báo ước lượng).
+Mỗi bản: cắt câu từ video dài (`lines`: `"S"` cả cảnh, `"S.L"` một câu, `"S.L-M"` dải câu; đánh số từ 1) hoặc
+kịch bản viết riêng (`scenes`). Bố cục dọc riêng: nhãn chương + logo · tiêu đề có từ nhấn (cố định, giữ ngữ cảnh) ·
+ô nội dung (khung thẻ vẽ lại đúng ô, cảnh doodle cắt vừa ô) · thanh tiến độ · phụ đề karaoke to — tránh vùng
+nút bấm/caption của TikTok/Reels. Nên 20–45 giây (`validate` báo ước lượng). `"short": {...}` một bản vẫn dùng được.
 
 ### Metadata đăng tải (`seo.json`)
 
@@ -117,7 +127,8 @@ của TikTok/Reels. Nên 30–60 giây (`validate` báo ước lượng).
   "reels":          {"caption": "", "hashtags": []},
   "long_url": "",
   "thumbnail": {"frame": "scene", "...": "..."},
-  "cover": {"...": "tuỳ chọn — ảnh giữa cover 9:16"}
+  "cover": {"...": "tuỳ chọn — ô giữa cover 9:16"},
+  "shorts": {"<id>": {"youtube_shorts": {}, "tiktok": {}, "reels": {}, "cover": {}}}
 }
 ```
 Mục nền tảng nào thiếu thì tự suy ra từ `youtube` (dạng cũ `titles/description/tags/hashtags` ở gốc vẫn dùng được).
@@ -135,6 +146,9 @@ TikTok/Reels caption ≤ 2200, Reels ≤ 5 hashtag, dòng đầu Reels ≤ 125 k
 | `bg_music_path`, `bg_music_volume` | File và âm lượng nhạc nền (nhân vào biên độ gốc) | `bg_music.mp3` (tìm cả trong `media/`), `0.05` |
 | `sfx_enabled`, `sfx_path`, `sfx_volume` | Tiếng lật trang khi chuyển cảnh | `true`, `sfx_page.wav`, `0.25` |
 | `sfx_reveal_path`, `sfx_reveal_volume` | Tiếng "pop" khi hiện thành phần mới | `sfx_pop.wav`, `0.15` |
+| `sfx_whoosh/ding/thud/paper/scribble_volume` | SFX theo ý nghĩa (vào B-roll, tick checklist, con số, thẻ, bút vẽ) | `0.22/0.2/0.35/0.3/0.5` |
+| `bg_music_gap_boost` | Nhạc nền to lên bao nhiêu lần ở khoảng nghỉ giữa các câu | `1.8` |
+| `draw_reveal` | Hiệu ứng vẽ tay (mặc định bật khi không có thương hiệu) | — |
 | `burn_subtitles` | In phụ đề lên hình cho mọi video (từng video: `"burn_subtitles"` trong scenes.json, hoặc `build --subs`) | `false` |
 | `line_gap`, `scene_gap` | Khoảng nghỉ (giây) giữa các câu / các cảnh | `0.25`, `0.6` |
 | `fps`, `crf` | Khung hình/giây và chất lượng x264 của bản chuẩn | `24`, `20` |
@@ -152,9 +166,10 @@ h2dev_pipeline/
 │   ├── h2dev/                   #   kênh người tiền sử: knowledge_base.json (DNA kênh), master_prompt.md (văn phong gốc)
 │   └── kttg/                    #   Kế Toán Tinh Gọn: logo, font Be Vietnam Pro (OFL)
 ├── media/                       # (gitignore) bg_music.mp3, sfx_page.wav, sfx_pop.wav
-├── doodle/                      # bộ vẽ: nét tay, nhân vật, đồ vật, nền, khung, font Pangolin (OFL)
+├── doodle/                      # bộ vẽ: nét tay, nhân vật, đồ vật, nền, khung, cards.py (thẻ kiểu báo), font Pangolin (OFL)
 ├── core/                        # project.py (đọc/kiểm tra), preview.py, tts.py, audio.py, build.py,
-│                                # vertical.py (bản dọc 9:16), publish.py (metadata đa nền tảng), brand.py, photos.py
+│                                # vertical.py (bản dọc 9:16), publish.py (metadata đa nền tảng), brand.py, photos.py,
+│                                # stats.py (số liệu YouTube Studio)
 ├── examples/demo_sleep/         # project mẫu
 └── projects/<slug>/             # (gitignore) scenes.json, seo.json, photos/, preview/, cache/, publish/
 ```

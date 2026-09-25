@@ -38,6 +38,8 @@ FRAMES = {
     "photo": "Ảnh thực tế toàn màn hình (B-roll): src, caption",
     "brand_card": "Màn kết thương hiệu (tự thêm từ brands/<tên>/brand.json): logo, headline, card_lines, note",
 }
+from .cards import CARD_FRAMES, RESPONSIVE  # noqa: E402  (khung thẻ kiểu báo)
+FRAMES.update({name: desc for name, (_, desc) in CARD_FRAMES.items()})
 ELEMENT_TYPES = {
     "character": "variant, pose, expression, extras[], holding, outfit, flip, scale",
     "prop": "name, scale, flip, cracked",
@@ -378,15 +380,24 @@ def _stats(pen, spec, warnings):
     return out
 
 
-def scene_svg(spec, warnings=None, visible=None, seed=None, boxes_out=None):
+def scene_svg(spec, warnings=None, visible=None, seed=None, boxes_out=None, size=None):
     """spec → chuỗi SVG. warnings: list nhận cảnh báo bố cục. visible: tập chỉ số element cần hiện
     (dùng cho hiệu ứng hiện dần; chỉ áp dụng frame=scene). seed: giữ nét rung cố định giữa các trạng thái
-    của cùng một cảnh (mặc định tính từ nội dung spec)."""
+    của cùng một cảnh (mặc định tính từ nội dung spec). size=(w, h): chỉ các khung trong RESPONSIVE vẽ theo kích
+    thước khác 1920x1080 (ô nội dung bản dọc); khung khác luôn vẽ 16:9."""
     warnings = [] if warnings is None else warnings
     pen = Pen(seed if seed is not None else zlib.crc32(json.dumps(spec, sort_keys=True).encode()))
     frame = spec.get("frame", "scene")
     _check(frame, FRAMES, "frame")
-    if frame == "concept_text":
+    w, h = size if (size and frame in RESPONSIVE) else (W, H)
+    if frame in CARD_FRAMES:
+        body = CARD_FRAMES[frame][0](spec, w, h)
+    elif (w, h) != (W, H) and frame in ("concept_text", "photo"):
+        from .cards import concept, photo_full
+        if frame == "concept_text" and not spec.get("text"):
+            raise SceneError("concept_text cần trường 'text'")
+        body = concept(spec, w, h) if frame == "concept_text" else photo_full(spec, w, h)
+    elif frame == "concept_text":
         if not spec.get("text"):
             raise SceneError("concept_text cần trường 'text'")
         body = _concept_text(pen, spec)
@@ -402,7 +413,7 @@ def scene_svg(spec, warnings=None, visible=None, seed=None, boxes_out=None):
         body = _stats(pen, spec, warnings)
     else:
         body = render_panel(pen, spec, 0, 0, W, H, warnings, visible, boxes_out)
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">'
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w:.0f}" height="{h:.0f}" viewBox="0 0 {w:.0f} {h:.0f}">'
             + body + "</svg>")
 
 

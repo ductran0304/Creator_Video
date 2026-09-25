@@ -75,15 +75,14 @@ def _with_tags(text, hashtags):
     return (text.rstrip() + "\n\n" + " ".join(missing)).strip() if missing else text.strip()
 
 
-def resolve(project, seo, chapter_lines, credits, short_info=None):
-    """→ dict các nền tảng + list cảnh báo."""
+def resolve(project, seo, chapter_lines, credits):
+    """Metadata video dài YouTube → (youtube dict, cảnh báo)."""
     lang = project.get("language", "en")
     tx = TXT.get(lang, TXT["en"])
     brand = project.get("_brand") or {}
     bpub = brand.get("publish") or {}
     warn = []
-    long_url = seo.get("long_url") or tx["no_url"]
-    fill = lambda s: (s or "").replace("{{long_url}}", long_url)
+    fill = _filler(seo, tx)
 
     yt = dict(seo.get("youtube") or {})
     for k in ("titles", "description", "tags", "hashtags"):
@@ -104,7 +103,7 @@ def resolve(project, seo, chapter_lines, credits, short_info=None):
         "playlist": yt.get("playlist") or bpub.get("playlist") or "",
         "pinned_comment": fill(yt.get("pinned_comment") or bpub.get("pinned_comment") or ""),
         "made_for_kids": bool(yt.get("made_for_kids", bpub.get("made_for_kids", False))),
-        "language": lang,
+        "language": lang, "_lead": _first_para(yt.get("description") or "") or titles[0],
     }
     for t in titles:
         if len(t) > LIMITS["yt_title"]:
@@ -123,42 +122,63 @@ def resolve(project, seo, chapter_lines, credits, short_info=None):
         warn.append(f"YouTube: {len(hashtags)} hashtag > {LIMITS['yt_hashtags']} — YouTube bỏ qua toàn bộ hashtag")
     if len(chapter_lines) and len(chapter_lines) < 3:
         warn.append("YouTube: cần ≥ 3 chapters (mỗi cái ≥ 10s) thì mới hiện chapter")
+    return youtube, warn
 
-    lead = _first_para(yt.get("description") or "") or titles[0]
-    ys = seo.get("youtube_shorts") or {}
+
+def _filler(seo, tx):
+    long_url = seo.get("long_url") or tx["no_url"]
+    return lambda s: (s or "").replace("{{long_url}}", long_url)
+
+
+def resolve_short(project, seo, youtube, info):
+    """Metadata một bản dọc → ({youtube_shorts, tiktok, reels}, cảnh báo).
+    Bản đầu (id main / đầu danh sách) đọc các mục gốc youtube_shorts/tiktok/reels; bản khác đọc seo.shorts[id]."""
+    lang = project.get("language", "en")
+    tx = TXT.get(lang, TXT["en"])
+    fill = _filler(seo, tx)
+    first = info.get("folder", "short") == "short"
+    src = seo if first else ((seo.get("shorts") or {}).get(info["id"]) or {})
+    tag = "" if first else f" [{info['id']}]"
+    warn = []
+    hook = (info.get("hook") or "").replace("*", "")
+    hashtags = youtube["hashtags"]
+    lead = youtube["_lead"] if first else hook
+
+    ys = src.get("youtube_shorts") or {}
     s_tags = _hash(ys.get("hashtags")) or (hashtags[:3] + ["#shorts"])
-    s_title = ys.get("title") or _clip((short_info or {}).get("hook") or titles[0], 90)
+    s_title = ys.get("title") or _clip(hook or youtube["title"], 90)
     s_desc = ys.get("description") or f"{_clip(lead, 300)}\n\n{tx['full']}: {{{{long_url}}}}"
     shorts = {"title": s_title, "description": _with_tags(fill(s_desc), s_tags), "hashtags": s_tags}
     if len(s_title) > LIMITS["yt_title"]:
-        warn.append(f"Shorts: tiêu đề {len(s_title)} ký tự > {LIMITS['yt_title']}")
+        warn.append(f"Shorts{tag}: tiêu đề {len(s_title)} ký tự > {LIMITS['yt_title']}")
     if len(s_tags) > LIMITS["short_hashtags"]:
-        warn.append(f"Shorts: {len(s_tags)} hashtag — nên 3–5")
+        warn.append(f"Shorts{tag}: {len(s_tags)} hashtag — nên 3–5")
 
-    tk = seo.get("tiktok") or {}
+    tk = src.get("tiktok") or {}
     t_tags = _hash(tk.get("hashtags")) or hashtags[:5]
     t_cap = _with_tags(fill(tk.get("caption") or _clip(lead, 150)), t_tags)
     tiktok = {"caption": t_cap, "hashtags": t_tags}
     if len(t_cap) > LIMITS["tiktok_caption"]:
-        warn.append(f"TikTok: caption {len(t_cap)} ký tự > {LIMITS['tiktok_caption']}")
+        warn.append(f"TikTok{tag}: caption {len(t_cap)} ký tự > {LIMITS['tiktok_caption']}")
     if not 3 <= len(t_tags) <= 6:
-        warn.append(f"TikTok: {len(t_tags)} hashtag — nên 3–6 (từ khoá chính + ngách)")
+        warn.append(f"TikTok{tag}: {len(t_tags)} hashtag — nên 3–6 (từ khoá chính + ngách)")
 
-    rl = seo.get("reels") or seo.get("facebook_reels") or seo.get("instagram_reels") or {}
+    rl = src.get("reels") or src.get("facebook_reels") or src.get("instagram_reels") or {}
     r_tags = _hash(rl.get("hashtags")) or hashtags[:LIMITS["reels_hashtags"]]
     r_cap = _with_tags(fill(rl.get("caption") or _clip(lead, 200)), r_tags)
     reels = {"caption": r_cap, "hashtags": r_tags}
     if len(r_cap) > LIMITS["reels_caption"]:
-        warn.append(f"Reels: caption {len(r_cap)} ký tự > {LIMITS['reels_caption']}")
+        warn.append(f"Reels{tag}: caption {len(r_cap)} ký tự > {LIMITS['reels_caption']}")
     if len(r_tags) > LIMITS["reels_hashtags"]:
-        warn.append(f"Reels: {len(r_tags)} hashtag — Instagram giới hạn {LIMITS['reels_hashtags']} hashtag mỗi bài")
-    first_line = r_cap.split("\n")[0]
-    if len(first_line) > 125:
-        warn.append("Reels: dòng đầu caption > 125 ký tự — phần sau bị ẩn sau 'Xem thêm'; đưa ý chính lên đầu")
-
-    if tx["no_url"] in json.dumps([shorts, tiktok, reels, youtube], ensure_ascii=False):
-        warn.append("Chưa có long_url trong seo.json — sau khi đăng video dài, điền link rồi chạy `publish` để cập nhật")
-    return {"youtube": youtube, "youtube_shorts": shorts, "tiktok": tiktok, "reels": reels}, warn
+        warn.append(f"Reels{tag}: {len(r_tags)} hashtag — Instagram giới hạn {LIMITS['reels_hashtags']} hashtag mỗi bài")
+    if len(r_cap.split("\n")[0]) > 125:
+        warn.append(f"Reels{tag}: dòng đầu caption > 125 ký tự — phần sau bị ẩn sau 'Xem thêm'; đưa ý chính lên đầu")
+    d = info.get("duration", 0)
+    if d > 180:
+        warn.append(f"Bản dọc{tag} {d:.0f}s > 3 phút — quá giới hạn Shorts/Reels")
+    elif d > 90:
+        warn.append(f"Bản dọc{tag} {d:.0f}s > 90s — Facebook Reels có thể không nhận là Reel; nên ≤ 60s")
+    return {"youtube_shorts": shorts, "tiktok": tiktok, "reels": reels}, warn
 
 
 # ---------------- ảnh ----------------
@@ -184,18 +204,27 @@ def write_thumbnail(project, seo, out_path, log=print):
     return out_path
 
 
-def write_cover(project, seo, short_info, first_shot_png, out_path, log=print):
-    """Cover 9:16 (1080x1920) cho Shorts/TikTok/Reels: cùng bố cục bản dọc, ảnh giữa = seo.cover hoặc cú máy đầu."""
-    from .vertical import Layout
-    img = None
-    if seo.get("cover"):
+def write_cover(project, seo, plan, s_shots, segs, out_path, log=print):
+    """Cover 9:16 (1080x1920) cho Shorts/TikTok/Reels: cùng bố cục bản dọc; ô nội dung = seo.cover (hoặc
+    seo.shorts[id].cover) vẽ theo ô, mặc định là cú máy đầu tiên của bản dọc."""
+    from .vertical import Layout, VW, VH
+    from .build import FrameMaker
+    from doodle.scene import scene_svg, render_png
+    from doodle.theme import T
+    lay = Layout(project, plan, (VW, VH), None, segs)
+    spec = ((seo.get("shorts") or {}).get(plan["id"]) or {}).get("cover") if plan["folder"] != "short" else None
+    spec = spec or (seo.get("cover") if plan["folder"] == "short" else None)
+    media = None
+    if spec:
         try:
-            img = render_scene_img(seo["cover"])
+            media = Image.open(io.BytesIO(render_png(scene_svg(spec, size=lay.media_native)))).convert("RGB")
         except Exception as e:
-            log(f"  [⚠] seo.json → cover lỗi ({e}) — dùng cú máy đầu của short")
-    if img is None:
-        img = Image.open(first_shot_png).convert("RGB")
-    Layout(project, short_info["hook"]).cover(img).save(out_path)
+            log(f"  [⚠] seo.json → cover lỗi ({e}) — dùng cú máy đầu của bản dọc")
+    if media is None:  # toàn cảnh của cú máy đầu (bỏ cận cảnh để thấy đủ nhân vật)
+        first = [dict(s_shots[0][0], view=None, reveal=False)] + s_shots[0][1:]
+        fm = FrameMaker(segs, [first] + s_shots[1:], lay.frame_size, paper=T["paper"])
+        media = fm.frame(0, segs[0]["lines"][0]["start"] + 0.01)
+    lay.cover(media, segs[0].get("kicker")).save(out_path)
     return out_path
 
 
@@ -219,51 +248,52 @@ def _yt_txt(y):
     return "\n".join(out) + "\n"
 
 
-def write_all(project, project_dir, pub_dir, long_info, short_info, chapter_lines, log=print):
-    """Ghi metadata các nền tảng + PUBLISH.md + publish.json. long_info/short_info: dict đường dẫn + thời lượng
-    (có thể None nếu không dựng phần đó)."""
+def write_all(project, project_dir, pub_dir, long_info, shorts_info, chapter_lines, log=print):
+    """Ghi metadata các nền tảng + PUBLISH.md + publish.json. long_info: dict đường dẫn + thời lượng (hoặc None);
+    shorts_info: list dict cho từng bản dọc (id, folder, video, cover, srt, duration, hook)."""
     from doodle import scene as ds
     from .photos import used_credits
     seo = load_seo(project_dir)
     if not seo:
         log("  [i] chưa có seo.json — metadata chỉ gồm tiêu đề + chapters")
     credits = used_credits(project, ds.PHOTO_DIRS)
-    meta, warn = resolve(project, seo, chapter_lines, credits, short_info)
-    y, s, t, r = meta["youtube"], meta["youtube_shorts"], meta["tiktok"], meta["reels"]
-    if short_info:
-        d = short_info.get("duration", 0)
-        if d > 180:
-            warn.append(f"Bản dọc {d:.0f}s > 3 phút — quá giới hạn Shorts/Reels")
-        elif d > 90:
-            warn.append(f"Bản dọc {d:.0f}s > 90s — Facebook Reels có thể không nhận là Reel; nên ≤ 60s")
+    y, warn = resolve(project, seo, chapter_lines, credits)
     os.makedirs(os.path.join(pub_dir, "youtube"), exist_ok=True)
-    os.makedirs(os.path.join(pub_dir, "short"), exist_ok=True)
     with open(os.path.join(pub_dir, "youtube", "metadata.txt"), "w", encoding="utf-8") as f:
         f.write(_yt_txt(y))
-    with open(os.path.join(pub_dir, "short", "youtube_shorts.txt"), "w", encoding="utf-8") as f:
-        f.write(f"=== YOUTUBE SHORTS ===\n\n--- TIÊU ĐỀ ---\n{s['title']}\n\n--- MÔ TẢ ---\n{s['description']}\n")
-    with open(os.path.join(pub_dir, "short", "tiktok.txt"), "w", encoding="utf-8") as f:
-        f.write(f"=== TIKTOK ===\n\n--- CAPTION ---\n{t['caption']}\n")
-    with open(os.path.join(pub_dir, "short", "reels.txt"), "w", encoding="utf-8") as f:
-        f.write(f"=== REELS (Instagram + Facebook) ===\n\n--- CAPTION ---\n{r['caption']}\n")
-    files = {"long": long_info, "short": short_info}
+    shorts_meta = []
+    for info in shorts_info or []:
+        m, w = resolve_short(project, seo, y, info)
+        warn += w
+        folder = os.path.join(pub_dir, info.get("folder", "short"))
+        os.makedirs(folder, exist_ok=True)
+        s_, t, r = m["youtube_shorts"], m["tiktok"], m["reels"]
+        with open(os.path.join(folder, "youtube_shorts.txt"), "w", encoding="utf-8") as f:
+            f.write(f"=== YOUTUBE SHORTS ===\n\n--- TIÊU ĐỀ ---\n{s_['title']}\n\n--- MÔ TẢ ---\n{s_['description']}\n")
+        with open(os.path.join(folder, "tiktok.txt"), "w", encoding="utf-8") as f:
+            f.write(f"=== TIKTOK ===\n\n--- CAPTION ---\n{t['caption']}\n")
+        with open(os.path.join(folder, "reels.txt"), "w", encoding="utf-8") as f:
+            f.write(f"=== REELS (Instagram + Facebook) ===\n\n--- CAPTION ---\n{r['caption']}\n")
+        shorts_meta.append((info, m))
+    if any(TXT[k]["no_url"] in json.dumps([m for _, m in shorts_meta] + [y], ensure_ascii=False) for k in TXT):
+        warn.append("Chưa có long_url trong seo.json — sau khi đăng video dài, điền link rồi chạy `publish` để cập nhật")
+    yy = {k: v for k, v in y.items() if not k.startswith("_")}
     with open(os.path.join(pub_dir, "publish.json"), "w", encoding="utf-8") as f:
-        json.dump({"title": project["title"], "files": files, "platforms": meta, "warnings": warn}, f,
+        json.dump({"title": project["title"], "long": {"files": long_info, "youtube": yy},
+                   "shorts": [{"files": i, **m} for i, m in shorts_meta], "warnings": warn}, f,
                   ensure_ascii=False, indent=1)
-    md = _publish_md(project, meta, warn, pub_dir, long_info, short_info)
     with open(os.path.join(pub_dir, "PUBLISH.md"), "w", encoding="utf-8") as f:
-        f.write(md)
+        f.write(_publish_md(project, yy, shorts_meta, warn, pub_dir, long_info))
     for w in warn:
         log(f"  [⚠] {w}")
-    return seo, meta, warn
+    return seo, y, warn
 
 
 def _rel(pub_dir, p):
     return os.path.relpath(p, pub_dir).replace("\\", "/") if p else "—"
 
 
-def _publish_md(project, meta, warn, pub_dir, long_info, short_info):
-    y, s, t, r = meta["youtube"], meta["youtube_shorts"], meta["tiktok"], meta["reels"]
+def _publish_md(project, y, shorts_meta, warn, pub_dir, long_info):
     brand = project.get("_brand") or {}
     legal = (brand.get("content_dna") or {}).get("legal_rules")
     L = [f"# Gói đăng tải — {project['title']}", ""]
@@ -271,10 +301,10 @@ def _publish_md(project, meta, warn, pub_dir, long_info, short_info):
     if long_info:
         L.append(f"| YouTube (16:9) | `{_rel(pub_dir, long_info['video'])}` | `{_rel(pub_dir, long_info['thumbnail'])}` "
                  f"| `{_rel(pub_dir, long_info['srt'])}` | {_fmt_dur(long_info['duration'])} |")
-    if short_info:
-        L.append(f"| Shorts · TikTok · Reels (9:16) | `{_rel(pub_dir, short_info['video'])}` "
-                 f"| `{_rel(pub_dir, short_info['cover'])}` | `{_rel(pub_dir, short_info['srt'])}` "
-                 f"| {_fmt_dur(short_info['duration'])} |")
+    for info, _ in shorts_meta:
+        name = "Bản dọc" + ("" if info.get("folder", "short") == "short" else f" `{info['id']}`")
+        L.append(f"| {name} · Shorts/TikTok/Reels (9:16) | `{_rel(pub_dir, info['video'])}` "
+                 f"| `{_rel(pub_dir, info['cover'])}` | `{_rel(pub_dir, info['srt'])}` | {_fmt_dur(info['duration'])} |")
     L.append("")
     if warn:
         L += ["## ⚠ Cần xem lại", ""] + [f"- {w}" for w in warn] + [""]
@@ -292,27 +322,30 @@ def _publish_md(project, meta, warn, pub_dir, long_info, short_info):
     if y["pinned_comment"]:
         L += ["", "**Bình luận ghim** (đăng ngay sau khi video lên sóng rồi ghim):", "", "```text", y["pinned_comment"],
               "```"]
-    L += ["", "## 2. YouTube Shorts", "", "**Tiêu đề**", "", "```text", s["title"], "```", "", "**Mô tả**", "",
-          "```text", s["description"], "```", "",
-          "## 3. TikTok", "", "**Caption**", "", "```text", t["caption"], "```", "",
-          "## 4. Reels — Instagram + Facebook", "", "**Caption**", "", "```text", r["caption"], "```", ""]
-
-    L += ["## Checklist trước khi bấm đăng", ""]
+    for n, (info, m) in enumerate(shorts_meta, 2):
+        s_, t, r = m["youtube_shorts"], m["tiktok"], m["reels"]
+        name = "" if info.get("folder", "short") == "short" else f" `{info['id']}`"
+        L += ["", f"## {n}. Bản dọc{name} — `{info.get('folder', 'short')}/`", "",
+              "**YouTube Shorts — tiêu đề**", "", "```text", s_["title"], "```", "", "**YouTube Shorts — mô tả**", "",
+              "```text", s_["description"], "```", "", "**TikTok — caption**", "", "```text", t["caption"], "```", "",
+              "**Reels (Instagram + Facebook) — caption**", "", "```text", r["caption"], "```"]
+    L += ["", "## Checklist trước khi bấm đăng", ""]
     if legal:
         L.append("- [ ] Người có chứng chỉ đã duyệt nội dung (quy tắc thương hiệu: đối chiếu số liệu, văn bản pháp lý)")
-    L += ["- [ ] Đã xem hết video dài và bản dọc: hình, chữ, phụ đề, âm lượng nhạc nền",
+    L += ["- [ ] Đã xem hết video dài và các bản dọc: hình, chữ, phụ đề, âm lượng nhạc nền",
           "- [ ] **YouTube:** tải video · dán tiêu đề, mô tả, tags · chọn thumbnail · danh mục · 'Không dành cho trẻ em' "
           "· *Phụ đề → Tải tệp lên* (file .srt, có thời gian) · thêm vào danh sách phát · màn hình kết thúc + thẻ",
           "- [ ] **YouTube:** mục *Nội dung bị thay đổi/tổng hợp*: chọn **Không** (hoạt hình doodle, giọng đọc "
           "tổng hợp không giả danh người thật) — đổi thành Có nếu có cảnh/giọng giống người thật",
           "- [ ] **Shorts:** tải bản dọc · tiêu đề + mô tả · *Video liên quan* → chọn video dài",
-          "- [ ] **TikTok:** tải bản dọc · dán caption · *Chỉnh sửa ảnh bìa → Tải lên* `short/cover.png` "
+          "- [ ] **TikTok:** tải bản dọc · dán caption · *Chỉnh sửa ảnh bìa → Tải lên* `cover.png` của bản đó "
           "· bật nhãn **Nội dung do AI tạo** (giọng đọc AI) · cho phép Duet/Stitch tuỳ ý",
           "- [ ] **Reels:** tải bản dọc lên Instagram (bật *Chia sẻ lên Facebook* hoặc đăng riêng trên Trang) "
-          "· ảnh bìa `short/cover.png` · dán caption · bật nhãn **AI info** nếu nền tảng yêu cầu",
+          "· ảnh bìa `cover.png` · dán caption · bật nhãn **AI info** nếu nền tảng yêu cầu",
+          "- [ ] Nhiều bản dọc: đăng cách nhau 1–2 ngày (không đăng dồn một lúc)",
           "- [ ] Sau khi đăng video dài: điền `long_url` trong seo.json → chạy `make_video.py publish <slug>` → "
           "copy lại mô tả Shorts/TikTok/Reels có link",
           ""]
-    L += ["Chép nhanh từng phần: `youtube/metadata.txt`, `short/youtube_shorts.txt`, `short/tiktok.txt`, "
-          "`short/reels.txt` · dữ liệu máy đọc: `publish.json`.", ""]
+    L += ["Chép nhanh từng phần: `youtube/metadata.txt`, `<thư mục bản dọc>/youtube_shorts.txt`, `tiktok.txt`, "
+          "`reels.txt` · dữ liệu máy đọc: `publish.json`.", ""]
     return "\n".join(L)

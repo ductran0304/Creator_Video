@@ -16,13 +16,16 @@ def decode(path, sr=SR):
     return np.frombuffer(out, dtype=np.float32).copy()
 
 
-def trim_silence(x, thresh=0.01, keep=0.05, sr=SR):
-    """Cắt khoảng lặng đầu/cuối của một câu TTS (giữ lại `keep` giây) để nhịp đọc đều, tự điều khiển bằng gap."""
+def trim_silence(x, thresh=0.01, keep=0.05, sr=SR, with_lead=False):
+    """Cắt khoảng lặng đầu/cuối của một câu TTS (giữ lại `keep` giây) để nhịp đọc đều, tự điều khiển bằng gap.
+    with_lead=True → trả thêm số giây đã cắt ở đầu (để dời mốc thời gian từng từ)."""
     idx = np.flatnonzero(np.abs(x) > thresh)
     if not len(idx):
-        return x
+        return (x, 0.0) if with_lead else x
     pad = int(keep * sr)
-    return x[max(0, idx[0] - pad): min(len(x), idx[-1] + pad)]
+    a = max(0, idx[0] - pad)
+    y = x[a: min(len(x), idx[-1] + pad)]
+    return (y, a / sr) if with_lead else y
 
 
 def silence(seconds, sr=SR):
@@ -83,6 +86,75 @@ def default_pop(sr=SR):
     freq = 900 - 5500 * t  # quét từ cao xuống thấp
     phase = 2 * np.pi * np.cumsum(freq) / sr
     return (np.sin(phase) * np.exp(-t * 45) * 0.8).astype(np.float32)
+
+
+def _env(t, attack, decay):
+    return np.where(t < attack, t / max(attack, 1e-4), np.exp(-(t - attack) * decay))
+
+
+def sfx_whoosh(sr=SR, seed=3):
+    """Tiếng 'vút' khi vào B-roll: nhiễu lọc thông dải, cường độ phồng lên rồi tắt."""
+    rng = np.random.default_rng(seed)
+    n = int(0.45 * sr)
+    t = np.arange(n) / sr
+    noise = rng.uniform(-1, 1, n)
+    low = np.convolve(noise, np.ones(18) / 18, mode="same")
+    band = low - np.convolve(low, np.ones(90) / 90, mode="same")
+    env = np.sin(np.pi * np.clip(t / 0.45, 0, 1)) ** 2.2
+    return (band * env * 2.2).astype(np.float32)
+
+
+def sfx_ding(sr=SR, f=1318.5):
+    """Tiếng 'ding' khi tick checklist."""
+    n = int(0.6 * sr)
+    t = np.arange(n) / sr
+    tone = np.sin(2 * np.pi * f * t) + 0.45 * np.sin(2 * np.pi * 2 * f * t) + 0.2 * np.sin(2 * np.pi * 3.01 * f * t)
+    return (tone * _env(t, 0.004, 7) * 0.35).astype(np.float32)
+
+
+def sfx_thud(sr=SR):
+    """Tiếng 'thụp' trầm khi hiện con số / chữ to."""
+    n = int(0.35 * sr)
+    t = np.arange(n) / sr
+    f = 110 * np.exp(-t * 9) + 45
+    body = np.sin(2 * np.pi * np.cumsum(f) / sr)
+    click = np.random.default_rng(5).uniform(-1, 1, n) * np.exp(-t * 180) * 0.3
+    return ((body * _env(t, 0.003, 14) + click) * 0.9).astype(np.float32)
+
+
+def sfx_paper(sr=SR, seed=11):
+    """Tiếng giấy sột soạt ngắn khi hiện một thẻ."""
+    rng = np.random.default_rng(seed)
+    n = int(0.22 * sr)
+    t = np.arange(n) / sr
+    noise = rng.uniform(-1, 1, n)
+    hp = noise - np.convolve(noise, np.ones(6) / 6, mode="same")
+    grain = 0.6 + 0.4 * np.sign(np.sin(2 * np.pi * 60 * t + rng.uniform(0, 6)))
+    return (hp * grain * _env(t, 0.01, 22) * 0.5).astype(np.float32)
+
+
+def sfx_scribble(sr=SR, seconds=0.8, seed=13):
+    """Tiếng bút dạ sột soạt khi vẽ tay (hiệu ứng vẽ dần)."""
+    rng = np.random.default_rng(seed)
+    n = int(seconds * sr)
+    t = np.arange(n) / sr
+    noise = rng.uniform(-1, 1, n)
+    hp = noise - np.convolve(noise, np.ones(4) / 4, mode="same")
+    strokes = 0.5 + 0.5 * np.sin(2 * np.pi * 7 * t + 2 * np.sin(2 * np.pi * 1.3 * t))
+    env = np.clip(t / 0.05, 0, 1) * np.clip((seconds - t) / 0.1, 0, 1)
+    return (hp * strokes * env * 0.18).astype(np.float32)
+
+
+def speech_envelope(voice, sr=SR, win=0.25, thresh=0.02):
+    """0..1 theo thời gian: 1 khi đang có giọng đọc (đã làm mượt) — dùng để giảm nhạc nền khi có lời."""
+    hop = int(sr * 0.05)
+    n = len(voice) // hop + 1
+    pad = np.zeros(n * hop, dtype=np.float32)
+    pad[:len(voice)] = np.abs(voice)
+    act = (pad.reshape(n, hop).max(axis=1) > thresh).astype(np.float32)
+    k = max(1, int(win / 0.05))
+    act = np.clip(np.convolve(act, np.ones(2 * k + 1) / (2 * k + 1), mode="same") * 2.0, 0, 1)
+    return np.interp(np.arange(len(voice)), np.arange(n) * hop, act).astype(np.float32)
 
 
 def write_wav(path, x, sr=SR):

@@ -1,0 +1,7 @@
+{
+ "desc": "bản đồ thế giới doodle, phép chiếu equirectangular vĩ độ 75N..60S, biển xanh nhạt, lục địa màu cát viền đen",
+ "ground_top": 1075.0,
+ "feet_y": 1078.0,
+ "sky": "#ABD3E5",
+ "dark": false
+}

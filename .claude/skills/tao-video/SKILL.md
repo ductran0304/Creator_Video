@@ -86,7 +86,13 @@ của ý đang kể** mà không vật có sẵn nào thay được (vd video v�
 **Hình** (theo `visual_style_dna`):
 - 25–40 cảnh (bản ngắn: 6–10), mỗi cảnh 2–6 câu, ≈ 10–30 giây; mỗi cảnh MỘT ý hình rõ ràng.
 - "Abstract → concrete": ý trừu tượng thành vật cụ thể có chữ trên vật (`label` + `on`), vd "survival" → you_main đẩy boulder chữ "SURVIVAL".
-- Con số / thuật ngữ quan trọng → `concept_text`. So sánh xưa–nay → `split`. Mốc thời gian → `timeline`. Số liệu → `stats`. Phủ định → `red_x`. Suy nghĩ/tưởng tượng → `thought`.
+- Con số / thuật ngữ quan trọng → `concept_text`. So sánh xưa–nay → `split`. Mốc thời gian → `timeline`. Số liệu → `stats`. Phủ định → `red_x`. Suy nghĩ/tưởng tượng → `thought`. Địa danh → `map` (ghim theo toạ độ thật).
+- **Nội dung thông tin** (văn bản pháp lý, hạn nộp, danh sách việc, bảng so sánh nhiều tiêu chí, số liệu) → khung thẻ
+  kiểu báo trong reference.md: `document`, `deadline`, `checklist` (tick dần bằng `step`), `ledger`, `stat_cards`,
+  `compare`, `headline`, `media_card`. Thương hiệu: mọi căn cứ pháp lý phải có một thẻ `document`.
+- **Ẩn dụ xuyên suốt:** chọn 1 hình ảnh đời thường cho ý chính (vd "gói cước trọn gói → tính theo đồng hồ") và
+  nhắc lại ở 2–3 chỗ. Video dạng "N việc": thêm `progress_items` + `progress` để người xem luôn biết đang ở đâu.
+- Câu cuối vọng lại câu mở đầu (kết vòng) — người xem Shorts hay xem lại khi đoạn cuối nối vào đoạn đầu.
 - `you_main` (tóc cam) là "bạn"; `ancient_human` là tổ tiên; `archaeologist` khi nói về nhà nghiên cứu/khai quật.
 - Nền theo cảm xúc (`backgrounds`). Đừng để cùng frame hoặc cùng bg quá 3 cảnh liền nhau.
 - **Nhịp hình (B-roll): cứ 3–5 giây một thay đổi.** Mỗi câu nên là một "cú máy" khác câu trước:
@@ -123,10 +129,18 @@ Sửa `scenes.json` → validate → preview lại. Tối đa 3 vòng; cảnh n�
 
 ## Bước 6 — Bản dọc 9:16 + `projects/<slug>/seo.json` (đủ cho 4 nền tảng)
 
-**Chọn đoạn cho bản dọc** (Shorts · TikTok · Reels dùng chung một file) — thêm vào gốc scenes.json:
+**Bản dọc** (Shorts · TikTok · Reels dùng chung một file) — bố cục dọc riêng: nhãn chương + logo · tiêu đề `hook`
+cố định ở trên (giữ ngữ cảnh) · ô nội dung (khung thẻ vẽ lại đúng ô, cảnh doodle được cắt vừa) · thanh tiến độ ·
+phụ đề karaoke to. Mỗi video dài nên có **2–3 bản dọc**:
 ```json
-"short": {"lines": ["1.1-1.4", "3.2-3.4", "4.1"], "hook": "CHỮ TO Ở ĐẦU ≤ 40 KÝ TỰ", "outro": "câu đọc cuối (tuỳ chọn)"}
+"shorts": [
+  {"id": "main", "lines": ["1.1-1.4", "3.2-3.4"], "hook": "Doanh thu *dưới 1 tỷ*: vẫn phải làm *4 việc*"},
+  {"id": "hoi_dap_1", "kicker": "Hỏi nhanh – đáp gọn", "hook": "Bán *dưới 1 tỷ* là khỏi làm gì?",
+   "scenes": [ {cảnh viết riêng 20–40s: chủ tiệm hỏi (speaker), kế toán đáp 2–3 ý, 1–2 thẻ cut} ]}
+]
 ```
+(`"short": {...}` một bản vẫn dùng được.) `*từ*` trong hook → màu nhấn; không có `*` thì tự nhấn các con số.
+Bản cắt: chọn 25–45 giây (`validate` báo ước lượng) — câu đầu tiên phải là câu gây chú ý nhất, không câu dẫn.
 - `lines`: `"S"` cả cảnh · `"S.L"` một câu · `"S.L-M"` / `"S.L-S.M"` dải câu (đánh số từ 1, như `preview --scene`).
   Mặc định: cả cảnh 1 (cold open). Chọn 30–60 giây (`validate` báo ước lượng): cold open + 1–2 ý "đắt" nhất tự
   đứng được một mình (con số, mốc ngày, câu twist) — câu đầu phải gây chú ý ngay, không cần câu dẫn.
@@ -153,9 +167,11 @@ Sources:
   "reels":  {"caption": "dòng đầu ≤ 125 ký tự (phần sau bị ẩn) + chi tiết + CTA", "hashtags": ["≤ 5 hashtag"]},
   "long_url": "",
   "thumbnail": {"frame": "scene", "...": "you_main biểu cảm mạnh + chữ ≤ 4 từ, cỡ 140–170"},
-  "cover": {"...": "tuỳ chọn — ảnh giữa của cover 9:16; mặc định là cú máy đầu của bản dọc"}
+  "cover": {"...": "tuỳ chọn — ô giữa của cover 9:16 bản đầu; mặc định là cú máy đầu của bản dọc"},
+  "shorts": {"hoi_dap_1": {"youtube_shorts": {...}, "tiktok": {...}, "reels": {...}, "cover": {...}}}
 }
 ```
+Bản dọc đầu tiên dùng các mục gốc `youtube_shorts/tiktok/reels`; bản khác đọc `shorts.<id>` (viết caption riêng).
 - `{{chapters}}` → mốc thời gian thật; `{{long_url}}` → `long_url` (điền sau khi đăng video dài rồi chạy
   `MV publish <slug>` để cập nhật mô tả Shorts/TikTok/Reels mà không dựng lại video).
 - Viết caption riêng cho từng nền tảng (giọng TikTok ngắn, đời hơn; Reels có dòng đầu mạnh), đừng chép y mô tả
@@ -180,9 +196,14 @@ Kết quả trong `projects/<slug>/publish/`:
 ```
 PUBLISH.md            # mở file này: nội dung copy-dán cho từng nền tảng + checklist trước khi đăng
 publish.json          # cùng dữ liệu, dạng máy đọc
-youtube/  <slug>.mp4 · thumbnail.png · <slug>.srt · metadata.txt
-short/    <slug>_short.mp4 · cover.png · <slug>_short.srt · youtube_shorts.txt · tiktok.txt · reels.txt
+youtube/        <slug>.mp4 · thumbnail.png · <slug>.srt · metadata.txt
+short/          <slug>_short.mp4 · cover.png · .srt · youtube_shorts.txt · tiktok.txt · reels.txt   (bản dọc đầu)
+short_<id>/     <slug>_<id>.mp4 · cover.png · ...                                                (các bản khác)
 ```
+
+**Rút kinh nghiệm từ số liệu thật:** trước khi viết video mới, chạy `MV stats show --brand <tên>` (nếu đã có số liệu)
+và áp dụng: lặp lại hook/định dạng của video giữ chân tốt nhất, tránh kiểu mở đầu của video kém nhất. Người dùng
+nhập số liệu bằng `MV stats import "<Table data.csv>" --brand <tên>` (YouTube Studio → Analytics → Advanced mode → Export).
 
 ## Bước 8 — Báo kết quả
 

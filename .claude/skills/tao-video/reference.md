@@ -29,6 +29,30 @@ Anh) thì thêm `"sub": "English text"` vào từng line — `sub` cũng đượ
 | `timeline` | `title`, `events[{label, text, icon}]`, `highlight` | ≤ 6 event; `icon` là tên prop |
 | `stats` | `title`, `bars[{label, value, display, color}]` | ≤ 5 bar; số liệu phải có nguồn thật |
 
+### Khung thẻ kiểu báo (tự co giãn cho cả 16:9 và ô dọc 9:16)
+
+Ưu tiên cho nội dung thông tin (luật, hạn nộp, số liệu, danh sách việc) — nhìn tin cậy hơn chữ to trên nền trơn,
+và bản dọc vẽ lại đúng ô nên không bị cắt chữ. Chữ `*...*` trong title/quote → màu nhấn của thương hiệu.
+
+| frame | trường | ghi chú |
+|---|---|---|
+| `headline` | `kicker`, `title`, `deck`, `source` | trang báo: nhãn nhỏ · tiêu đề có từ nhấn · tóm tắt |
+| `stat_cards` | `title`, `cards[{label, value, note, color}]` (1–4) | `color`: accent/label/title/gray/green/hex |
+| `checklist` | `title`, `items[{text, tag}]` | `step` = số mục đã tick; mục kế tiếp sáng vàng; SFX "ding" |
+| `document` | `doc_type`, `number`, `date`, `issuer`, `quote`, `effective`, `source` | mọi căn cứ pháp lý; quote là tóm tắt thì ghi `source: "KTTG tóm tắt"` |
+| `ledger` | `title`, `columns[]`, `rows[[ô,...]]`, `widths[]` | ô là `{text, color}` → tag màu; `step` = số dòng đã hiện |
+| `deadline` | `title`, `date` "d/m/yyyy", `label`, `note` | tự đếm "Còn N ngày" từ `updated` của video |
+| `compare` | `title`, `left`/`right` `{title, items[], color}` | `step` 1 → bên trái sáng, 2 → bên phải, 0 → cả hai |
+| `media_card` | `src`, `title`, `caption` | ảnh thực tế trong thẻ bo góc (thay cho ảnh tràn màn hình khi ảnh không sát ý) |
+| `map` | `title`, `pins[{lat, lon, label}]`, `zoom {lat, lon, z}` | bản đồ thế giới doodle; `step` = số ghim đã hiện; camera zoom vào vùng |
+
+Dùng như cảnh chính (cảnh riêng, các câu có `step`) hoặc như `cut` của một câu:
+```json
+{"chapter": "Tóm tắt", "frame": "checklist", "title": "*4 việc* cần nhớ",
+ "items": [{"text": "Ghi sổ doanh thu", "tag": "S1a-HKD"}, {"text": "Thông báo doanh thu"}],
+ "lines": [{"text": "Tóm lại...", "step": 0}, {"text": "Một, ghi sổ.", "step": 1}, {"text": "Hai, thông báo.", "step": 2}]}
+```
+
 ## Element
 
 Chung: `id` (để tham chiếu), `x`, `y` (0..1), `scale` (mặc định 1), `flip`.
@@ -75,6 +99,17 @@ Bỏ `y` → đứng trên mặt đất của nền. Prop trên trời (`sky_pro
   tự quay lại cảnh chính (giữ nguyên các show/change đã có). Chuyển cảnh nhanh (0,12s).
 - Câu có `show`/`change` được một cú zoom nhẹ ("punch") để người xem chú ý thứ vừa hiện.
 - Kiểm tra: `MV preview <slug> --scene N` vẽ đúng từng cú máy (có nhãn [focus]/[cut]).
+
+## Nhiều giọng, bảng tiến độ, vẽ tay
+
+- **Hỏi – đáp 2 giọng:** gốc scenes.json `"voices": {"chu_tiem": {"voice": "vi-VN-HoaiMyNeural", "rate": "+6%",
+  "name": "Chủ tiệm", "color": "#FFC93C"}, "ke_toan": {...}}`; câu thoại `"speaker": "chu_tiem"`. Nhân vật có
+  `id` trùng tên speaker → camera tự đẩy vào người đang nói; phụ đề tô màu `color` của người nói.
+- **Bảng tiến độ** (video "N việc"): gốc `"progress_items": ["Ghi sổ", "Thông báo", ...]`, mỗi cảnh của việc thứ n
+  ghi `"progress": n` → bảng nhỏ góc trên-trái (ẩn khi đang chèn thẻ/B-roll).
+- **Vẽ tay** (bàn tay cầm bút quét qua thành phần mới hiện bằng `show`, có tiếng bút): mặc định bật cho kênh doodle,
+  tắt cho thương hiệu (bật bằng `"draw_reveal": true`). Chỉ áp dụng cho element có `id`.
+- Phụ đề karaoke tự động (mốc thời gian từng từ của edge-tts); `sub` khác lời đọc thì chia theo độ dài chữ.
 
 ## Bố cục đẹp
 

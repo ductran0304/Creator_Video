@@ -28,7 +28,7 @@ from doodle.scene import scene_svg, SceneError
 
 LANGS = {"en", "vi"}
 WPM = {"en": 150, "vi": 190}  # tốc độ đọc ước lượng của edge-tts (từ/phút)
-SCENE_DOC_KEYS = {"lines", "id", "note", "chapter"}
+SCENE_DOC_KEYS = {"lines", "id", "note", "chapter", "progress"}
 
 
 class ProjectError(Exception):
@@ -84,7 +84,13 @@ def scene_states(scene):
     spec = scene_spec(scene)
     lines = scene.get("lines", [])
     if spec.get("frame", "scene") != "scene":
-        return [(spec, None) for _ in lines]
+        # khung thẻ: `step` của câu thoại = số mục đã hiện/đã tick (giữ nguyên cho các câu sau)
+        out, step = [], None
+        for ln in lines:
+            if "step" in ln:
+                step = ln["step"]
+            out.append((dict(spec, _step=step) if step is not None else spec, None))
+        return out
     n = len(spec.get("elements", []))
     shown_later = {_ref_index(scene, r) for ln in lines for r in ln.get("show", [])} - {None}
     visible = set(range(n)) - shown_later
@@ -110,17 +116,23 @@ def line_states(scene):
     - `reveal` = câu làm hình thay đổi (show/change) → có cú zoom nhẹ."""
     base = scene_states(scene)
     seed = scene_seed(scene)
+    ids = {el.get("id") for el in scene.get("elements", []) if el.get("id")}
     out = []
+    prev_visible = None
     for i, ln in enumerate(scene.get("lines", [])):
         spec, visible = base[i]
         cut = ln.get("cut")
+        # người nói (speaker) là một nhân vật trong cảnh → camera tự đẩy vào người đó
+        focus = ln.get("focus") or (ln.get("speaker") if not cut and ln.get("speaker") in ids else None)
         if isinstance(cut, dict):
             cut_spec = {k: v for k, v in cut.items() if k not in SCENE_DOC_KEYS}
             out.append({"spec": cut_spec, "visible": None, "seed": zlib.crc32(json.dumps(cut_spec, sort_keys=True).encode()),
-                        "focus": ln.get("focus"), "cut": True, "reveal": False})
+                        "focus": ln.get("focus"), "cut": True, "reveal": False, "new": []})
         else:
-            out.append({"spec": spec, "visible": visible, "seed": seed, "focus": ln.get("focus"), "cut": False,
-                        "reveal": bool(ln.get("show") or ln.get("change"))})
+            new = sorted(visible - prev_visible) if (visible is not None and prev_visible is not None) else []
+            out.append({"spec": spec, "visible": visible, "seed": seed, "focus": focus, "cut": False,
+                        "reveal": bool(ln.get("show") or ln.get("change") or "step" in ln), "new": new})
+            prev_visible = visible
     return out
 
 
@@ -183,6 +195,11 @@ def validate(project, kb=None, cfg=None):
             scene_words += n
             if n > 45:
                 warnings.append(f"{ltag}: câu dài {n} từ — nên tách để phụ đề dễ đọc")
+            if "step" in ln and not isinstance(ln["step"], int):
+                errors.append(f"{ltag}: 'step' phải là số nguyên (số mục đã hiện/đã tick)")
+            spk = ln.get("speaker")
+            if spk and spk not in (project.get("voices") or {}):
+                errors.append(f"{ltag}: speaker '{spk}' chưa khai báo trong 'voices' ở gốc scenes.json")
             for r in ln.get("show", []):
                 if _ref_index(sc, r) is None:
                     errors.append(f"{ltag}: show '{r}' không khớp id/chỉ số element nào")
@@ -235,12 +252,12 @@ def validate(project, kb=None, cfg=None):
                 errors.append(f"{tag}, câu {li}: cut/focus sai cấu trúc ({type(e).__name__}: {e})")
 
         # nhịp hình: cứ vài giây phải có thay đổi (show/change/focus/cut, hoặc thoát khỏi focus/cut)
-        max_still = cfg.get("max_still_seconds", 7)
+        max_still = cfg.get("max_still_seconds", 7) if not sc.get("_auto_outro") else 1e9
         still, first = 0.0, 1
         for li, ln in enumerate(lines, 1):
             prev = lines[li - 2] if li > 1 else {}
-            changed = li == 1 or any(ln.get(k) for k in ("show", "change", "cut", "focus")) or \
-                any(prev.get(k) for k in ("cut", "focus"))
+            changed = li == 1 or any(ln.get(k) for k in ("show", "change", "cut", "focus", "speaker")) or \
+                "step" in ln or any(prev.get(k) for k in ("cut", "focus"))
             if changed and li > 1:
                 _still_warn(warnings, tag, still, first, li - 1, max_still)
                 still, first = 0.0, li

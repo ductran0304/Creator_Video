@@ -20,6 +20,11 @@
   "publish": {
     "youtube_category": "Education",
     "made_for_kids": false,
-    "default_hashtags": ["#ancienthumans", "#history", "#prehistory"]
-  }
+    "default_hashtags": [
+      "#ancienthumans",
+      "#history",
+      "#prehistory"
+    ]
+  },
+  "draw_reveal": true
 }
