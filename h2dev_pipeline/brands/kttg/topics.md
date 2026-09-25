@@ -64,6 +64,8 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (Luật Thuế TNCN 109/2025 Điều 3, 8, 9, 10; NĐ 252/2026 Điều 10 khoản 5 hạn tự quyết toán cuối tháng 4)
 - [x] V17 · QT · Công tác phí, tiếp khách, quà Tết: làm sao để được trừ? → projects/kttg_cong_tac_phi_tiep_khach_qua_tet · 26/09/2026
   (NĐ 320/2025 Điều 9 điểm c, c1, c2 — nhân viên trả hộ; Điều 10 khoản 4 điểm d phúc lợi ≤ 1 tháng lương)
+- [x] V18 · HD · Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn? → projects/kttg_chu_ky_so_het_han · 26/09/2026
+  (NĐ 23/2025 Điều 7 khoản 3 tối đa 3 năm, Điều 15; bước cập nhật chứng thư trên thuế/hoá đơn là khuyến nghị KTTG)
 
 Độ phủ sau 15 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 2 · LD 1 — **chưa có**: TC → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -73,7 +75,6 @@ Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký 
 - [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị? (chờ KTTG xác nhận giá, phạm vi từng gói)
 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
-- [ ] HD3 · Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn?
 - [ ] BC4 · Lịch thuế tháng 1: thông báo doanh thu hạn 31/1 (L, nối V9)
 - [ ] KT3 ★ · Một trang, năm con số: báo cáo KTTG gửi anh chị mỗi tháng
 
@@ -176,7 +177,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 |---|---|---|---|---|---|
 | HD1 | Xuất hoá đơn sai: điều chỉnh hay thay thế? | Cây quyết định 3 bước | Hoá đơn điện tử | D + S | [ ] |
 | HD2 | Công trình kéo dài nhiều tháng: xuất hoá đơn lúc nào? | Theo hạng mục hay nghiệm thu | Hoá đơn + gói Xây dựng | D + QA | [ ] |
-| HD3 | Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn? | Hết hạn đúng ngày cuối nộp tờ khai | Chữ ký số | S + QA | [ ] |
+| HD3 | Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn? | Hết hạn đúng ngày cuối nộp tờ khai | Chữ ký số | S + QA | [x] V18 |
 | HD4 | Máy tính tiền kết nối cơ quan thuế: quán ăn, tạp hoá lắp thế nào? | Nối V4 | Hoá đơn điện tử | D + S | [ ] |
 | HD5 | Mua vật liệu không lấy hoá đơn: rủi ro gì? | "Rẻ vài trăm nghìn, mất vài chục triệu" | Hoá đơn + quyết toán | S + QA | [ ] |
 | HD6 | Chứng từ nào cần giữ, giữ bao lâu, giữ ở đâu? | Checklist lưu trữ điện tử | Hoá đơn + trọn gói | S + L | [ ] |
