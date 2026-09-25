@@ -74,6 +74,8 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (NĐ 252/2026 Điều 10 khoản 5; Tết 6/2/2027; mốc 26/3 là khuyến nghị; đăng đầu tháng 2/2027)
 - [x] V22 · TC · Báo cáo tài chính năm: hạn 90 ngày, gồm những gì? → projects/kttg_bao_cao_tai_chinh_nam · 26/09/2026
   (Luật Kế toán 88/2015 Điều 29; TT 133/2016 không có PDF trên Cổng CP; TT 99/2025 cho DN chọn áp dụng từ 2026 — cần KTTG kiểm tên mẫu biểu)
+- [x] V23 · QT · Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế? → projects/kttg_quyet_toan_tncn_hoan_thue · 26/09/2026
+  (NĐ 253/2026 Điều 51; NĐ 252/2026 Điều 10 khoản 5)
 
 Độ phủ sau 22 video: HK 5 · BC 3 · HD 2 · QT 3 · KT 2 · TL 1 · TG 1 · SS 2 · LD 2 · TC 1 — đã phủ đủ 10 dịch vụ → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -85,7 +87,6 @@ Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
 
 Tháng 2–3/2027 (mùa quyết toán):
-- [ ] QT2 · Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế?
 - [ ] TC2 · Đọc báo cáo tài chính trong 5 phút: giám đốc cần nhìn 3 dòng nào?
 - [ ] QT3 · Đăng ký người phụ thuộc: giảm thuế thế nào?
 - [ ] TG6 ★ · Không cần mang hồ sơ đi đâu: làm kế toán qua Zalo diễn ra thế nào?
@@ -138,7 +139,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
 | QT1 | Lịch quyết toán cuối năm: đếm ngược đến 31/3 | Thẻ deadline, việc từng tuần | Quyết toán | L + 3 S | [x] V21 |
-| QT2 | Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế? | Mùa tháng 3–4, công nhân KCN | Quyết toán (cá nhân, DN khai thay) | D + QA + S | [ ] |
+| QT2 | Quyết toán thuế TNCN: ai tự quyết toán, ai được hoàn thuế? | Mùa tháng 3–4, công nhân KCN | Quyết toán (cá nhân, DN khai thay) | D + QA + S | [x] V23 |
 | QT3 | Đăng ký người phụ thuộc: giảm thuế thế nào? | Con cái, cha mẹ già | Quyết toán + tiền lương | S + QA | [ ] |
 | QT4 | Công tác phí, tiếp khách, quà Tết: làm sao để được trừ? | Mùa cuối năm, nối V5 | Quyết toán | D + S | [x] V17 |
 | QT5 | Xe ô tô công ty: chi phí nào được trừ, chi phí nào không? | Câu hỏi của gần như mọi giám đốc | Quyết toán | D + QA | [ ] |
