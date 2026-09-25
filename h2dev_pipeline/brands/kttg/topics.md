@@ -87,6 +87,8 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (NĐ 141/2026 Điều 2, 3, 4)
 - [x] V28 · HK · 6 con số chủ hộ kinh doanh hay nhớ nhầm (2026) → projects/kttg_6_con_so_ho_kinh_doanh · 26/09/2026
   (NĐ 141/2026; Luật TNCN 109/2025 Điều 7; NĐ 68/2026 Điều 4, 8)
+- [x] V29 · TL · Hộ kinh doanh hay công ty: khi nào nên chuyển? → projects/kttg_ho_kinh_doanh_hay_cong_ty · 26/09/2026
+  (NĐ 141/2026; Luật TNCN Điều 7; Luật TNDN 67/2025; ví dụ so sánh là minh hoạ — KTTG cần kiểm cách tính hộ theo thu nhập)
 
 Độ phủ sau 22 video: HK 5 · BC 3 · HD 2 · QT 3 · KT 2 · TL 1 · TG 1 · SS 2 · LD 2 · TC 1 — đã phủ đủ 10 dịch vụ → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -101,7 +103,6 @@ Tháng 2–3/2027 (mùa quyết toán):
 
 
 Đợt bổ sung (tự chọn 26/09/2026, ưu tiên chủ đề phổ biến, căn cứ đã có sẵn trong thư viện):
-- [ ] TL2 · Hộ kinh doanh hay công ty: khi nào nên chuyển lên doanh nghiệp?
 - [ ] LD3 · Hợp đồng thử việc, thời vụ, cộng tác viên: đóng gì, khấu trừ gì?
 - [ ] SS4 · Tài khoản công ty và tài khoản giám đốc: tách thế nào cho đúng?
 - [ ] HD1 · Xuất hoá đơn sai: điều chỉnh hay thay thế?
@@ -145,7 +146,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
 | TL1 | Mới thành lập công ty: 7 việc phải làm trong 30 ngày đầu | Checklist "ngày đầu đi làm" | Thành lập + gói Cơ bản | D + S | [x] V11 |
-| TL2 | Hộ kinh doanh hay công ty: khi nào nên chuyển lên doanh nghiệp? | So sánh chi phí, thủ tục, rủi ro | Thành lập DN | D + S | [ ] |
+| TL2 | Hộ kinh doanh hay công ty: khi nào nên chuyển lên doanh nghiệp? | So sánh chi phí, thủ tục, rủi ro | Thành lập DN | D + S | [x] V29 |
 | TL3 | Vốn điều lệ ghi bao nhiêu là vừa? | "Ghi 5 tỷ, góp 500 triệu" | Thành lập DN | D + QA | [ ] |
 | TL4 | Năm đầu thành lập: 5 lỗi thuế khiến giám đốc mất tiền oan | Mở bằng một khoản phạt cụ thể | Thành lập + trọn gói | D + S | [ ] |
 | TL5 | Đăng ký hộ kinh doanh 2026: giấy tờ gì, bao lâu có? | Quy trình từng bước | Thành lập HKD | D + S | [ ] |
