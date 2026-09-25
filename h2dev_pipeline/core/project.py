@@ -270,6 +270,12 @@ def validate(project, kb=None, cfg=None):
     if n < smin or n > smax:
         warnings.append(f"{n} cảnh — khuyến nghị {smin}–{smax} cảnh")
 
+    # bản dọc 9:16 (mục "short")
+    from .vertical import check as check_short
+    s_err, s_warn, s_secs = check_short(project, wpm)
+    errors += s_err
+    warnings += s_warn
+
     stats = {"scenes": n, "lines": len(all_text), "words": total_words,
-             "est_minutes": round(total_words / wpm, 1), "language": lang}
+             "est_minutes": round(total_words / wpm, 1), "language": lang, "short_seconds": round(s_secs)}
     return errors, warnings, stats

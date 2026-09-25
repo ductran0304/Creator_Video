@@ -1,0 +1,25 @@
+{
+  "name": "H2Dev — Ancient Humans",
+  "short": "H2Dev",
+  "language": "en",
+  "voice": "en-US-BrianMultilingualNeural",
+  "voice_rate": "+6%",
+  "burn_subtitles": true,
+  "script_word_count_min": 1500,
+  "script_word_count_max": 2400,
+  "scene_count_min": 20,
+  "scene_count_max": 45,
+  "knowledge_base": "knowledge_base.json",
+  "master_prompt": "master_prompt.md",
+  "vertical": {
+    "background": "#1B1B24",
+    "title_color": "#FFFFFF",
+    "accent": "#F58220",
+    "footer": "Follow for more ancient human stories"
+  },
+  "publish": {
+    "youtube_category": "Education",
+    "made_for_kids": false,
+    "default_hashtags": ["#ancienthumans", "#history", "#prehistory"]
+  }
+}

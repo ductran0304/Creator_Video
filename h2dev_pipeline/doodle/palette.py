@@ -1,4 +1,4 @@
-"""Bảng màu chuẩn của kênh — khớp visual_style_dna.color_palette_hex trong h2dev_knowledge_base.json."""
+"""Bảng màu chuẩn của kênh — khớp visual_style_dna.color_palette_hex trong brands/h2dev/knowledge_base.json."""
 
 C = {
     "orange": "#F58220",

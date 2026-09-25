@@ -3,8 +3,11 @@
   python make_video.py init <slug> --title "..." [--lang en|vi]   tạo projects/<slug>/scenes.json mẫu
   python make_video.py validate <slug|thư_mục> [--json]           kiểm tra kịch bản + hình (không vẽ PNG)
   python make_video.py preview <slug|thư_mục> [--scene N]         vẽ nháp → projects/<slug>/preview/
-  python make_video.py build <slug|thư_mục> [--draft]            dựng video → projects/<slug>/output/
-  python make_video.py thumbnail <slug|thư_mục>                   vẽ thử thumbnail từ seo.json → preview/
+  python make_video.py build <slug|thư_mục> [--draft] [--no-short|--short-only]
+                                                                 dựng video dài 16:9 + bản dọc 9:16 + gói đăng tải
+                                                                 → projects/<slug>/publish/ (mở PUBLISH.md)
+  python make_video.py publish <slug|thư_mục>                     chỉ ghi lại metadata YouTube/Shorts/TikTok/Reels
+  python make_video.py thumbnail <slug|thư_mục>                   vẽ thử thumbnail + cover 9:16 từ seo.json → preview/
   python make_video.py asset new|check ...                        thêm asset mới cho thư viện (xem core/assets_cli.py)
   python make_video.py vocab                                     in danh mục từ vựng bộ vẽ (JSON)
 """
@@ -74,7 +77,7 @@ def cmd_validate(a):
         return 1 if errors else 0
     if stats:
         print(f"[i] {stats['scenes']} cảnh · {stats['lines']} câu · {stats['words']} từ · "
-              f"~{stats['est_minutes']} phút ({stats['language']})")
+              f"~{stats['est_minutes']} phút ({stats['language']}) · bản dọc ~{stats['short_seconds']}s")
     for e in errors:
         print(f"[LỖI] {e}")
     for w in warnings:
@@ -103,23 +106,34 @@ def cmd_preview(a):
 def cmd_build(a):
     from core.build import build
     d, project, cfg = load(a.project)
-    build(project, d, cfg, BASE_DIR, draft=a.draft, subs=True if a.subs else None)
+    build(project, d, cfg, BASE_DIR, draft=a.draft, subs=True if a.subs else None,
+          long=not a.short_only, short=not a.no_short)
+    return 0
+
+
+def cmd_publish(a):
+    from core.build import republish
+    d, project, cfg = load(a.project)
+    print(f"[✓] {republish(project, d)}")
     return 0
 
 
 def cmd_thumbnail(a):
-    from core.build import write_thumbnail
-    d = resolve_project_dir(a.project, BASE_DIR)
-    seo_path = os.path.join(d, "seo.json")
-    if not os.path.exists(seo_path):
-        print(f"[LỖI] Thiếu {seo_path}")
-        return 1
-    with open(seo_path, "r", encoding="utf-8") as f:
-        seo = json.load(f)
+    from core import publish, vertical
+    d, project, _ = load(a.project)
+    seo = publish.load_seo(d)
     out = os.path.join(d, "preview")
     os.makedirs(out, exist_ok=True)
-    _, project, _ = load(a.project)
-    print(write_thumbnail(project, seo, out))
+    print(publish.write_thumbnail(project, seo, os.path.join(out, "thumbnail.png")))
+    from core.project import line_states
+    from doodle.scene import scene_svg, render_png
+    plan = vertical.plan(project)
+    si, li = plan["items"][0]
+    st = line_states(project["scenes"][si])[li]
+    first = os.path.join(out, "_cover_src.png")
+    with open(first, "wb") as f:
+        f.write(render_png(scene_svg(st["spec"], None, st["visible"], st["seed"])))
+    print(publish.write_cover(project, seo, plan, first, os.path.join(out, "cover.png")))
     return 0
 
 
@@ -166,7 +180,13 @@ def main():
     p.add_argument("project")
     p.add_argument("--draft", action="store_true", help="bản nháp 960x540, 12fps — dựng rất nhanh để kiểm tra")
     p.add_argument("--subs", action="store_true", help="in phụ đề lên hình (ghi đè burn_subtitles)")
+    g = p.add_mutually_exclusive_group()
+    g.add_argument("--no-short", action="store_true", help="không dựng bản dọc 9:16")
+    g.add_argument("--short-only", action="store_true", help="chỉ dựng bản dọc 9:16 (giữ video dài đã có)")
     p.set_defaults(fn=cmd_build)
+    p = sub.add_parser("publish", help="ghi lại gói metadata đăng tải từ seo.json (không dựng video)")
+    p.add_argument("project")
+    p.set_defaults(fn=cmd_publish)
     p = sub.add_parser("thumbnail")
     p.add_argument("project")
     p.set_defaults(fn=cmd_thumbnail)

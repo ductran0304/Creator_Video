@@ -1,6 +1,6 @@
 ---
 name: tao-video
-description: Tạo trọn một video doodle cho kênh H2Dev (người tiền sử, lịch sử loài người) từ một chủ đề hoặc một file kịch bản có sẵn — Claude viết kịch bản kèm mô tả hình từng cảnh (scenes.json) và SEO (seo.json), tự kiểm tra, tự xem ảnh preview để sửa, rồi dựng MP4 có giọng đọc, nhạc nền, phụ đề, thumbnail bằng make_video.py. Dùng khi người dùng muốn làm/tạo video mới, viết kịch bản video doodle, dựng lại video từ kịch bản, hoặc gõ /tao-video — kể cả khi họ chỉ đưa một chủ đề ("làm video về cách người tiền sử ngủ").
+description: Tạo trọn một video doodle cho kênh H2Dev (người tiền sử, lịch sử loài người) từ một chủ đề hoặc một file kịch bản có sẵn — Claude viết kịch bản kèm mô tả hình từng cảnh (scenes.json) và SEO (seo.json), tự kiểm tra, tự xem ảnh preview để sửa, rồi dựng video dài 16:9 + bản dọc 9:16 có giọng đọc, nhạc nền, phụ đề, thumbnail/cover và gói metadata đăng YouTube, Shorts, TikTok, Reels bằng make_video.py. Dùng khi người dùng muốn làm/tạo video mới, viết kịch bản video doodle, dựng lại video từ kịch bản, hoặc gõ /tao-video — kể cả khi họ chỉ đưa một chủ đề ("làm video về cách người tiền sử ngủ").
 ---
 
 # /tao-video — từ chủ đề đến video hoàn chỉnh
@@ -25,8 +25,8 @@ Video cho **thương hiệu** (vd KTTG — kế toán thuế): dùng `brands/<t�
 các quy tắc riêng của kênh người tiền sử (ngôi "you", dẫn chứng khảo cổ). Với nội dung pháp lý: đối chiếu mọi
 số hiệu văn bản / mốc ngày / con số bằng WebSearch tại thời điểm làm video và liệt kê căn cứ trong seo.json.
 
-1. Đọc `h2dev_knowledge_base.json`: `content_dna` (hook, nhịp câu, mạch truyện, luật dẫn chứng, luật hài, kết), `viral_topic_angles`, `visual_style_dna`, `seo_dna`.
-2. Đọc phần viết kịch bản trong `../ancient_humans_master_prompt.md` (STAGE 1–2) để bắt đúng giọng văn.
+1. Đọc `brands/h2dev/knowledge_base.json`: `content_dna` (hook, nhịp câu, mạch truyện, luật dẫn chứng, luật hài, kết), `viral_topic_angles`, `visual_style_dna`, `seo_dna`.
+2. Đọc phần viết kịch bản trong `brands/h2dev/master_prompt.md` (STAGE 1–2) để bắt đúng giọng văn.
 3. Chạy `MV vocab` để có danh sách tên hợp lệ (frame, bg, variant, pose, expression, prop...). Chỉ dùng tên có trong danh sách này.
 4. Đọc [reference.md](reference.md) (cấu trúc scenes.json + lỗi hay gặp) và `examples/demo_sleep/scenes.json` làm mẫu định dạng.
 
@@ -121,32 +121,73 @@ MV preview <slug> --scene N      # các bước hiện dần của cảnh N
 
 Sửa `scenes.json` → validate → preview lại. Tối đa 3 vòng; cảnh nào vẫn chưa đẹp thì đơn giản hoá (bớt vật, dùng frame chữ). Kiểm tra `--scene N` cho các cảnh có `show`/`change` phức tạp.
 
-## Bước 6 — Viết `projects/<slug>/seo.json`
+## Bước 6 — Bản dọc 9:16 + `projects/<slug>/seo.json` (đủ cho 4 nền tảng)
 
+**Chọn đoạn cho bản dọc** (Shorts · TikTok · Reels dùng chung một file) — thêm vào gốc scenes.json:
+```json
+"short": {"lines": ["1.1-1.4", "3.2-3.4", "4.1"], "hook": "CHỮ TO Ở ĐẦU ≤ 40 KÝ TỰ", "outro": "câu đọc cuối (tuỳ chọn)"}
+```
+- `lines`: `"S"` cả cảnh · `"S.L"` một câu · `"S.L-M"` / `"S.L-S.M"` dải câu (đánh số từ 1, như `preview --scene`).
+  Mặc định: cả cảnh 1 (cold open). Chọn 30–60 giây (`validate` báo ước lượng): cold open + 1–2 ý "đắt" nhất tự
+  đứng được một mình (con số, mốc ngày, câu twist) — câu đầu phải gây chú ý ngay, không cần câu dẫn.
+- Câu kết tự thêm (`outro` → `short_outro` của thương hiệu → "Xem bản đầy đủ trên kênh nhé"); thương hiệu có màn
+  kết thì hiện màn kết đó.
+
+**seo.json** — mỗi nền tảng một mục; mục nào bỏ trống thì tự suy ra từ `youtube`:
 ```json
 {
-  "titles": ["3 tiêu đề < 70 ký tự theo seo_dna.title_rules"],
-  "description": "Theo seo_dna.description_structure ... \n\nChapters:\n{{chapters}}\n\nSources:\n- tên nguồn thật ...",
-  "tags": ["25–40 tag"],
-  "hashtags": ["#15–25 hashtag"],
-  "thumbnail": {"frame": "scene", "bg": "...", "elements": ["... you_main biểu cảm mạnh + chữ ≤ 4 từ, cỡ 140–170"]}
+  "youtube": {
+    "titles": ["3 tiêu đề ≤ 70 ký tự theo seo_dna.title_rules — cái đầu là tiêu đề chính"],
+    "description": "2 dòng đầu chứa từ khoá chính ... 
+
+Chapters:
+{{chapters}}
+
+Sources:
+- nguồn thật ...",
+    "tags": ["20–35 tag, tổng ≤ 500 ký tự"], "hashtags": ["3–5 hashtag"],
+    "category": "Education", "playlist": "...", "pinned_comment": "câu hỏi mời bình luận + CTA"
+  },
+  "youtube_shorts": {"title": "≤ 100 ký tự, từ khoá đầu câu", "description": "1–2 câu + Xem bản đầy đủ: {{long_url}}", "hashtags": ["#... ", "#shorts"]},
+  "tiktok": {"caption": "câu móc + ý chính + câu hỏi mời bình luận, ≤ 300 ký tự", "hashtags": ["3–6 hashtag: rộng + ngách"]},
+  "reels":  {"caption": "dòng đầu ≤ 125 ký tự (phần sau bị ẩn) + chi tiết + CTA", "hashtags": ["≤ 5 hashtag"]},
+  "long_url": "",
+  "thumbnail": {"frame": "scene", "...": "you_main biểu cảm mạnh + chữ ≤ 4 từ, cỡ 140–170"},
+  "cover": {"...": "tuỳ chọn — ảnh giữa của cover 9:16; mặc định là cú máy đầu của bản dọc"}
 }
 ```
-`{{chapters}}` được build tự thay bằng mốc thời gian thật. Xem thử thumbnail: `MV thumbnail <slug>` rồi Read ảnh `preview/thumbnail.png`; chữ phải to, đọc được khi thu nhỏ, không đè nhân vật.
+- `{{chapters}}` → mốc thời gian thật; `{{long_url}}` → `long_url` (điền sau khi đăng video dài rồi chạy
+  `MV publish <slug>` để cập nhật mô tả Shorts/TikTok/Reels mà không dựng lại video).
+- Viết caption riêng cho từng nền tảng (giọng TikTok ngắn, đời hơn; Reels có dòng đầu mạnh), đừng chép y mô tả
+  YouTube. Thương hiệu có quy tắc pháp lý: giữ câu "thông tin tham khảo, cập nhật …" trong mọi caption.
+- Xem thử: `MV thumbnail <slug>` → Read `preview/thumbnail.png` và `preview/cover.png` (chữ to, đọc được khi thu nhỏ,
+  không đè nhân vật).
 
-## Bước 7 — Dựng video
+## Bước 7 — Dựng video + gói đăng tải
 
 ```
-MV build <slug>            # bản chuẩn 1080p (~0.7× thời lượng video trên máy 6 nhân)
-MV build <slug> --draft    # bản nháp nhanh (cờ --nhap)
+MV build <slug>               # video dài 1080p + bản dọc 1080x1920 + publish/ (~0.7× thời lượng trên máy 6 nhân)
+MV build <slug> --draft       # bản nháp nhanh (cờ --nhap) → publish/draft/
+MV build <slug> --no-short    # chỉ video dài · --short-only: chỉ dựng lại bản dọc
+MV publish <slug>             # chỉ ghi lại metadata (sau khi sửa seo.json / điền long_url)
 ```
-Chạy build ở chế độ nền (run_in_background) vì video dài mất vài phút; báo người dùng là đang dựng. Build tự dùng cache: sửa vài câu rồi build lại chỉ làm lại phần thay đổi.
-Build lỗi TTS (mạng) → chạy lại; lỗi khác → đọc thông báo, sửa, chạy lại.
+Chạy build ở chế độ nền (run_in_background) vì video dài mất vài phút; báo người dùng là đang dựng. Build tự dùng
+cache: sửa vài câu rồi build lại chỉ làm lại phần thay đổi; bản dọc dùng lại giọng đọc và hình của video dài.
+Build lỗi TTS (mạng) → chạy lại; lỗi khác → đọc thông báo, sửa, chạy lại. Đọc các `[⚠]` cuối log (giới hạn
+tiêu đề, tags, hashtag, độ dài caption từng nền tảng) và sửa seo.json → `MV publish <slug>`.
+
+Kết quả trong `projects/<slug>/publish/`:
+```
+PUBLISH.md            # mở file này: nội dung copy-dán cho từng nền tảng + checklist trước khi đăng
+publish.json          # cùng dữ liệu, dạng máy đọc
+youtube/  <slug>.mp4 · thumbnail.png · <slug>.srt · metadata.txt
+short/    <slug>_short.mp4 · cover.png · <slug>_short.srt · youtube_shorts.txt · tiktok.txt · reels.txt
+```
 
 ## Bước 8 — Báo kết quả
 
 Ngắn gọn cho người dùng:
-- đường dẫn `projects/<slug>/output/` (`<slug>.mp4`, `.srt`, `thumbnail.png`, `youtube_metadata.txt`), thời lượng video;
-- 3 tiêu đề gợi ý;
+- đường dẫn `projects/<slug>/publish/PUBLISH.md` + video dài / bản dọc và thời lượng từng bản;
+- tiêu đề chính YouTube + tiêu đề Shorts, caption TikTok/Reels (tóm tắt);
 - danh sách dẫn chứng/số liệu đã dùng để họ kiểm chứng trước khi đăng;
 - cảnh báo còn lại (nếu có) và gợi ý xem lại video trước khi upload.

@@ -13,6 +13,7 @@ Tên hợp lệ luôn lấy từ `make_video.py vocab`. File này giải thích 
 }
 ```
 `voice` tuỳ chọn (mặc định theo ngôn ngữ). Trường chỉ dành cho kịch bản: `lines`, `chapter`, `note`.
+`short` (gốc) chọn câu cho bản dọc 9:16 — xem SKILL.md bước 6.
 
 **Phụ đề in trên hình:** `"burn_subtitles": true` ở gốc scenes.json (hoặc `build --subs`, hoặc `burn_subtitles`
 trong config.json làm mặc định). Phụ đề = lời thoại; muốn phụ đề khác ngôn ngữ lời đọc (vd lời Việt, phụ đề
@@ -94,14 +95,16 @@ Read `cache/photo_search/last.png` để chọn ảnh (ô có đánh số). Dùn
 - khung toàn màn hình (hợp làm `cut`): `{"frame": "photo", "src": "pos_receipt", "caption": "Máy tính tiền in hoá đơn tại quầy"}`
 - ảnh dán polaroid trong cảnh doodle: `{"type": "photo", "src": "shop_interior", "x": 0.7, "y": 0.45, "w": 0.35, "caption": "..."}`
 
-Ghi nguồn tự động: dòng nhỏ trên hình + mục "Nguồn ảnh" trong mô tả YouTube.
+Ghi nguồn tự động: dòng nhỏ trên hình + mục "Nguồn ảnh" trong mô tả YouTube (publish/youtube/metadata.txt).
 Quy tắc: không dùng ảnh lấy người nhận diện được làm chủ thể (giấy phép ảnh không thay cho quyền hình ảnh cá nhân);
 ưu tiên ảnh đồ vật, cửa hàng, quang cảnh; tìm từ khoá tiếng Anh (Openverse ít ảnh gắn tiếng Việt); mỗi video 2–5 ảnh là đủ.
 
 ## Thương hiệu
 
 `"brand": "<tên>"` ở gốc scenes.json → áp dụng `brands/<tên>/brand.json`: màu, font (vd KTTG dùng font nghiêm chỉnh,
-không nghiêng), giọng, phụ đề, logo góc, màn kết tự động, ngưỡng độ dài. Đọc `content_dna` trong brand.json
+không nghiêng), giọng, phụ đề, logo góc, màn kết tự động, ngưỡng độ dài, bố cục bản dọc (`vertical`: màu nền,
+font, logo, dòng CTA), câu kết bản dọc (`short_outro`), mặc định đăng tải (`publish`: danh mục, playlist,
+bình luận ghim, hashtag mặc định). Đọc `content_dna` trong brand.json
 (giọng văn, hài hước, quy tắc pháp lý) thay cho DNA kênh doodle khi viết kịch bản cho thương hiệu đó.
 Label `"color": "red"` = màu nhấn/cảnh báo của thương hiệu; `"width": 0.5` giới hạn bề ngang chữ.
 

@@ -1,7 +1,9 @@
 # H2Dev Doodle Video — dựng video doodle hoàn toàn bằng code
 
 Từ một chủ đề, **Claude Code** viết kịch bản kèm mô tả hình từng cảnh, còn pipeline này **vẽ doodle bằng code**,
-tạo giọng đọc, và dựng thành video `.mp4` có nhạc nền, hiệu ứng âm thanh, phụ đề, chapters và thumbnail.
+tạo giọng đọc, và dựng thành **video dài 16:9** (YouTube) + **bản dọc 9:16** (YouTube Shorts, TikTok, Reels) có nhạc
+nền, hiệu ứng âm thanh, phụ đề, chapters, thumbnail/cover — cùng **gói đăng tải** chứa tiêu đề, mô tả, tags, hashtag,
+caption đã kiểm tra giới hạn của từng nền tảng.
 
 Không cần Web UI, Google Flow, Chrome debug hay API key. Phần duy nhất cần Internet là giọng đọc edge-tts.
 
@@ -15,7 +17,11 @@ Claude: đọc DNA kênh → viết projects/<slug>/scenes.json + seo.json
 make_video.py validate → preview (Claude tự xem ảnh và sửa) → build
       │
       ▼
-projects/<slug>/output/  <slug>.mp4 · <slug>.srt · thumbnail.png · youtube_metadata.txt
+projects/<slug>/publish/
+  PUBLISH.md          ← mở file này: nội dung copy-dán cho từng nền tảng + checklist
+  publish.json        (cùng dữ liệu, dạng máy đọc)
+  youtube/  <slug>.mp4 · thumbnail.png · <slug>.srt · metadata.txt
+  short/    <slug>_short.mp4 · cover.png · <slug>_short.srt · youtube_shorts.txt · tiktok.txt · reels.txt
 ```
 
 ## Cài đặt
@@ -23,9 +29,9 @@ projects/<slug>/output/  <slug>.mp4 · <slug>.srt · thumbnail.png · youtube_me
 Cần Python 3.10+. Lần chạy đầu, `make_video.bat` (Windows) hoặc `./make_video.sh` (macOS/Linux) tự tạo `.venv`
 và cài thư viện trong `requirements.txt` (edge-tts, resvg-py, Pillow, numpy, imageio-ffmpeg — ffmpeg đi kèm, không cần cài riêng).
 
-Tài nguyên âm thanh (tuỳ chọn, bị gitignore nên mỗi máy tự đặt):
-- `bg_music.mp3` — nhạc nền. Không có thì video không có nhạc nền. Chỉ dùng nhạc bạn có quyền sử dụng trên YouTube.
-- `sfx_page.wav`, `sfx_pop.wav` — tiếng lật trang khi chuyển cảnh và tiếng "pop" khi hiện thành phần mới.
+Tài nguyên âm thanh trong `media/` (tuỳ chọn, bị gitignore nên mỗi máy tự đặt):
+- `media/bg_music.mp3` — nhạc nền. Không có thì video không có nhạc nền. Chỉ dùng nhạc bạn có quyền sử dụng trên YouTube.
+- `media/sfx_page.wav`, `media/sfx_pop.wav` — tiếng lật trang khi chuyển cảnh và tiếng "pop" khi hiện thành phần mới.
   Không có file thì pipeline tự tổng hợp âm mặc định.
 
 ## Cách dùng
@@ -46,9 +52,11 @@ make_video.bat init ten_du_an --title "Tiêu đề" --lang vi   # tạo projects
 make_video.bat validate ten_du_an                          # kiểm tra kịch bản + hình (không vẽ)
 make_video.bat preview ten_du_an                           # vẽ nháp → projects/ten_du_an/preview/sheet_*.png
 make_video.bat preview ten_du_an --scene 3                 # các bước hiện dần của cảnh 3
-make_video.bat thumbnail ten_du_an                         # vẽ thử thumbnail từ seo.json
-make_video.bat build ten_du_an --draft                     # bản nháp 960x540 (rất nhanh)
-make_video.bat build ten_du_an                             # bản chuẩn 1080p 24fps
+make_video.bat thumbnail ten_du_an                         # vẽ thử thumbnail 16:9 + cover 9:16 → preview/
+make_video.bat build ten_du_an --draft                     # bản nháp (rất nhanh) → publish/draft/
+make_video.bat build ten_du_an                             # video dài 1080p + bản dọc 1080x1920 + publish/
+make_video.bat build ten_du_an --no-short                  # chỉ video dài (--short-only: chỉ bản dọc)
+make_video.bat publish ten_du_an                           # chỉ ghi lại metadata sau khi sửa seo.json
 make_video.bat build ten_du_an --subs                      # in phụ đề lên hình
 make_video.bat asset new ten_vat --w 60 --h 120 --desc "..." # đăng ký asset mới (rồi nhờ doodle-illustrator vẽ)
 make_video.bat asset check ten_vat                         # kiểm tra asset + xem trong cảnh thật
@@ -88,8 +96,34 @@ Mỗi cảnh là một hình, chứa các câu thoại; mỗi câu có thể là
 - Neo vị trí: `attach` (đứng sát vật khác), `above` (đặt trên đầu), label `on` (chữ trên thân vật).
 - Tra cứu đầy đủ: [`.claude/skills/tao-video/reference.md`](../.claude/skills/tao-video/reference.md) và `make_video.bat vocab`.
 
-`seo.json` (tuỳ chọn): `titles`, `description` (chứa `{{chapters}}` để tự điền mốc thời gian), `tags`, `hashtags`,
-`thumbnail` (một cảnh cùng định dạng trên, không có `lines`).
+### Bản dọc 9:16 (`"short"` trong scenes.json)
+
+```json
+"short": {"lines": ["1.1-1.4", "3.2-3.4", "4.1"], "hook": "BỎ THUẾ KHOÁN 2026: ANH CHỊ CẦN LÀM GÌ?"}
+```
+`lines` chọn câu từ video dài (`"S"` cả cảnh, `"S.L"` một câu, `"S.L-M"` dải câu; đánh số từ 1) — mặc định cả cảnh 1.
+Bản dọc dùng lại giọng đọc + hình đã cache, tự thêm câu kết (`outro` hoặc `short_outro` của thương hiệu). Bố cục:
+chữ hook to ở trên · khung 16:9 + thanh tiến độ ở giữa · phụ đề to · logo + CTA, tránh vùng nút bấm/caption
+của TikTok/Reels. Nên 30–60 giây (`validate` báo ước lượng).
+
+### Metadata đăng tải (`seo.json`)
+
+```json
+{
+  "youtube":        {"titles": [], "description": "... {{chapters}} ...", "tags": [], "hashtags": [],
+                     "category": "Education", "playlist": "", "pinned_comment": ""},
+  "youtube_shorts": {"title": "", "description": "... {{long_url}}", "hashtags": []},
+  "tiktok":         {"caption": "", "hashtags": []},
+  "reels":          {"caption": "", "hashtags": []},
+  "long_url": "",
+  "thumbnail": {"frame": "scene", "...": "..."},
+  "cover": {"...": "tuỳ chọn — ảnh giữa cover 9:16"}
+}
+```
+Mục nền tảng nào thiếu thì tự suy ra từ `youtube` (dạng cũ `titles/description/tags/hashtags` ở gốc vẫn dùng được).
+`{{chapters}}` → mốc thời gian thật; `{{long_url}}` → link video dài (điền sau khi đăng rồi chạy `publish`).
+Build kiểm tra: tiêu đề YouTube ≤ 100 (khuyến nghị ≤ 70), mô tả ≤ 5000, tags ≤ 500 ký tự, ≤ 15 hashtag, ≥ 3 chapters;
+TikTok/Reels caption ≤ 2200, Reels ≤ 5 hashtag, dòng đầu Reels ≤ 125 ký tự; bản dọc ≤ 60–90 giây.
 
 ## Cấu hình (`config.json`)
 
@@ -98,7 +132,7 @@ Mỗi cảnh là một hình, chứa các câu thoại; mỗi câu có thể là
 | `voice_name` | Giọng edge-tts; không khớp ngôn ngữ kịch bản thì tự chọn giọng mặc định của ngôn ngữ đó | `en-US-EmmaNeural` |
 | `voice_rate` | Tốc độ đọc edge-tts, vd `"+5%"` | `"+0%"` |
 | `use_omnivoice`, `omnivoice_*` | Dùng OmniVoice cục bộ thay edge-tts (lỗi thì tự quay về edge-tts) | `false` |
-| `bg_music_path`, `bg_music_volume` | File và âm lượng nhạc nền (nhân vào biên độ gốc) | `bg_music.mp3`, `0.05` |
+| `bg_music_path`, `bg_music_volume` | File và âm lượng nhạc nền (nhân vào biên độ gốc) | `bg_music.mp3` (tìm cả trong `media/`), `0.05` |
 | `sfx_enabled`, `sfx_path`, `sfx_volume` | Tiếng lật trang khi chuyển cảnh | `true`, `sfx_page.wav`, `0.25` |
 | `sfx_reveal_path`, `sfx_reveal_volume` | Tiếng "pop" khi hiện thành phần mới | `sfx_pop.wav`, `0.15` |
 | `burn_subtitles` | In phụ đề lên hình cho mọi video (từng video: `"burn_subtitles"` trong scenes.json, hoặc `build --subs`) | `false` |
@@ -114,11 +148,15 @@ Các khoá cũ (`use_web2api`, `web2api_*`, `gemini_api_key`, `delay_*`, `max_wa
 h2dev_pipeline/
 ├── make_video.py / .bat / .sh   # CLI
 ├── config.json
-├── h2dev_knowledge_base.json    # DNA kênh: văn phong, hình ảnh, SEO — skill đọc file này
-├── doodle/                      # bộ vẽ: nét tay, nhân vật, 50 đồ vật, nền, khung, font Pangolin (OFL)
-├── core/                        # project.py (đọc/kiểm tra), preview.py, tts.py, audio.py, build.py
+├── brands/<tên>/                # hồ sơ thương hiệu: brand.json (màu, font, giọng, logo, màn kết, bản dọc, mặc định đăng tải)
+│   ├── h2dev/                   #   kênh người tiền sử: knowledge_base.json (DNA kênh), master_prompt.md (văn phong gốc)
+│   └── kttg/                    #   Kế Toán Tinh Gọn: logo, font Be Vietnam Pro (OFL)
+├── media/                       # (gitignore) bg_music.mp3, sfx_page.wav, sfx_pop.wav
+├── doodle/                      # bộ vẽ: nét tay, nhân vật, đồ vật, nền, khung, font Pangolin (OFL)
+├── core/                        # project.py (đọc/kiểm tra), preview.py, tts.py, audio.py, build.py,
+│                                # vertical.py (bản dọc 9:16), publish.py (metadata đa nền tảng), brand.py, photos.py
 ├── examples/demo_sleep/         # project mẫu
-└── projects/<slug>/             # (gitignore) scenes.json, seo.json, preview/, cache/, output/
+└── projects/<slug>/             # (gitignore) scenes.json, seo.json, photos/, preview/, cache/, publish/
 ```
 
 Cache trong `projects/<slug>/cache/` theo nội dung: sửa vài câu rồi build lại chỉ đọc lại/vẽ lại phần thay đổi.

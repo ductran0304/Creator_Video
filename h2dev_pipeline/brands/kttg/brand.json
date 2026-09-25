@@ -55,5 +55,24 @@
     "humor": "Hài hước nhẹ, đời thường, 1–2 câu mỗi chương: ví von với đời sống chủ tiệm (gói cước trọn gói, tăng lương, thùng mì, tiền đi chợ, mùa lo Tết, gửi ảnh cháu qua Zalo). Câu đùa đặt SAU thông tin chính, không thay thế nó. Không đùa về con số, mức phạt, quy định; không chế giễu cơ quan thuế hay khách hàng; không dùng tiếng lóng khó hiểu."
   },
   "scene_count_min": 6,
-  "scene_count_max": 30
+  "scene_count_max": 30,
+  "short_outro": "Xem bản đầy đủ trên kênh Kế Toán Tinh Gọn. Cần tư vấn, gọi hoặc nhắn Zalo số trên màn hình nhé.",
+  "vertical": {
+    "title_color": "#FFFFFF",
+    "text_color": "#DDE3F5",
+    "font_file": "fonts/BeVietnamPro-ExtraBold.ttf",
+    "logo": "logo-d-ngang-nen-toi.svg",
+    "footer": "Tư vấn miễn phí · Zalo 0786 030 496"
+  },
+  "publish": {
+    "youtube_category": "Education",
+    "made_for_kids": false,
+    "playlist": "Thuế hộ kinh doanh 2026",
+    "default_hashtags": [
+      "#ketoantinhgon",
+      "#hokinhdoanh",
+      "#ketoan"
+    ],
+    "pinned_comment": "Anh chị đang bán dưới hay trên 1 tỷ/năm? Comment để KTTG gợi ý việc cần làm nhé. Tư vấn miễn phí 45 phút: Zalo 0786 030 496."
+  }
 }

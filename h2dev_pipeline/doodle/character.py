@@ -1,4 +1,4 @@
-"""Nhân vật người que theo visual DNA của kênh (h2dev_knowledge_base.json → visual_style_dna).
+"""Nhân vật người que theo visual DNA của kênh (brands/h2dev/knowledge_base.json → visual_style_dna).
 
 Toạ độ cục bộ: gốc = điểm chân chạm đất, y hướng xuống, nhân vật mặc định nhìn sang PHẢI
 (flip=True để nhìn sang trái). Kích thước ở scale 1 cao ~450px trên khung 1080px.

@@ -7,8 +7,6 @@ __pycache__/
 
 # Pipeline outputs and temporary files
 h2dev_pipeline/projects/
-h2dev_pipeline/temp/
-h2dev_pipeline/outputs/
 h2dev_flow_local/
 
 # Large media files (if any outside projects)
@@ -29,6 +27,8 @@ h2dev_flow_local/
 h2dev_pipeline/examples/*/preview/
 h2dev_pipeline/examples/*/cache/
 h2dev_pipeline/examples/*/output/
+h2dev_pipeline/examples/*/publish/
+h2dev_pipeline/media/
 h2dev_pipeline/doodle/assets/**/*.png
 h2dev_pipeline/doodle/assets/*.png
 h2dev_pipeline/cache/

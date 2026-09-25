@@ -2,7 +2,8 @@
 
 Luồng: TTS từng câu → đo thời lượng thật → dòng thời gian → vẽ từng trạng thái hiện dần →
 sinh khung hình (zoom nhẹ theo cảnh + mờ dần khi hiện thành phần mới) đẩy thẳng vào ffmpeg →
-trộn thuyết minh + nhạc nền + SFX → MP4, SRT, chapters, thumbnail, metadata YouTube.
+trộn thuyết minh + nhạc nền + SFX → video dài 16:9 + bản dọc 9:16 (core/vertical.py) →
+gói đăng tải projects/<slug>/publish/ cho YouTube, Shorts, TikTok, Reels (core/publish.py).
 
 Mọi thứ đắt (audio, ảnh cảnh) đều cache theo nội dung trong projects/<slug>/cache/, nên chạy lại sau khi
 sửa vài câu/cảnh chỉ làm lại phần thay đổi.
@@ -185,50 +186,63 @@ class FrameMaker:
 
 
 class Subtitles:
-    """Phụ đề in thẳng lên hình (dưới khung): chữ trắng viền đen trên nền mờ. Mỗi câu dựng sẵn một lớp
-    RGBA một lần rồi dán lên các khung hình trong thời gian câu đó hiện, nên gần như không làm chậm render."""
+    """Phụ đề in thẳng lên hình: chữ trắng viền đen (có nền mờ khi box=True). Câu dài hơn `rows` dòng được chia
+    thành nhiều "trang" hiện lần lượt, thời gian chia theo số ký tự. Mỗi trang dựng sẵn một lớp RGBA rồi dán lên
+    khung hình, nên gần như không làm chậm render. top=None → đặt sát đáy khung; top=y → mép trên cố định."""
 
-    def __init__(self, timeline, size):
+    def __init__(self, timeline, size, font_px=None, max_w=None, rows=2, box=True, top=None, line_h=None):
         from PIL import ImageDraw, ImageFont
         from doodle.text import FONT_PATH
         from doodle.theme import T
         k = size[1] / 1080
-        font = ImageFont.truetype(T.get("font_file") or FONT_PATH, int(46 * k))  # phụ đề cùng font thương hiệu
-        stroke = max(2, int(3.5 * k))
-        max_w = size[0] * 0.84
+        font = ImageFont.truetype(T.get("font_file") or FONT_PATH, font_px or int(46 * k))  # font thương hiệu
+        stroke = max(2, int(font.size * 0.076))
+        max_w = max_w or size[0] * 0.84
+        lh = line_h or int(font.size * 1.26)
         lines = [ln for sc in timeline for ln in sc["lines"] if not ln.get("nosub")]
         self.items = []
         for i, ln in enumerate(lines):
-            words, rows, cur = ln["sub"].split(), [], ""
+            words, all_rows, cur = ln["sub"].split(), [], ""
             for w in words:
                 cand = f"{cur} {w}".strip()
                 if cur and font.getlength(cand) > max_w:
-                    rows.append(cur)
+                    all_rows.append(cur)
                     cur = w
                 else:
                     cur = cand
             if cur:
-                rows.append(cur)
-            if len(rows) > 2:  # quá 2 dòng: chia đôi số từ
-                mid = len(words) // 2
-                rows = [" ".join(words[:mid]), " ".join(words[mid:])]
-            lh = int(58 * k)
-            pad_x, pad_y = int(22 * k), int(10 * k)
-            tw = int(max(font.getlength(r) for r in rows)) + 2 * stroke
-            bw, bh = tw + 2 * pad_x, lh * len(rows) + 2 * pad_y
-            img = Image.new("RGBA", (bw, bh), (0, 0, 0, 0))
-            d = ImageDraw.Draw(img)
-            d.rounded_rectangle([0, 0, bw - 1, bh - 1], radius=int(14 * k), fill=(20, 20, 20, 150))
-            for r_i, row in enumerate(rows):
-                rw = font.getlength(row)
-                d.text(((bw - rw) / 2, pad_y + r_i * lh), row, font=font, fill=(255, 255, 255, 255),
-                       stroke_width=stroke, stroke_fill=(20, 20, 20, 255))
+                all_rows.append(cur)
+            n_pages = max(1, math.ceil(len(all_rows) / rows))
+            per = math.ceil(len(all_rows) / n_pages)  # chia đều số dòng giữa các trang
+            pages = [all_rows[j:j + per] for j in range(0, len(all_rows), per)] or [[""]]
             end = ln["end"] + 0.3
             if i + 1 < len(lines):
                 end = min(end, lines[i + 1]["start"])
-            pos = ((size[0] - bw) // 2, size[1] - bh - int(34 * k))
-            self.items.append((ln["start"], end, img, pos))
+            chars = [sum(len(r) for r in pg) + 1 for pg in pages]
+            t, acc = ln["start"], 0
+            for j, pg in enumerate(pages):
+                acc += chars[j]
+                t_end = end if j == len(pages) - 1 else ln["start"] + (ln["end"] - ln["start"]) * acc / sum(chars)
+                self.items.append((t, t_end, *self._layer(pg, font, stroke, lh, k, box, size, top)))
+                t = t_end
         self._i = 0
+
+    @staticmethod
+    def _layer(rows, font, stroke, lh, k, box, size, top):
+        from PIL import ImageDraw
+        pad_x, pad_y = int(22 * k), int(10 * k)
+        tw = int(max(font.getlength(r) for r in rows)) + 2 * stroke
+        bw, bh = tw + 2 * pad_x, lh * len(rows) + 2 * pad_y
+        img = Image.new("RGBA", (bw, bh), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        if box:
+            d.rounded_rectangle([0, 0, bw - 1, bh - 1], radius=int(14 * k), fill=(20, 20, 20, 150))
+        for r_i, row in enumerate(rows):
+            rw = font.getlength(row)
+            d.text(((bw - rw) / 2, pad_y + r_i * lh), row, font=font, fill=(255, 255, 255, 255),
+                   stroke_width=stroke, stroke_fill=(20, 20, 20, 255))
+        y = top if top is not None else size[1] - bh - int(34 * k)
+        return img, ((size[0] - bw) // 2, y)
 
     def apply(self, frame, t):
         # thời gian luôn tăng dần → chỉ cần tiến con trỏ
@@ -242,15 +256,17 @@ class Subtitles:
 
 
 def encode_video(timeline, state_paths, total, audio_wav, out_path, fps, size, preset, crf, log, subs=False,
-                 watermark=None):
+                 watermark=None, layout=None):
+    """layout (core.vertical.Layout) → khung 16:9 được đặt vào bố cục dọc; không có → video ngang như cũ."""
     n_frames = int(math.ceil(total * fps))
     cmd = [A.FFMPEG, "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{size[0]}x{size[1]}",
            "-r", str(fps), "-i", "-", "-i", audio_wav,
            "-c:v", "libx264", "-preset", preset, "-crf", str(crf), "-pix_fmt", "yuv420p",
            "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", out_path]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-    fm = FrameMaker(timeline, state_paths, size)
-    sub = Subtitles(timeline, size) if subs else None
+    fm = FrameMaker(timeline, state_paths, layout.frame_size if layout else size)
+    sub = (layout.subtitles(timeline) if layout else Subtitles(timeline, size)) if subs else None
+    fade_in = 0.0 if layout else 0.4  # bản dọc vào thẳng nội dung — 1 giây đầu quyết định người xem có lướt qua
     wm = None
     if watermark:  # (png bytes ở chiều cao 1080p, hết hiện từ giây t_stop, lề, độ mờ)
         png, t_stop, margin, opacity = watermark
@@ -269,12 +285,14 @@ def encode_video(timeline, state_paths, total, audio_wav, out_path, fps, size, p
             while si + 1 < len(timeline) and t >= timeline[si + 1]["start"]:
                 si += 1
             img = fm.frame(si, t)
+            if layout:
+                img = layout.compose(img, t)
             if sub:
                 img = sub.apply(img, t)
             if wm and t < wm[2]:
                 img.paste(wm[0], wm[1], wm[0])
-            if t < 0.4:
-                img = Image.blend(black, img, t / 0.4)
+            if t < fade_in:
+                img = Image.blend(black, img, t / fade_in)
             elif t > total - 1.0:
                 img = Image.blend(black, img, max(0.0, (total - t) / 1.0))
             proc.stdin.write(img.tobytes())
@@ -298,8 +316,11 @@ def mix_audio(timeline, clips, total, cfg, base_dir, log):
 
     def asset(key, default):
         p = cfg.get(key, default)
-        p = p if os.path.isabs(p) else os.path.join(base_dir, p)
-        return p if os.path.exists(p) else None
+        for cand in (p, os.path.join("media", os.path.basename(p))):  # nhạc/SFX nằm trong media/
+            cand = cand if os.path.isabs(cand) else os.path.join(base_dir, cand)
+            if os.path.exists(cand):
+                return cand
+        return None
 
     bgm = asset("bg_music_path", "bg_music.mp3")
     if bgm:
@@ -308,7 +329,7 @@ def mix_audio(timeline, clips, total, cfg, base_dir, log):
         track += music * cfg.get("bg_music_volume", 0.05)
         log(f"  + nhạc nền {os.path.basename(bgm)} (âm lượng {cfg.get('bg_music_volume', 0.05)})")
     else:
-        log("  [i] không có nhạc nền (đặt file bg_music.mp3 hoặc sửa bg_music_path trong config.json)")
+        log("  [i] không có nhạc nền (đặt file media/bg_music.mp3 hoặc sửa bg_music_path trong config.json)")
 
     if cfg.get("sfx_enabled", True):
         # thiếu file (vd máy mới clone — *.wav bị gitignore) thì dùng âm tổng hợp sẵn
@@ -365,54 +386,34 @@ def chapters(timeline):
     return [f"{fmt(s)} {title}" for s, title in out]
 
 
-def write_metadata(project_dir, out_dir, timeline, project, log):
-    chap = chapters(timeline)
-    seo_path = os.path.join(project_dir, "seo.json")
-    seo = {}
-    if os.path.exists(seo_path):
-        with open(seo_path, "r", encoding="utf-8") as f:
-            seo = json.load(f)
-    desc = seo.get("description", "")
-    chap_text = "\n".join(chap)
-    desc = desc.replace("{{chapters}}", chap_text) if "{{chapters}}" in desc else \
-        (desc + ("\n\n" + chap_text if chap else ""))
-    from core.photos import used_credits
-    from doodle import scene as ds
-    credits = used_credits(project, ds.PHOTO_DIRS)  # ảnh CC BY bắt buộc ghi nguồn
-    if credits:
-        desc = desc.rstrip() + "\n\nNguồn ảnh:\n" + "\n".join(f"- {c}" for c in credits)
-    lines = ["=== YOUTUBE METADATA ===", "", "--- TITLES ---"]
-    lines += [f"{i + 1}. {t}" for i, t in enumerate(seo.get("titles") or [project["title"]])]
-    lines += ["", "--- DESCRIPTION ---", desc.strip(), "", "--- TAGS ---", ", ".join(seo.get("tags", [])), "",
-              "--- HASHTAGS ---", " ".join(seo.get("hashtags", []))]
-    with open(os.path.join(out_dir, "youtube_metadata.txt"), "w", encoding="utf-8") as f:
-        f.write("\n".join(lines) + "\n")
-    if len(chap) and len(chap) < 3:
-        log("  [⚠] YouTube cần ≥3 chapters (mỗi cái ≥10s) mới hiện chapter — thêm 'chapter' vào các cảnh")
-    if not seo:
-        log("  [i] chưa có seo.json — metadata chỉ gồm tiêu đề + chapters")
-    return seo
-
-
-def write_thumbnail(project, seo, out_dir):
-    spec = seo.get("thumbnail")
-    svg = None
-    if spec:
-        try:
-            svg = scene_svg(spec)
-        except Exception as e:  # thumbnail lỗi không được làm hỏng cả bản build
-            print(f"  [⚠] seo.json → thumbnail lỗi ({e}) — dùng cảnh đầu tiên thay thế")
-    if svg is None:
-        spec, visible = final_state(project["scenes"][0])
-        svg = scene_svg(spec, None, visible, scene_seed(project["scenes"][0]))
-    img = Image.open(io.BytesIO(render_png(svg))).convert("RGB").resize((1280, 720), Image.LANCZOS)
-    p = os.path.join(out_dir, "thumbnail.png")
-    img.save(p)
-    return p
-
-
 # ---------------- chính ----------------
-def build(project, project_dir, cfg, base_dir, draft=False, log=print, subs=None):
+def _save_json(path, data):
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=1)
+
+
+def _load_json(path):
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
+
+
+def _brand_watermark(project, timeline, total, log):
+    brand = project.get("_brand")
+    if not (brand and brand.get("watermark")):
+        return None
+    from .brand import watermark_png
+    wmc = brand["watermark"]
+    outro = [sc for sc, raw in zip(timeline, project["scenes"]) if raw.get("_auto_outro")]
+    t_stop = outro[0]["start"] if outro else total + 1
+    log(f"  + logo {brand.get('short', '')} ở góc")
+    return watermark_png(brand, wmc.get("height", 84)), t_stop, wmc.get("margin", 26), wmc.get("opacity", 0.9)
+
+
+def build(project, project_dir, cfg, base_dir, draft=False, log=print, subs=None, long=True, short=True):
+    """Dựng video dài 16:9 và/hoặc bản dọc 9:16, rồi ghi gói đăng tải projects/<slug>/publish/."""
+    from . import publish, vertical
     errors, warnings, stats = validate(project, cfg=cfg)
     if errors:
         for e in errors:
@@ -420,64 +421,109 @@ def build(project, project_dir, cfg, base_dir, draft=False, log=print, subs=None
         raise SystemExit("[✗] Kịch bản còn lỗi — chạy validate để xem chi tiết.")
     slug = os.path.basename(os.path.normpath(project_dir))
     cache = os.path.join(project_dir, "cache")
-    out_dir = os.path.join(project_dir, "output")
-    os.makedirs(out_dir, exist_ok=True)
+    pub = os.path.join(project_dir, "publish")
+    yt_dir, sh_dir = os.path.join(pub, "youtube"), os.path.join(pub, "short")
+    vid_dir = os.path.join(pub, "draft") if draft else None
+    for d in (cache, yt_dir, sh_dir) + ((vid_dir,) if vid_dir else ()):
+        os.makedirs(d, exist_ok=True)
+    state_file = os.path.join(cache, "publish_state.json")
+    state = _load_json(state_file) or {}
     T = time.time()
-    log(f"=== BUILD {slug}: {stats['scenes']} cảnh, {stats['lines']} câu, {stats['words']} từ "
+    parts = " + ".join(p for p, on in (("video dài", long), ("bản dọc", short)) if on)
+    log(f"=== BUILD {slug}: {stats['scenes']} cảnh, {stats['lines']} câu, {stats['words']} từ — {parts} "
         f"({'nháp' if draft else 'bản chuẩn'}) ===")
 
     log("[1/5] Giọng đọc")
     t0 = time.time()
+    plan = vertical.plan(project) if short else None
     texts = [ln["text"] for sc in project["scenes"] for ln in sc["lines"]]
-    paths = synthesize(texts, os.path.join(cache, "audio"), project, cfg, log)
+    paths = synthesize(texts + ([plan["outro_text"]] if plan else []), os.path.join(cache, "audio"), project, cfg, log)
     clips = [A.trim_silence(A.decode(p)) for p in paths]
     durations = [len(c) / A.SR for c in clips]
     timeline, total = build_timeline(project, durations, cfg)
-    with open(os.path.join(cache, "timeline.json"), "w", encoding="utf-8") as f:
-        json.dump({"total": total, "voice": pick_voice(project, cfg), "scenes": timeline}, f, ensure_ascii=False,
-                  indent=1)
+    _save_json(os.path.join(cache, "timeline.json"), {"total": total, "voice": pick_voice(project, cfg),
+                                                      "scenes": timeline})
     _log_time(log, f"thuyết minh dài {total / 60:.1f} phút", t0)
 
     log("[2/5] Vẽ các cảnh")
     t0 = time.time()
-    state_paths = render_shots(project, os.path.join(cache, "frames"), log)
+    shots = render_shots(project, os.path.join(cache, "frames"), log)
     _log_time(log, "xong", t0)
-
-    log("[3/5] Trộn âm thanh")
-    t0 = time.time()
-    mix = mix_audio(timeline, clips, total, cfg, base_dir, log)
-    mix_path = os.path.join(cache, "mix.wav")
-    A.write_wav(mix_path, mix)
-    _log_time(log, "xong", t0)
-
-    log("[4/5] Dựng video")
-    t0 = time.time()
     if subs is None:  # CLI --subs > scenes.json burn_subtitles > config.json burn_subtitles
         subs = project.get("burn_subtitles", cfg.get("burn_subtitles", False))
-    if subs:
-        log("  + phụ đề in trên hình")
-    video = os.path.join(out_dir, f"{slug}{'_draft' if draft else ''}.mp4")
-    watermark = None
-    brand = project.get("_brand")
-    if brand and brand.get("watermark"):
-        from .brand import watermark_png
-        wmc = brand["watermark"]
-        outro = [sc for sc, raw in zip(timeline, project["scenes"]) if raw.get("_auto_outro")]
-        t_stop = outro[0]["start"] if outro else total + 1
-        watermark = (watermark_png(brand, wmc.get("height", 84)), t_stop, wmc.get("margin", 26), wmc.get("opacity", 0.9))
-        log(f"  + logo {brand.get('short', '')} ở góc")
-    if draft:
-        encode_video(timeline, state_paths, total, mix_path, video, 12, (960, 540), "ultrafast", 30, log, subs, watermark)
-    else:
-        encode_video(timeline, state_paths, total, mix_path, video, cfg.get("fps", 24), (W, H), "veryfast",
-                     cfg.get("crf", 20), log, subs, watermark)
-    _log_time(log, video, t0)
+    fps = 12 if draft else cfg.get("fps", 24)
+    preset, crf = ("ultrafast", 30) if draft else ("veryfast", cfg.get("crf", 20))
 
-    log("[5/5] Phụ đề, chapters, thumbnail, metadata")
-    write_srt(timeline, os.path.join(out_dir, f"{slug}.srt"))
-    seo = write_metadata(project_dir, out_dir, timeline, project, log)
-    write_thumbnail(project, seo, out_dir)
-    log(f"[✓] Hoàn tất sau {time.time() - T:.0f}s → {out_dir}")
+    long_info = state.get("long")
+    if long:
+        log("[3/5] Video dài 16:9")
+        t0 = time.time()
+        mix = mix_audio(timeline, clips, total, cfg, base_dir, log)
+        mix_path = os.path.join(cache, "mix.wav")
+        A.write_wav(mix_path, mix)
+        if subs:
+            log("  + phụ đề in trên hình")
+        video = os.path.join(vid_dir or yt_dir, f"{slug}{'_draft' if draft else ''}.mp4")
+        encode_video(timeline, shots, total, mix_path, video, fps, (960, 540) if draft else (W, H), preset, crf, log,
+                     subs, _brand_watermark(project, timeline, total, log))
+        srt = os.path.join(yt_dir, f"{slug}.srt")
+        write_srt(timeline, srt)
+        thumb = publish.write_thumbnail(project, publish.load_seo(project_dir), os.path.join(yt_dir, "thumbnail.png"), log)
+        long_info = {"video": video, "srt": srt, "thumbnail": thumb, "duration": round(total, 2), "draft": draft}
+        _log_time(log, video, t0)
+    else:
+        log("[3/5] Video dài: bỏ qua (--short-only)")
+
+    short_info = state.get("short")
+    if short:
+        log("[4/5] Bản dọc 9:16 (Shorts · TikTok · Reels)")
+        t0 = time.time()
+        offs, k = [], 0
+        for sc in project["scenes"]:
+            offs.append(k)
+            k += len(sc["lines"])
+        idx = [offs[si] + li for si, li in plan["items"]] + [len(texts)]
+        segs, s_total, refs = vertical.timeline(project, plan, [durations[i] for i in idx], cfg)
+        s_shots = [[shots[si][li] for si, li in seg] for seg in refs]
+        s_mix = mix_audio(segs, [clips[i] for i in idx], s_total, cfg, base_dir, log)
+        s_mix_path = os.path.join(cache, "mix_short.wav")
+        A.write_wav(s_mix_path, s_mix)
+        size = (540, 960) if draft else (vertical.VW, vertical.VH)
+        layout = vertical.Layout(project, plan["hook"], size, s_total)
+        video = os.path.join(vid_dir or sh_dir, f"{slug}_short{'_draft' if draft else ''}.mp4")
+        encode_video(segs, s_shots, s_total, s_mix_path, video, fps, size, preset, crf, log, True, None, layout)
+        srt = os.path.join(sh_dir, f"{slug}_short.srt")
+        write_srt(segs, srt)
+        cover = publish.write_cover(project, publish.load_seo(project_dir), plan, s_shots[0][0]["path"],
+                                    os.path.join(sh_dir, "cover.png"), log)
+        _save_json(os.path.join(cache, "short_timeline.json"), {"total": s_total, "scenes": segs})
+        short_info = {"video": video, "srt": srt, "cover": cover, "duration": round(s_total, 2), "draft": draft,
+                      "hook": plan["hook"]}
+        _log_time(log, f"{video} ({s_total:.0f}s)", t0)
+    else:
+        log("[4/5] Bản dọc: bỏ qua (--no-short)")
+
+    log("[5/5] Metadata YouTube · Shorts · TikTok · Reels")
+    _save_json(state_file, {"long": long_info, "short": short_info})
+    publish.write_all(project, project_dir, pub, long_info, short_info, chapters(timeline), log)
+    log(f"[✓] Hoàn tất sau {time.time() - T:.0f}s → {pub} (mở PUBLISH.md)")
     for w in warnings:
         log(f"  [⚠] {w}")
-    return {"video": video, "duration": total, "out_dir": out_dir}
+    return {"video": (long_info or {}).get("video"), "short": (short_info or {}).get("video"),
+            "duration": total, "publish_dir": pub}
+
+
+def republish(project, project_dir, log=print):
+    """Chỉ ghi lại metadata/PUBLISH.md (vd sau khi sửa seo.json hoặc điền long_url) — không dựng lại video."""
+    from . import publish
+    cache = os.path.join(project_dir, "cache")
+    tl = _load_json(os.path.join(cache, "timeline.json"))
+    state = _load_json(os.path.join(cache, "publish_state.json")) or {}
+    if not tl:
+        raise SystemExit("[✗] Chưa build lần nào — chạy build trước.")
+    pub = os.path.join(project_dir, "publish")
+    seo = publish.load_seo(project_dir)
+    if state.get("long"):
+        publish.write_thumbnail(project, seo, state["long"]["thumbnail"], log)
+    publish.write_all(project, project_dir, pub, state.get("long"), state.get("short"), chapters(tl["scenes"]), log)
+    return os.path.join(pub, "PUBLISH.md")
