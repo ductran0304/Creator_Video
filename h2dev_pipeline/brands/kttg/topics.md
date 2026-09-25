@@ -56,17 +56,19 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (NĐ 252/2026 Điều 10, Điều 11 khoản 4, 6, 7; NĐ 320/2025 Điều 7 chuyển lỗ 5 năm; video đầu tiên theo hooks.md, footage Pixabay)
 - [x] V13 · SS · 5 dấu hiệu sổ sách công ty đang có vấn đề → projects/kttg_5_dau_hieu_so_sach_co_van_de · 25/09/2026
   (Luật Kế toán 88/2015/QH13 Điều 40 kiểm kê, Điều 41 lưu trữ 10 năm)
+- [x] V14 · LD · Tuyển nhân viên đầu tiên: 5 thủ tục lao động, BHXH phải làm → projects/kttg_tuyen_nhan_vien_dau_tien · 25/09/2026
+  (Luật BHXH 41/2024/QH15 Điều 28, 33, 34, 39, 40; tỷ lệ BHYT/BHTN tổng 21,5% lấy từ báo chí — cần kiểm)
+- [x] V15 · SS · Đối chiếu công nợ cuối năm: làm sớm đỡ rối → projects/kttg_doi_chieu_cong_no_cuoi_nam · 25/09/2026
+  (Luật Kế toán Điều 40; không nêu tỷ lệ dự phòng vì TT 48/2019 có thể đã bị thay bởi TT 20/2026 — cần kiểm)
 
-Độ phủ sau 13 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 1 — **chưa có**: TC, LD → hàng đợi dưới đây ưu tiên các nhóm này.
+Độ phủ sau 15 video: HK 5 · BC 2 · HD 1 · QT 1 · KT 1 · TL 1 · TG 1 · SS 2 · LD 1 — **chưa có**: TC → hàng đợi dưới đây ưu tiên các nhóm này.
 
 ## Hàng đợi (thứ tự đề xuất)
 
 Tháng 10–11/2026 (lấp các dịch vụ chưa có video, dễ ra khách ký hợp đồng):
-- [ ] LD1 · Tuyển nhân viên đầu tiên: 5 thủ tục lao động, BHXH phải làm
 - [ ] TG3 ★ · Thuê kế toán dịch vụ: 500 nghìn, 900 nghìn hay 1,1 triệu — gói nào hợp với anh chị? (chờ KTTG xác nhận giá, phạm vi từng gói)
 
 Tháng 12/2026 – 1/2027 (cuối năm, Tết):
-- [ ] SS2 · Đối chiếu công nợ cuối năm: làm sớm đỡ rối
 - [ ] LD2 · Thưởng Tết cho nhân viên: tính thuế TNCN thế nào?
 - [ ] QT4 · Công tác phí, tiếp khách, quà Tết: làm sao để được trừ?
 - [ ] HD3 · Chữ ký số hết hạn: chuyện gì xảy ra với tờ khai và hoá đơn?
@@ -140,7 +142,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
 | SS1 | 5 dấu hiệu sổ sách công ty đang "có vấn đề" | Tồn quỹ tiền mặt ảo, công nợ treo, kho âm... | Soát xét sổ sách | D + S | [x] V13 |
-| SS2 | Đối chiếu công nợ cuối năm: làm sớm đỡ rối | Checklist tháng 12, nối V10 | Soát xét sổ sách | D + L | [ ] |
+| SS2 | Đối chiếu công nợ cuối năm: làm sớm đỡ rối | Checklist tháng 12, nối V10 | Soát xét sổ sách | D + L | [x] V15 |
 | SS3 | Tồn kho sổ sách lệch tồn kho thực tế: xử lý thế nào? | Tình huống xưởng gia công | Soát xét sổ sách | D + QA | [ ] |
 | SS4 | Tài khoản công ty và tài khoản giám đốc: tách thế nào cho đúng? | Rút tiền công ty tiêu cá nhân | Soát xét + trọn gói | D + S | [ ] |
 | SS5 | Nhận hoá đơn từ nhà cung cấp "có vấn đề": phát hiện sớm thế nào? | Tra cứu trạng thái người bán trước khi thanh toán | Soát xét + hoá đơn | D + QA | [ ] |
@@ -160,7 +162,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 ### LD — Lao động, BHXH & tiền lương
 | # | Chủ đề | Nỗi đau / hook | Dẫn về | Định dạng | Trạng thái |
 |---|---|---|---|---|---|
-| LD1 | Tuyển nhân viên đầu tiên: 5 thủ tục lao động, BHXH phải làm | Công ty nhỏ bắt đầu có người | Lao động, BHXH | D + S | [ ] |
+| LD1 | Tuyển nhân viên đầu tiên: 5 thủ tục lao động, BHXH phải làm | Công ty nhỏ bắt đầu có người | Lao động, BHXH | D + S | [x] V14 |
 | LD2 | Thưởng Tết cho nhân viên: tính thuế TNCN thế nào? | Mùa tháng 12–1 | Tiền lương, thuế TNCN | S + L | [ ] |
 | LD3 | Hợp đồng thử việc, thời vụ, cộng tác viên: đóng gì, khấu trừ gì? | Bảng so sánh 3 loại hợp đồng | Lao động, BHXH | D + S | [ ] |
 | LD4 | Chậm đóng BHXH: hậu quả nhiều hơn anh chị nghĩ | Rủi ro với người lao động và giám đốc | Lao động, BHXH | D + QA | [ ] |
