@@ -15,6 +15,7 @@
   python make_video.py stats show [--brand b]                     tóm tắt video tốt/kém để rút kinh nghiệm
   python make_video.py yt auth|whoami|upload|status ...          đăng YouTube (xem core/social/youtube.py)
   python make_video.py fb auth|pages|use|upload|status ...       đăng Facebook Page (xem core/social/facebook.py)
+  python make_video.py tt auth|whoami|upload|status ...          đăng TikTok (xem core/social/tiktok.py)
   python make_video.py approve <slug> --by "Tên"                  đánh dấu kịch bản đã duyệt pháp lý (cho phép công khai)
   python make_video.py asset new|check ...                        thêm asset mới cho thư viện (xem core/assets_cli.py)
   python make_video.py vocab                                     in danh mục từ vựng bộ vẽ (JSON)
@@ -275,6 +276,36 @@ def cmd_fb(a):
     return 0
 
 
+def cmd_tt(a):
+    from core.social import tiktok as tt
+    brand = _brand_of(a)
+    try:
+        if a.tt_cmd in ("auth", "whoami"):
+            u = tt.auth(BASE_DIR, brand) if a.tt_cmd == "auth" else tt.whoami(BASE_DIR, brand)
+            print(f"[✓] TikTok: {u.get('display_name')} (open_id {str(u.get('open_id'))[:8]}…)")
+        elif a.tt_cmd == "upload":
+            d = resolve_project_dir(a.project, BASE_DIR)
+            res = tt.upload(BASE_DIR, brand, d, which=a.target, direct=a.direct, public=a.public,
+                            dry_run=a.dry_run, again=a.again)
+            if not a.dry_run and res:
+                print(f"[✓] Đã đẩy {len(res)} video lên TikTok. Sổ đăng: {os.path.join(d, 'publish', 'posted.json')}")
+                if not a.direct:
+                    print("[→] Mở app TikTok → thông báo/hộp thư → video mới → dán caption dưới đây → Đăng:")
+                    for r in res:
+                        print(f"--- {r['key']} ---\n{r['caption']}")
+        elif a.tt_cmd == "status":
+            d = resolve_project_dir(a.project, BASE_DIR)
+            rows = tt.status(BASE_DIR, brand, d)
+            if not rows:
+                print("[i] Chưa có video nào của project này được đẩy lên TikTok.")
+            for r in rows:
+                print(json.dumps(r, ensure_ascii=False))
+    except tt.TTError as e:
+        print(f"[LỖI] {e}")
+        return 1
+    return 0
+
+
 def cmd_approve(a):
     from core.social.youtube import approve
     d = resolve_project_dir(a.project, BASE_DIR)
@@ -411,6 +442,25 @@ def main():
     q.add_argument("project")
     q.add_argument("--brand", default="kttg")
     q.set_defaults(fn=cmd_fb)
+    p = sub.add_parser("tt", help="đẩy bản dọc lên TikTok (hộp thư nháp hoặc đăng thẳng)")
+    ps = p.add_subparsers(dest="tt_cmd", required=True)
+    for name in ("auth", "whoami"):
+        q = ps.add_parser(name)
+        q.add_argument("--brand", default="kttg")
+        q.set_defaults(fn=cmd_tt, project=None)
+    q = ps.add_parser("upload")
+    q.add_argument("project")
+    q.add_argument("--target", default="all", help="all | <id bản dọc>")
+    q.add_argument("--direct", action="store_true", help="đăng thẳng (mặc định: hộp thư nháp)")
+    q.add_argument("--public", action="store_true", help="cùng --direct: công khai (cần approve + app đã được TikTok duyệt)")
+    q.add_argument("--dry-run", action="store_true")
+    q.add_argument("--again", action="store_true")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_tt)
+    q = ps.add_parser("status")
+    q.add_argument("project")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_tt)
     p = sub.add_parser("approve", help="đánh dấu kịch bản đã được người có chứng chỉ duyệt")
     p.add_argument("project")
     p.add_argument("--by", required=True)

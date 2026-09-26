@@ -1,6 +1,6 @@
 ---
 name: dang-video
-description: Đăng video đã dựng (projects/<slug>/publish/) lên YouTube (video dài + Shorts) và Facebook Page (video + Reels) bằng API, theo dõi trạng thái và lượt xem. Dùng khi người dùng nói "đăng video N", "đăng shorts/reels", "upload lên YouTube/Facebook", "video đã đăng thế nào".
+description: Đăng video đã dựng (projects/<slug>/publish/) lên YouTube (video dài + Shorts), Facebook Page (video + Reels) và TikTok (hộp thư nháp) bằng API, theo dõi trạng thái và lượt xem. Dùng khi người dùng nói "đăng video N", "đăng shorts/reels", "upload lên YouTube/Facebook/TikTok", "video đã đăng thế nào".
 ---
 
 # /dang-video — đăng và quản lý video trên mạng xã hội
@@ -8,7 +8,7 @@ description: Đăng video đã dựng (projects/<slug>/publish/) lên YouTube (v
 Công cụ: `h2dev_pipeline/core/social/youtube.py`, gọi qua CLI. Chạy từ `h2dev_pipeline/`:
 `MV = PYTHONIOENCODING=utf-8 .venv/Scripts/python.exe -u make_video.py`
 
-Hiện hỗ trợ: **YouTube** (video dài + Shorts), **Facebook Page** (video dài + Reels). TikTok: chưa làm.
+Hiện hỗ trợ: **YouTube** (video dài + Shorts), **Facebook Page** (video dài + Reels), **TikTok** (bản dọc, hộp thư nháp).
 
 ## Quy tắc an toàn (bắt buộc)
 
@@ -96,3 +96,25 @@ chép** token dài hạn vào `secrets/facebook_user_token.txt` (Claude không �
 Facebook Login không nhận redirect `http://localhost` (bắt buộc HTTPS), nên không dùng luồng đăng nhập trên máy.
 App để chế độ Live (cần URL chính sách bảo mật) để bài đăng hiển thị với mọi người; quyền Standard access đủ cho
 quản trị viên của chính app, không cần App Review.
+
+## TikTok (bản dọc)
+
+Công cụ: `core/social/tiktok.py` (Content Posting API v2, Login Kit for Desktop + PKCE, redirect
+`http://localhost:8767/callback/`). Caption lấy từ `tiktok.caption` + hashtag của từng bản dọc.
+
+```
+MV tt auth · MV tt whoami                  # cấp quyền (người dùng bấm Cho phép), token tự làm mới, hạn 1 năm
+MV tt upload <slug> --dry-run
+MV tt upload <slug>                        # đẩy vào HỘP THƯ NHÁP TikTok — CLI in caption để người dùng dán rồi tự đăng
+MV tt upload <slug> --direct               # đăng thẳng, riêng tư (SELF_ONLY) khi app chưa được TikTok duyệt
+MV tt upload <slug> --direct --public      # chỉ khi approve + app đã qua kiểm duyệt của TikTok
+MV tt status <slug>                        # SEND_TO_USER_INBOX / PUBLISH_COMPLETE / FAILED
+```
+
+Thiết lập (đã làm cho KTTG — app "KTTG Video" id 7689672283481360391, dùng Sandbox "KTTG test", target user
+ketoantinhgon): tài khoản nhà phát triển là email + mật khẩu riêng (không đăng nhập bằng Google) → tạo app Individual
+→ Sandbox: icon 1024×1024 (`secrets/tiktok_app_icon_1024.png`), hạng mục, mô tả, link điều khoản/chính sách,
+Platform Desktop + **Web/Desktop URL** (bỏ trống thì Apply changes không lưu → lỗi `client_key`), Login Kit
+(Desktop redirect), Content Posting API (+ Direct Post) → Apply changes → Target Users thêm tài khoản kênh →
+người dùng tự dán Client key (18 ký tự, `sb…`) + Client secret vào `secrets/tiktok_app.json` → `MV tt auth`.
+Bản Production cần gửi kiểm duyệt kèm video demo luồng đăng; trước đó dùng Sandbox + hộp thư nháp.
