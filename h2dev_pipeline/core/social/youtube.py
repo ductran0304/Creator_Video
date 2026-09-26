@@ -405,3 +405,42 @@ def status(base_dir, brand, project_dir):
                     "views": stats.get("viewCount"), "likes": stats.get("likeCount"),
                     "comments": stats.get("commentCount")})
     return out
+
+
+# ---------------- công khai ----------------
+def publish(base_dir, brand, project_dir, which="all", log=print):
+    """Chuyển các video đã tải (posted.json) sang công khai. Video dài trước, Shorts sau. Cần review.json approved."""
+    if not is_approved(project_dir):
+        raise YTError(f"{os.path.basename(project_dir)}: chưa đánh dấu duyệt — chạy approve trước")
+    posted = load_posted(project_dir)
+    recs = posted.get("youtube", {})
+    keys = sorted(recs, key=lambda k: (k != "long", k))
+    keys = [k for k in keys if which == "all" or k == which or (which == "shorts" and k.startswith("short:"))]
+    yt = service(base_dir, brand)
+    out = []
+    for k in keys:
+        rec = recs[k]
+        if rec.get("privacy") == "public":
+            continue
+        cur = yt.videos().list(part="status", id=rec["id"]).execute().get("items", [])
+        if not cur:
+            log(f"  ⚠ {k}: không tìm thấy video {rec['id']} trên kênh")
+            continue
+        st = cur[0]["status"]
+        if st.get("privacyStatus") != "public":
+            body = {"id": rec["id"], "status": {"privacyStatus": "public",
+                                                "selfDeclaredMadeForKids": st.get("selfDeclaredMadeForKids", False),
+                                                "embeddable": st.get("embeddable", True),
+                                                "license": st.get("license", "youtube"),
+                                                "publicStatsViewable": st.get("publicStatsViewable", True)}}
+            from googleapiclient.errors import HttpError
+            try:
+                yt.videos().update(part="status", body=body).execute()
+            except HttpError as e:
+                raise YTError(f"{k}: {_http_msg(e)}")
+        rec["privacy"] = "public"
+        rec["published_at"] = _dt.datetime.now(VN_TZ).strftime("%d/%m/%Y %H:%M")
+        save_posted(project_dir, posted)
+        log(f"  ✓ công khai {k}: {rec['url']}")
+        out.append(k)
+    return out

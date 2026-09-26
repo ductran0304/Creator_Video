@@ -118,3 +118,22 @@ Platform Desktop + **Web/Desktop URL** (bỏ trống thì Apply changes không l
 (Desktop redirect), Content Posting API (+ Direct Post) → Apply changes → Target Users thêm tài khoản kênh →
 người dùng tự dán Client key (18 ký tự, `sb…`) + Client secret vào `secrets/tiktok_app.json` → `MV tt auth`.
 Bản Production cần gửi kiểm duyệt kèm video demo luồng đăng; trước đó dùng Sandbox + hộp thư nháp.
+
+## Đăng hàng loạt + công khai + báo cáo
+
+```
+MV social report                                   # bảng V1…Vn: cần / đã lên / công khai trên 3 nền tảng
+MV social upload --platforms yt,fb --from 25 --to 28   # tải phần còn thiếu (bỏ qua mục có trong posted.json)
+MV social publish --platforms yt,fb --pace 150     # công khai mục đã tải (cần approve), Facebook cách 150 giây
+MV yt publish <slug> · MV fb publish <slug>        # công khai từng video
+```
+
+- Trước khi đăng hàng loạt: đối chiếu tiêu đề với video đã có trên kênh (người dùng có thể đã đăng tay) và ghi vào
+  posted.json với `"external": true` để không đăng trùng.
+- Giới hạn đã gặp (26/09/2026): YouTube hết lượt tải sau ~80 video/ngày (429 "Video Uploads", reset 14h VN) — đổi
+  công khai hàng loạt nhanh nhất bằng YouTube Studio (lọc Visibility: Private → chọn tất cả → Edit → Visibility →
+  Public) thay vì API. Facebook: ~200 lệnh gọi/giờ (code 4) và **chặn chống spam code 368** khi đăng dày → dừng hẳn,
+  làm tiếp hôm sau với --pace. TikTok: hộp thư nháp tối đa 5 video chờ/24 giờ; video vào hộp thư KHÔNG có caption —
+  gửi người dùng danh sách caption đánh số theo thời lượng/nội dung. Đăng TikTok qua web cần Claude in Chrome
+  (trình duyệt trong app không chọn được file). Nên giới hạn ~3–5 video TikTok/ngày.
+- Không xoá video trên kênh thay người dùng (không hoàn tác được) — báo để họ tự xoá.

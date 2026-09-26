@@ -70,6 +70,9 @@ def _req(method, url, token=None, **kw):
                     "unaudited_client_can_only_post_to_private_accounts":
                         "App chưa qua kiểm duyệt: chỉ đăng thẳng được ở chế độ riêng tư (bỏ --public) hoặc dùng hộp thư nháp",
                     "spam_risk_too_many_posts": "Đăng quá nhiều trong ngày — thử lại sau",
+                    "spam_risk_too_many_pending_share":
+                        "Hộp thư nháp TikTok đã đầy (tối đa 5 video chờ trong 24 giờ) — đăng hoặc xoá bớt video "
+                        "trong hộp thư của app TikTok rồi chạy lại",
                     "url_ownership_unverified": "Cần xác minh quyền sở hữu domain"}.get(code, "")
             raise TTError(f"TikTok API lỗi {r.status_code} ({code}): {msg} {hint}".strip())
         return data

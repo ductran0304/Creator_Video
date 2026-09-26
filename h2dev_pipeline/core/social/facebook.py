@@ -278,3 +278,32 @@ def status(base_dir, brand, project_dir):
         except FBError as e:
             out.append({"key": key, "url": rec["url"], "error": str(e)[:160]})
     return out
+
+
+def publish(base_dir, brand, project_dir, log=print):
+    """Công khai video dài (unpublished → published) và Reels bản nháp (DRAFT → PUBLISHED). Cần review.json approved."""
+    if not is_approved(project_dir):
+        raise FBError(f"{os.path.basename(project_dir)}: chưa đánh dấu duyệt — chạy approve trước")
+    pid, _, token = active_page(base_dir, brand)
+    posted = load_posted(project_dir)
+    recs = posted.get("facebook", {})
+    out = []
+    for k in sorted(recs, key=lambda k: (k != "long", k)):
+        rec = recs[k]
+        if rec.get("state") == "PUBLISHED" or rec.get("external"):
+            continue
+        # cả video dài lẫn Reels bản nháp: cập nhật published=true (finish lần hai trên Reels bị từ chối, code 6000)
+        try:  # 1 lệnh gọi/mục (giới hạn app ~200 lệnh/giờ); lỗi thì kiểm tra xem đã công khai sẵn chưa
+            _req("POST", f"{GRAPH}/{rec['id']}", data={"access_token": token, "published": "true"})
+        except FBError as e:
+            if "code 4)" in str(e) or "code 17)" in str(e) or "code 32)" in str(e):
+                raise
+            cur = _req("GET", f"{GRAPH}/{rec['id']}", params={"access_token": token, "fields": "published"})
+            if not cur.get("published"):
+                raise
+        rec["state"] = "PUBLISHED"
+        rec["published_at"] = _dt.datetime.now(VN_TZ).strftime("%d/%m/%Y %H:%M")
+        save_posted(project_dir, posted)
+        log(f"  ✓ công khai {k}: {rec['url']}")
+        out.append(k)
+    return out

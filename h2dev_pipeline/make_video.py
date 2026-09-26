@@ -16,6 +16,7 @@
   python make_video.py yt auth|whoami|upload|status ...          đăng YouTube (xem core/social/youtube.py)
   python make_video.py fb auth|pages|use|upload|status ...       đăng Facebook Page (xem core/social/facebook.py)
   python make_video.py tt auth|whoami|upload|status ...          đăng TikTok (xem core/social/tiktok.py)
+  python make_video.py social report|upload|publish ...          đăng hàng loạt + báo cáo (xem core/social/batch.py)
   python make_video.py approve <slug> --by "Tên"                  đánh dấu kịch bản đã duyệt pháp lý (cho phép công khai)
   python make_video.py asset new|check ...                        thêm asset mới cho thư viện (xem core/assets_cli.py)
   python make_video.py vocab                                     in danh mục từ vựng bộ vẽ (JSON)
@@ -229,6 +230,10 @@ def cmd_yt(a):
                 todo = [r for r in res if r.get("pinned_comment_todo")]
                 for r in todo:
                     print(f"[→] Ghim bình luận thủ công trên YouTube Studio ({r['url']}):\n    {r['pinned_comment_todo']}")
+        elif a.yt_cmd == "publish":
+            d = resolve_project_dir(a.project, BASE_DIR)
+            done = yt.publish(BASE_DIR, brand, d, which=a.target)
+            print(f"[✓] Đã công khai {len(done)} video YouTube" if done else "[i] Không còn video riêng tư nào để công khai.")
         elif a.yt_cmd == "status":
             d = resolve_project_dir(a.project, BASE_DIR)
             rows = yt.status(BASE_DIR, brand, d)
@@ -263,6 +268,10 @@ def cmd_fb(a):
                 print(f"[✓] Đã đăng {len(res)} mục lên Facebook. Sổ đăng: {os.path.join(d, 'publish', 'posted.json')}")
                 if not a.publish:
                     print("[→] Xem và công khai trong Meta Business Suite → Nội dung (video ẩn / Reels bản nháp).")
+        elif a.fb_cmd == "publish":
+            d = resolve_project_dir(a.project, BASE_DIR)
+            done = fb.publish(BASE_DIR, brand, d)
+            print(f"[✓] Đã công khai {len(done)} mục Facebook" if done else "[i] Không còn mục ẩn/bản nháp nào để công khai.")
         elif a.fb_cmd == "status":
             d = resolve_project_dir(a.project, BASE_DIR)
             rows = fb.status(BASE_DIR, brand, d)
@@ -303,6 +312,29 @@ def cmd_tt(a):
     except tt.TTError as e:
         print(f"[LỖI] {e}")
         return 1
+    return 0
+
+
+def cmd_social(a):
+    from core.social import batch
+    plats = tuple(x.strip() for x in a.platforms.split(",")) if getattr(a, "platforms", None) else None
+    if a.social_cmd == "report":
+        rows = batch.report(BASE_DIR, a.brand)
+        tot = {k: sum(r.get(k, 0) for r in rows) for k in ("need", "need_tt", "yt", "yt_pub", "fb", "fb_pub", "tt", "tt_posted")}
+        print("V    | cần | YouTube lên/công khai | Facebook lên/công khai | TikTok cần/đã đẩy")
+        for r in rows:
+            if r.get("missing"):
+                print(f"V{r['v']:<3} | chưa có publish.json")
+                continue
+            print(f"V{r['v']:<3} | {r['need']:>3} | {r['yt']:>3}/{r['yt_pub']:<3} | {r['fb']:>3}/{r['fb_pub']:<3} | {r['need_tt']:>2}/{r['tt']}")
+        print(f"TỔNG | {tot['need']:>3} | {tot['yt']:>3}/{tot['yt_pub']:<3} | {tot['fb']:>3}/{tot['fb_pub']:<3} | {tot['need_tt']:>2}/{tot['tt']}")
+        print("(YouTube 'công khai' theo sổ đăng; video đổi tay trong Studio được cập nhật khi chạy social publish)")
+    elif a.social_cmd == "upload":
+        st = batch.upload(BASE_DIR, a.brand, plats or ("yt", "fb", "tt"), a.lo, a.hi, publish=a.publish)
+        print("[✓] Xong" + (f" — dừng do giới hạn: {st}" if st else ""))
+    elif a.social_cmd == "publish":
+        st = batch.publish(BASE_DIR, a.brand, plats or ("yt", "fb"), a.lo, a.hi, pace=a.pace)
+        print("[✓] Xong" + (f" — dừng do giới hạn: {st}" if st else ""))
     return 0
 
 
@@ -420,6 +452,11 @@ def main():
     q.add_argument("project")
     q.add_argument("--brand", default="kttg")
     q.set_defaults(fn=cmd_yt)
+    q = ps.add_parser("publish", help="chuyển video đã tải sang công khai (cần approve)")
+    q.add_argument("project")
+    q.add_argument("--target", default="all", help="all | long | shorts | short:<id>")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_yt)
     p = sub.add_parser("fb", help="đăng và theo dõi video trên Facebook Page")
     ps = p.add_subparsers(dest="fb_cmd", required=True)
     for name in ("auth", "pages"):
@@ -442,6 +479,10 @@ def main():
     q.add_argument("project")
     q.add_argument("--brand", default="kttg")
     q.set_defaults(fn=cmd_fb)
+    q = ps.add_parser("publish", help="công khai video ẩn + Reels bản nháp (cần approve)")
+    q.add_argument("project")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_fb)
     p = sub.add_parser("tt", help="đẩy bản dọc lên TikTok (hộp thư nháp hoặc đăng thẳng)")
     ps = p.add_subparsers(dest="tt_cmd", required=True)
     for name in ("auth", "whoami"):
@@ -461,6 +502,20 @@ def main():
     q.add_argument("project")
     q.add_argument("--brand", default="kttg")
     q.set_defaults(fn=cmd_tt)
+    p = sub.add_parser("social", help="đăng hàng loạt nhiều video + báo cáo tình trạng 3 nền tảng")
+    ps = p.add_subparsers(dest="social_cmd", required=True)
+    for name in ("report", "upload", "publish"):
+        q = ps.add_parser(name)
+        q.add_argument("--brand", default="kttg")
+        if name != "report":
+            q.add_argument("--platforms", help="yt,fb,tt")
+            q.add_argument("--from", dest="lo", type=int, default=1)
+            q.add_argument("--to", dest="hi", type=int, default=10 ** 6)
+        if name == "upload":
+            q.add_argument("--publish", action="store_true", help="công khai luôn (cần approve)")
+        if name == "publish":
+            q.add_argument("--pace", type=int, default=150, help="giây chờ giữa các lần công khai trên Facebook")
+        q.set_defaults(fn=cmd_social)
     p = sub.add_parser("approve", help="đánh dấu kịch bản đã được người có chứng chỉ duyệt")
     p.add_argument("project")
     p.add_argument("--by", required=True)
