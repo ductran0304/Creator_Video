@@ -6,7 +6,7 @@
   "omnivoice_language": "English",
   "omnivoice_model": "",
   "omnivoice_ref_text": "",
-  "voice_name": "en-US-BrianMultilingualNeural",
+  "voice_name": "en-US-EmmaNeural",
   "language": "en",
   "use_web2api": true,
   "web2api_url": "http://localhost:8081/v1",
@@ -14,7 +14,7 @@
   "web2api_model_script": "gemini-3.1-pro",
   "web2api_model_seo": "gemini-3.5-flash-thinking",
   "bg_music_path": "bg_music.mp3",
-  "bg_music_volume": 0.03,
+  "bg_music_volume": 0.05,
   "sfx_path": "sfx_page.wav",
   "sfx_volume": 0.25,
   "sfx_enabled": true,
@@ -24,6 +24,5 @@
   "min_evidence_count": 3,
   "delay_min": 5,
   "delay_max": 15,
-  "max_wait_image": 240,
-  "voice_rate": "+6%"
+  "max_wait_image": 240
 }
