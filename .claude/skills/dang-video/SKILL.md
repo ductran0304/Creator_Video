@@ -1,6 +1,6 @@
 ---
 name: dang-video
-description: Đăng video đã dựng (projects/<slug>/publish/) lên YouTube (video dài + Shorts) bằng API, theo dõi trạng thái và lượt xem. Dùng khi người dùng nói "đăng video N", "đăng shorts", "upload lên YouTube", "video đã đăng thế nào".
+description: Đăng video đã dựng (projects/<slug>/publish/) lên YouTube (video dài + Shorts) và Facebook Page (video + Reels) bằng API, theo dõi trạng thái và lượt xem. Dùng khi người dùng nói "đăng video N", "đăng shorts/reels", "upload lên YouTube/Facebook", "video đã đăng thế nào".
 ---
 
 # /dang-video — đăng và quản lý video trên mạng xã hội
@@ -8,7 +8,7 @@ description: Đăng video đã dựng (projects/<slug>/publish/) lên YouTube (v
 Công cụ: `h2dev_pipeline/core/social/youtube.py`, gọi qua CLI. Chạy từ `h2dev_pipeline/`:
 `MV = PYTHONIOENCODING=utf-8 .venv/Scripts/python.exe -u make_video.py`
 
-Hiện hỗ trợ: **YouTube** (video dài + Shorts). Facebook Page Reels, TikTok: chưa làm (giai đoạn sau).
+Hiện hỗ trợ: **YouTube** (video dài + Shorts), **Facebook Page** (video dài + Reels). TikTok: chưa làm.
 
 ## Quy tắc an toàn (bắt buộc)
 
@@ -71,3 +71,28 @@ email, trang chủ/chính sách/điều khoản trên domain của brand, Author
 "In production" để token không hết hạn sau 7 ngày) → Clients → Desktop app → Download JSON →
 `h2dev_pipeline/secrets/youtube_client_secret.json` → `MV yt auth --brand <brand>` (token lưu
 `secrets/youtube_token_<brand>.json`).
+
+## Facebook Page (video dài + Reels)
+
+Công cụ: `core/social/facebook.py` (Graph API v26.0). Dữ liệu lấy từ `publish.json`: video dài dùng tiêu đề + mô tả
+YouTube (tự bỏ khối chương), Reels dùng `reels.caption` của từng bản dọc (3–90 giây).
+
+```
+MV fb auth                                  # đổi token Graph API Explorer (secrets/facebook_user_token.txt) → token Page không hết hạn
+MV fb pages · MV fb use "<tên Page>"        # xem / chọn Page đang đăng
+MV fb upload <slug> --dry-run               # xem trước
+MV fb upload <slug>                         # video dài ẩn (unpublished) + Reels bản nháp (DRAFT)
+MV fb upload <slug> --target reels|long|<id> · --publish (cần approve + người dùng yêu cầu)
+MV fb status <slug>
+```
+
+Mặc định không công khai: người dùng xem và bấm đăng trong Meta Business Suite → Nội dung.
+Thiết lập (đã làm cho KTTG — app "KTTG Video" id 1630499335455445, Page "Kế Toán Tinh Gọn" id 1270665479459006):
+Meta for Developers → tạo app (use case "Quản lý mọi thứ trên Trang", bật pages_manage_posts, pages_read_engagement,
+read_insights) → Graph API Explorer: chọn app + 4 quyền → **người dùng tự bấm** Generate Access Token (popup bị chặn
+nếu Claude bấm), tick đúng Page → nút ⓘ → "Mở trong Công cụ tạo mã truy cập" → "Mã truy cập mở rộng" → **người dùng tự
+chép** token dài hạn vào `secrets/facebook_user_token.txt` (Claude không được đọc giá trị token) → `MV fb auth`
+(không cần App Secret; token Page lấy từ token dài hạn không hết hạn; file tạm tự xoá) → `MV fb use <id Page>`.
+Facebook Login không nhận redirect `http://localhost` (bắt buộc HTTPS), nên không dùng luồng đăng nhập trên máy.
+App để chế độ Live (cần URL chính sách bảo mật) để bài đăng hiển thị với mọi người; quyền Standard access đủ cho
+quản trị viên của chính app, không cần App Review.

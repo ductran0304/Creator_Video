@@ -14,6 +14,7 @@
   python make_video.py stats import <file.csv> [--brand b]        nhập số liệu YouTube Studio (giữ chân, CTR...)
   python make_video.py stats show [--brand b]                     tóm tắt video tốt/kém để rút kinh nghiệm
   python make_video.py yt auth|whoami|upload|status ...          đăng YouTube (xem core/social/youtube.py)
+  python make_video.py fb auth|pages|use|upload|status ...       đăng Facebook Page (xem core/social/facebook.py)
   python make_video.py approve <slug> --by "Tên"                  đánh dấu kịch bản đã duyệt pháp lý (cho phép công khai)
   python make_video.py asset new|check ...                        thêm asset mới cho thư viện (xem core/assets_cli.py)
   python make_video.py vocab                                     in danh mục từ vựng bộ vẽ (JSON)
@@ -240,6 +241,40 @@ def cmd_yt(a):
     return 0
 
 
+def cmd_fb(a):
+    from core.social import facebook as fb
+    brand = _brand_of(a)
+    try:
+        if a.fb_cmd in ("auth", "pages"):
+            rows = fb.auth(BASE_DIR, brand) if a.fb_cmd == "auth" else fb.pages(BASE_DIR, brand)
+            if a.fb_cmd == "auth":
+                print(f"[✓] Đã cấp quyền Facebook cho brand '{brand}'.")
+            for p in rows:
+                print(f"    {'→' if p['active'] else ' '} {p['name']} (id {p['id']}) · quyền: {', '.join(p['tasks'])}")
+            if not any(p["active"] for p in rows):
+                print('[→] Chọn Page để đăng: make_video.py fb use "<tên Page>"')
+        elif a.fb_cmd == "use":
+            print(f"[✓] Đăng lên Page: {fb.use(BASE_DIR, brand, a.page)}")
+        elif a.fb_cmd == "upload":
+            d = resolve_project_dir(a.project, BASE_DIR)
+            res = fb.upload(BASE_DIR, brand, d, which=a.target, publish=a.publish, dry_run=a.dry_run, again=a.again)
+            if not a.dry_run and res:
+                print(f"[✓] Đã đăng {len(res)} mục lên Facebook. Sổ đăng: {os.path.join(d, 'publish', 'posted.json')}")
+                if not a.publish:
+                    print("[→] Xem và công khai trong Meta Business Suite → Nội dung (video ẩn / Reels bản nháp).")
+        elif a.fb_cmd == "status":
+            d = resolve_project_dir(a.project, BASE_DIR)
+            rows = fb.status(BASE_DIR, brand, d)
+            if not rows:
+                print("[i] Chưa có mục nào của project này được đăng lên Facebook.")
+            for r in rows:
+                print(json.dumps(r, ensure_ascii=False))
+    except fb.FBError as e:
+        print(f"[LỖI] {e}")
+        return 1
+    return 0
+
+
 def cmd_approve(a):
     from core.social.youtube import approve
     d = resolve_project_dir(a.project, BASE_DIR)
@@ -354,6 +389,28 @@ def main():
     q.add_argument("project")
     q.add_argument("--brand", default="kttg")
     q.set_defaults(fn=cmd_yt)
+    p = sub.add_parser("fb", help="đăng và theo dõi video trên Facebook Page")
+    ps = p.add_subparsers(dest="fb_cmd", required=True)
+    for name in ("auth", "pages"):
+        q = ps.add_parser(name)
+        q.add_argument("--brand", default="kttg")
+        q.set_defaults(fn=cmd_fb, project=None)
+    q = ps.add_parser("use")
+    q.add_argument("page")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_fb, project=None)
+    q = ps.add_parser("upload")
+    q.add_argument("project")
+    q.add_argument("--target", default="all", help="all | long | reels | <id bản dọc>")
+    q.add_argument("--publish", action="store_true", help="công khai ngay (cần approve); mặc định ẩn/bản nháp")
+    q.add_argument("--dry-run", action="store_true")
+    q.add_argument("--again", action="store_true")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_fb)
+    q = ps.add_parser("status")
+    q.add_argument("project")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_fb)
     p = sub.add_parser("approve", help="đánh dấu kịch bản đã được người có chứng chỉ duyệt")
     p.add_argument("project")
     p.add_argument("--by", required=True)
