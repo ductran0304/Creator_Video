@@ -13,6 +13,8 @@
   python make_video.py footage pdf <slug> <url|file.pdf> --page N --name <tên> [--find "cụm từ"]
   python make_video.py stats import <file.csv> [--brand b]        nhập số liệu YouTube Studio (giữ chân, CTR...)
   python make_video.py stats show [--brand b]                     tóm tắt video tốt/kém để rút kinh nghiệm
+  python make_video.py yt auth|whoami|upload|status ...          đăng YouTube (xem core/social/youtube.py)
+  python make_video.py approve <slug> --by "Tên"                  đánh dấu kịch bản đã duyệt pháp lý (cho phép công khai)
   python make_video.py asset new|check ...                        thêm asset mới cho thư viện (xem core/assets_cli.py)
   python make_video.py vocab                                     in danh mục từ vựng bộ vẽ (JSON)
 """
@@ -193,6 +195,59 @@ def cmd_photo(a):
     return 0
 
 
+def _brand_of(a):
+    if getattr(a, "project", None):
+        d = resolve_project_dir(a.project, BASE_DIR)
+        return load_project(d).get("brand") or a.brand
+    return a.brand
+
+
+def cmd_yt(a):
+    from core.social import youtube as yt
+    brand = _brand_of(a)
+    try:
+        if a.yt_cmd == "auth":
+            yt.auth(BASE_DIR, brand)
+            print(f"[✓] Đã cấp quyền YouTube cho brand '{brand}'.")
+            for c in yt.whoami(BASE_DIR, brand):
+                print(f"    kênh: {c['title']} ({c['custom_url']}) · {c['subscribers']} người đăng ký · {c['videos']} video")
+        elif a.yt_cmd == "whoami":
+            chans = yt.whoami(BASE_DIR, brand)
+            if not chans:
+                print("[⚠] Tài khoản này chưa có kênh YouTube (hoặc chọn nhầm tài khoản/kênh khi cấp quyền).")
+            for c in chans:
+                print(f"[✓] {c['title']} ({c['custom_url']}) · id {c['id']} · {c['subscribers']} người đăng ký · "
+                      f"{c['videos']} video · video dài: {c['long_uploads']}")
+        elif a.yt_cmd == "upload":
+            d, project, _ = load(a.project)
+            res = yt.upload(BASE_DIR, brand, project, d, which=a.target, privacy=a.privacy, publish_at=a.publish_at,
+                            dry_run=a.dry_run, again=a.again, create_playlist=a.create_playlist)
+            if not a.dry_run and res:
+                print(f"[✓] Đã tải {len(res)} video. Sổ đăng: {yt.posted_path(d)}")
+                todo = [r for r in res if r.get("pinned_comment_todo")]
+                for r in todo:
+                    print(f"[→] Ghim bình luận thủ công trên YouTube Studio ({r['url']}):\n    {r['pinned_comment_todo']}")
+        elif a.yt_cmd == "status":
+            d = resolve_project_dir(a.project, BASE_DIR)
+            rows = yt.status(BASE_DIR, brand, d)
+            if not rows:
+                print("[i] Chưa có video nào của project này được đăng.")
+            for r in rows:
+                print(json.dumps(r, ensure_ascii=False))
+    except yt.YTError as e:
+        print(f"[LỖI] {e}")
+        return 1
+    return 0
+
+
+def cmd_approve(a):
+    from core.social.youtube import approve
+    d = resolve_project_dir(a.project, BASE_DIR)
+    r = approve(d, a.by, a.note or "")
+    print(f"[✓] {os.path.basename(d)}: đã duyệt bởi {r['by']} lúc {r['date']}")
+    return 0
+
+
 def cmd_vocab(a):
     from doodle.catalog import vocabulary
     print(json.dumps(vocabulary(), ensure_ascii=False, indent=1))
@@ -279,6 +334,31 @@ def main():
     add_asset_parser(sub, BASE_DIR)
     p = sub.add_parser("vocab")
     p.set_defaults(fn=cmd_vocab)
+    p = sub.add_parser("yt", help="đăng và theo dõi video trên YouTube")
+    ps = p.add_subparsers(dest="yt_cmd", required=True)
+    for name in ("auth", "whoami"):
+        q = ps.add_parser(name)
+        q.add_argument("--brand", default="kttg")
+        q.set_defaults(fn=cmd_yt, project=None)
+    q = ps.add_parser("upload")
+    q.add_argument("project")
+    q.add_argument("--target", default="long", help="long | all | shorts | <id bản dọc>")
+    q.add_argument("--privacy", default="private", choices=["private", "unlisted", "public"])
+    q.add_argument("--publish-at", help='hẹn giờ công khai, giờ VN: "2026-10-01 19:00"')
+    q.add_argument("--dry-run", action="store_true", help="chỉ in metadata sẽ gửi, không tải lên")
+    q.add_argument("--again", action="store_true", help="tải lại dù đã có trong posted.json")
+    q.add_argument("--create-playlist", action="store_true", help="tạo playlist nếu kênh chưa có")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_yt)
+    q = ps.add_parser("status")
+    q.add_argument("project")
+    q.add_argument("--brand", default="kttg")
+    q.set_defaults(fn=cmd_yt)
+    p = sub.add_parser("approve", help="đánh dấu kịch bản đã được người có chứng chỉ duyệt")
+    p.add_argument("project")
+    p.add_argument("--by", required=True)
+    p.add_argument("--note")
+    p.set_defaults(fn=cmd_approve)
     a = ap.parse_args()
     try:
         return a.fn(a)
