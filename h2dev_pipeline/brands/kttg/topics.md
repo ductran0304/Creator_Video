@@ -89,6 +89,8 @@ Khu vực: Long Nguyên (Bến Cát cũ), Mỹ Phước, Bàu Bàng, Thủ Dầu
   (NĐ 141/2026; Luật TNCN 109/2025 Điều 7; NĐ 68/2026 Điều 4, 8)
 - [x] V29 · TL · Hộ kinh doanh hay công ty: khi nào nên chuyển? → projects/kttg_ho_kinh_doanh_hay_cong_ty · 26/09/2026
   (NĐ 141/2026; Luật TNCN Điều 7; Luật TNDN 67/2025; ví dụ so sánh là minh hoạ — KTTG cần kiểm cách tính hộ theo thu nhập)
+- [x] V30 · SS · Tài khoản công ty và tài khoản giám đốc: tách thế nào? → projects/kttg_tach_tai_khoan_cong_ty_giam_doc · 26/09/2026
+  (NĐ 252/2026 Điều 61 khoản 3, 7; NĐ 320/2025 Điều 9)
 
 Độ phủ sau 22 video: HK 5 · BC 3 · HD 2 · QT 3 · KT 2 · TL 1 · TG 1 · SS 2 · LD 2 · TC 1 — đã phủ đủ 10 dịch vụ → hàng đợi dưới đây ưu tiên các nhóm này.
 
@@ -104,7 +106,6 @@ Tháng 2–3/2027 (mùa quyết toán):
 
 Đợt bổ sung (tự chọn 26/09/2026, ưu tiên chủ đề phổ biến, căn cứ đã có sẵn trong thư viện):
 - [ ] LD3 · Hợp đồng thử việc, thời vụ, cộng tác viên: đóng gì, khấu trừ gì?
-- [ ] SS4 · Tài khoản công ty và tài khoản giám đốc: tách thế nào cho đúng?
 - [ ] HD1 · Xuất hoá đơn sai: điều chỉnh hay thay thế?
 - [ ] BC1 · Khai thuế GTGT theo tháng hay theo quý: công ty anh chị thuộc loại nào?
 
@@ -169,7 +170,7 @@ Tháng 2–3/2027 (mùa quyết toán):
 | SS1 | 5 dấu hiệu sổ sách công ty đang "có vấn đề" | Tồn quỹ tiền mặt ảo, công nợ treo, kho âm... | Soát xét sổ sách | D + S | [x] V13 |
 | SS2 | Đối chiếu công nợ cuối năm: làm sớm đỡ rối | Checklist tháng 12, nối V10 | Soát xét sổ sách | D + L | [x] V15 |
 | SS3 | Tồn kho sổ sách lệch tồn kho thực tế: xử lý thế nào? | Tình huống xưởng gia công | Soát xét sổ sách | D + QA | [ ] |
-| SS4 | Tài khoản công ty và tài khoản giám đốc: tách thế nào cho đúng? | Rút tiền công ty tiêu cá nhân | Soát xét + trọn gói | D + S | [ ] |
+| SS4 | Tài khoản công ty và tài khoản giám đốc: tách thế nào cho đúng? | Rút tiền công ty tiêu cá nhân | Soát xét + trọn gói | D + S | [x] V30 |
 | SS5 | Nhận hoá đơn từ nhà cung cấp "có vấn đề": phát hiện sớm thế nào? | Tra cứu trạng thái người bán trước khi thanh toán | Soát xét + hoá đơn | D + QA | [ ] |
 | SS6 | Có thông báo kiểm tra thuế: 7 việc cần làm ngay | Trấn an, không doạ | Soát xét trước kiểm tra | D + S | [ ] |
 | SS7 | Vì sao công ty bị đưa vào danh sách rủi ro cao? | Các dấu hiệu cơ quan thuế hay chú ý | Soát xét sổ sách | D + QA | [ ] |
